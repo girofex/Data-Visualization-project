@@ -32,11 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
     grainHeight: 1
   });
 
-  includeComponent("navbar", "./components/navigation.html", () => {
+  includeComponent("navbar", "components/navigation.html", () => {
     setupNavbar();
   });
 
-  includeComponent("footer", "./components/footer.html", () => {
+  includeComponent("footer", "components/footer.html", () => {
     setupFooter();
   });
 });

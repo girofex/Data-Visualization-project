@@ -1,2 +1,4 @@
 # Data-Visualization-project
-Project of the course Data Visualization 2025 by UniGe
+By Ex-Plot group
+* Federica Tamerisco S4942412
+* Sara Caviglia S5163676

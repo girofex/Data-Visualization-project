@@ -1,4 +1,3 @@
-// -------- Footer --------
 export function setupFooter() {
   setupGrain();
 }

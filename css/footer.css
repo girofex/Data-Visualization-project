@@ -1,7 +1,7 @@
 .m3-footer,
 .team-title,
-a,
-.footer-bottom{
+.footer-bottom,
+#source{
     color: var(--beige);
 }
 
@@ -76,10 +76,9 @@ body.dark-theme #logo {
     padding: 1rem;
     text-align: center;
     font-size: 0.8rem;
-    opacity: 0.7;
 }
 
-a:hover{
+#source:hover{
     color: var(--orange);
 }
 

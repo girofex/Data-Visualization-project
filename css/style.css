@@ -35,7 +35,7 @@ html, body {
   mix-blend-mode: multiply;
 }
 
-#page {
+#page{
   position: relative;
   z-index: 0;
   background: var(--beige);
@@ -53,9 +53,13 @@ h2{
   font-size: 1.5rem !important;
 }
 
+h1,
+#source{
+  font-weight: 1000;
+}
+
 h1{
   font-size: 3rem;
-  font-weight: 1000;
 }
 
 .title{
