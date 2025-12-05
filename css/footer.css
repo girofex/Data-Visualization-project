@@ -34,6 +34,11 @@
 }
 
 /* ---------------- Logo ---------------- */
+#notion{
+    height: 5rem;
+    width: 10rem;
+}
+
 #logo {
     margin: 2rem;
     height: 5rem;
@@ -54,15 +59,20 @@ body.dark-theme #logo {
 .team-grid {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+    grid-template-columns: 1fr auto 1fr;
+    margin-bottom: 5rem;
 }
 
 .student-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0.7rem;
     margin-left: 1rem;
     margin-right: 1rem;
-    margin-bottom: 1rem;
     width: 10rem;
+    height: 3rem;
     border: 1px solid var(--beige);
 }
 
