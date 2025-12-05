@@ -1,6 +1,5 @@
 import '@material/web/all.js';
 import { setupNavbar } from './navigation.js';
-import { setupFooter } from './footer.js';
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
@@ -36,9 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupNavbar();
   });
 
-  includeComponent("footer", "components/footer.html", () => {
-    setupFooter();
-  });
+  includeComponent("footer", "components/footer.html");
 });
 
 // -------- Torn images --------

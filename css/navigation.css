@@ -45,15 +45,10 @@ md-menu {
   --md-menu-container-color: var(--beige);
 }
 
-md-menu::part(popup),
-md-menu::part(surface) {
-  position: fixed !important;
-  z-index: 2147483647 !important;
-}
-
 md-menu-item {
   --md-menu-item-container-color: var(--beige);
-  --md-menu-item-label-text-color: var(--black) !important;
+  --md-menu-item-label-text-color: var(--black);
+  width: 9rem;
 }
 
 md-menu-item:hover {

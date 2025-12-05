@@ -75,6 +75,7 @@ h2{
   font-family: var(--antic);
 }
 
+.section,
 h2,
 .brand-title{
   font-weight: 600;
