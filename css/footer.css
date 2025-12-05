@@ -90,6 +90,7 @@ body.dark-theme #logo {
 
 #source:hover {
     color: var(--orange);
+    transition: all 0.2s ease;
 }
 
 /* ---------------- RESPONSIVE ---------------- */

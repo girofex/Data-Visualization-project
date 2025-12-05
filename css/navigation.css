@@ -39,6 +39,7 @@ button {
 .home:hover {
   background-color: transparent !important;
   color: var(--orange) !important;
+  transition: all 0.2s ease;
 }
 
 md-menu {
@@ -54,6 +55,7 @@ md-menu-item {
 md-menu-item:hover {
   --md-menu-item-container-color: var(--orange);
   --md-menu-item-label-text-color: var(--beige);
+  transition: all 0.2s ease;
 }
 
 /* -------- Icons -------- */
@@ -77,4 +79,5 @@ md-menu-item:hover {
 #menu:hover {
   background-color: var(--orange);
   color: var(--beige);
+  transition: all 0.2s ease;
 }

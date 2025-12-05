@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   includeComponent("footer", "components/footer.html");
+  includeComponent("top", "components/top.html");
 
   //Typewriter animation
   const h1Elements = document.querySelectorAll("h1");
