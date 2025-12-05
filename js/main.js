@@ -1,5 +1,8 @@
 import '@material/web/all.js';
 import { setupNavbar } from './navigation.js';
+const basePath = location.hostname.includes("github.io")
+  ? "/https://girofex.github.io/Data-Visualization-project/"
+  : "/";
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
@@ -31,11 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
     grainHeight: 1
   });
 
-  includeComponent("navbar", "components/navigation.html", () => {
+  includeComponent("navbar", basePath + "components/navigation.html", () => {
     setupNavbar();
   });
 
-  includeComponent("footer", "components/footer.html");
+  includeComponent("footer", basePath + "components/footer.html");
 });
 
 // -------- Torn images --------
