@@ -1,20 +1,20 @@
 import '@material/web/all.js';
 import { setupNavbar } from './navigation.js';
-const basePath = location.hostname.includes("github.io")
-  ? "/https://girofex.github.io/Data-Visualization-project/"
-  : "/";
+
+const repo = "/Data-Visualization-project/";
+const base = location.pathname.startsWith(repo) ? repo : "/";
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
-  fetch(file)
+  fetch(base + file)
     .then(response => {
       if (!response.ok)
-        throw new Error(`Errore nel caricamento di ${file}`);
+        throw new Error(`Failed loading ${file}`);
 
       return response.text();
     })
-    .then(content => {
-      document.getElementById(id).innerHTML = content;
+    .then(html => {
+      document.getElementById(id).innerHTML = html;
       
       if (callback)
         callback();
@@ -34,11 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
     grainHeight: 1
   });
 
-  includeComponent("navbar", basePath + "components/navigation.html", () => {
+  includeComponent("navbar", "components/navigation.html", () => {
     setupNavbar();
   });
 
-  includeComponent("footer", basePath + "components/footer.html");
+  includeComponent("footer", "components/footer.html");
 });
 
 // -------- Torn images --------
