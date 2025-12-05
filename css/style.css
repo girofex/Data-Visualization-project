@@ -60,6 +60,9 @@ h1,
 
 h1{
   font-size: 3rem;
+  overflow: hidden;
+  white-space: pre-wrap;
+  letter-spacing: 0.05em;
 }
 
 .title{
@@ -67,12 +70,17 @@ h1{
   color: var(--beige);
   text-align: center;
   padding: 1rem;
+  width: auto;
 }
 
 .section,
 h1,
 h2{
   font-family: var(--antic);
+}
+
+h2{
+  margin-top: 1rem;
 }
 
 .section,
@@ -124,7 +132,6 @@ a{
   grid-template-columns: 1.2fr 1.6fr 1.2fr;
   width: 100%;
   gap: 20px;
-  padding-bottom: 20px;
 }
 
 .column {
@@ -134,6 +141,30 @@ a{
 .middle_column{
   border-left: 1px solid var(--black);
   border-right: 1px solid var(--black);
+}
+
+.column-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.single_column {
+  width: 70%;
+  height: 70rem;
+  background-image: url("../img/woman_with_veil.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card{
+  width: 60%;
+  background: var(--beige);
+  padding: 3rem;
+  border-radius: 0;
+  border: none;
 }
 
 img {

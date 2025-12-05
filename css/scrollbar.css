@@ -8,5 +8,5 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   background-color: transparent;
-  border-color: var(--black);
+  border: 1px solid var(--black);
 }

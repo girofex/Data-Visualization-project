@@ -15,7 +15,7 @@ function includeComponent(id, file, callback) {
     })
     .then(html => {
       document.getElementById(id).innerHTML = html;
-      
+
       if (callback)
         callback();
     })
@@ -24,7 +24,7 @@ function includeComponent(id, file, callback) {
 
 document.addEventListener("DOMContentLoaded", () => {
   //Grain effect
-  grained('#main-grain', { 
+  grained('#main-grain', {
     animate: false,
     patternWidth: 100,
     patternHeight: 100,
@@ -39,17 +39,75 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   includeComponent("footer", "components/footer.html");
-});
 
-// -------- Torn images --------
-document.querySelectorAll('.column img').forEach(img => {
-  // Randomize mask slightly for torn effect
-  const xShift = Math.random() * 20 - 10; // -10% to +10%
-  const yShift = Math.random() * 20 - 10; // -10% to +10%
-  img.style.webkitMaskPosition = `${50 + xShift}% ${50 + yShift}%`;
-  img.style.maskPosition = `${50 + xShift}% ${50 + yShift}%`;
+  //Typewriter animation
+  const h1Elements = document.querySelectorAll("h1");
 
-  // Optional: subtle random rotation for more realism
-  const rotate = Math.random() * 4 - 2; // -2deg to +2deg
-  img.style.transform = `rotate(${rotate}deg)`;
+  h1Elements.forEach(h1 => {
+    const title = h1.closest(".title");
+
+    const clone = h1.cloneNode(true);
+    clone.style.visibility = "hidden";
+    clone.style.position = "absolute";
+    clone.style.height = "auto";
+    clone.style.whiteSpace = "pre-wrap";
+    document.body.appendChild(clone);
+    const finalHeight = clone.offsetHeight;
+    document.body.removeChild(clone);
+    title.style.height = finalHeight + 25 + "px";
+
+    let html = h1.innerHTML.replace(/<br\s*\/?>/gi, "\n");
+    const lines = html.split("\n").map(line => line.trim());
+    const text = lines.join("\n");
+    const chars = text.split("");
+
+    h1.innerHTML = "";
+
+    const cursor = document.createElement("span");
+    cursor.style.borderRight = "2px solid var(--beige)";
+    cursor.style.display = "inline";
+    cursor.style.verticalAlign = "bottom";
+    h1.appendChild(cursor);
+
+    let i = 0;
+    let animationStarted = false;
+
+    function type() {
+      if (i < chars.length) {
+        const char = chars[i];
+        if (char === "\n")
+          h1.insertBefore(document.createElement("br"), cursor);
+        else {
+          const span = document.createElement("span");
+          span.textContent = char;
+          h1.insertBefore(span, cursor);
+        }
+
+        i++;
+        setTimeout(type, 150);
+      } else
+        blinkCursor();
+    }
+
+    function blinkCursor() {
+      let visible = true;
+
+      setInterval(() => {
+        cursor.style.borderRightColor = visible ? "transparent" : "var(--beige)";
+        visible = !visible;
+      }, 500);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animationStarted) {
+          animationStarted = true;
+          type();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.8 });
+
+    observer.observe(h1);
+  });
 });

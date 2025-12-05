@@ -1,7 +1,7 @@
 .m3-footer,
 .team-title,
 .footer-bottom,
-#source{
+#source {
     color: var(--beige);
 }
 
@@ -14,18 +14,18 @@
 }
 
 #footer-grain {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* ---------------- Brand ---------------- */
 .footer-brand,
-.footer-team{
+.footer-team {
     text-align: center;
 }
 
@@ -34,7 +34,7 @@
 }
 
 /* ---------------- Logo ---------------- */
-#notion{
+#notion {
     height: 5rem;
     width: 10rem;
 }
@@ -88,7 +88,7 @@ body.dark-theme #logo {
     font-size: 0.8rem;
 }
 
-#source:hover{
+#source:hover {
     color: var(--orange);
 }
 
