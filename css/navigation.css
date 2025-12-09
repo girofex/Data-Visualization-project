@@ -49,7 +49,7 @@ md-menu {
 md-menu-item {
   --md-menu-item-container-color: var(--beige);
   --md-menu-item-label-text-color: var(--black);
-  width: 9rem;
+  width: 12rem;
 }
 
 md-menu-item:hover {

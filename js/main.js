@@ -1,12 +1,9 @@
 import '@material/web/all.js';
 import { setupNavbar } from './navigation.js';
 
-const repo = "/Data-Visualization-project/";
-const base = location.pathname.startsWith(repo) ? repo : "/";
-
 // -------- Components --------
 function includeComponent(id, file, callback) {
-  fetch(base + file)
+  fetch(file)
     .then(response => {
       if (!response.ok)
         throw new Error(`Failed loading ${file}`);
