@@ -128,6 +128,7 @@ a{
 
 /* -------- Columns -------- */
 .grid{
+  margin-top: 4rem;
   display: grid;
   grid-template-columns: 1.2fr 1.6fr 1.2fr;
   width: 100%;

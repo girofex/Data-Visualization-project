@@ -1,7 +1,11 @@
 /* -------- Navbar -------- */
 .m3-navbar-container {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
+  background-color: var(--beige);
 }
 
 #navbar-grain {
