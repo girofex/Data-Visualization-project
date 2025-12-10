@@ -36,7 +36,7 @@ function setupMenu() {
 }
 
 // -------- Sidebar --------
-export function sideBar(){
+export function sideBar() {
     const headers = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
     const sidebarLinks = document.getElementById('sidebarLinks');
     const sidebarMenu = document.getElementById('sidebarMenu');
