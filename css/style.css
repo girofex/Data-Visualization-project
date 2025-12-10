@@ -6,12 +6,8 @@
 
   /* Typography */
   --unifraktur: "UnifrakturCook", cursive;
-  --pirata: "Pirata One", system-ui;
-  
   --antic: "Antic Didone", serif;
-
   --prata: "Prata", serif;
-  --bodoni: "Bodoni Moda", serif;
 }
 
 html, body {
@@ -74,6 +70,7 @@ h1{
 }
 
 .section,
+.sidebar-menu,
 h1,
 h2{
   font-family: var(--antic);
@@ -84,9 +81,10 @@ h2{
 }
 
 .section,
+.sidebar-menu,
 h2,
 .brand-title{
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 p,
@@ -100,6 +98,7 @@ a{
   color: var(--black);
 }
 
+.sidebar-menu,
 .brand-title,
 .student-card{
   font-size: 0.8rem;
@@ -137,6 +136,12 @@ a{
 
 .column {
   padding: 1rem;
+}
+
+.left_column > img,
+.right_column > img{
+  width: 25rem;
+  height: 20rem;
 }
 
 .middle_column{

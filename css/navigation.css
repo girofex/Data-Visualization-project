@@ -79,3 +79,84 @@ md-menu-item:hover {
   color: var(--beige);
   transition: all 0.2s ease;
 }
+
+/* -------- Sidebar -------- */
+.sidebar-wrapper {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  z-index: 100;
+}
+
+.sidebar-tick {
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-tick::before {
+  content: '';
+  height: 0.15rem;
+  background-color: var(--black);
+  transition: all 0.2s ease;
+  border-radius: 1rem;
+  flex-shrink: 0;
+}
+
+.sidebar-tick:hover::before,
+.sidebar-tick.active::before {
+  background-color: var(--orange);
+  height: 0.2rem;
+}
+
+.sidebar-tick[data-level="1"]::before {
+  width: 2rem;
+}
+
+.sidebar-tick[data-level="2"]::before {
+  width: 1.5rem;
+}
+
+.sidebar-tick[data-level="3"]::before {
+  width: 1rem;
+}
+
+.sidebar-tick[data-level="4"]::before {
+  width: 0.5rem;
+}
+
+.sidebar-menu {
+  background: var(--beige);
+  position: fixed;
+  top: 0rem;
+  left: 2.7rem;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+  transition: opacity 0.2s ease;
+}
+
+.sidebar-wrapper:hover .sidebar-menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidemenu-item {
+  background: var(--beige);
+  color: var(--black);
+  padding: 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sidemenu-item:hover{
+  background: var(--orange);
+  color: var(--beige);
+  transition: all 0.2s ease;
+}
