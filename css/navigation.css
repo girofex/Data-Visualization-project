@@ -20,7 +20,7 @@
 
 .m3-navbar {
   width: auto;
-  min-height: 4rem;
+  min-height: 2rem;
   padding: 1rem;
   border-bottom: 1px solid var(--black);
   display: flex;

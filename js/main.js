@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
     cursor.style.borderRight = "2px solid var(--beige)";
     cursor.style.display = "inline";
     cursor.style.verticalAlign = "bottom";
+    const h1Rect = h1.getBoundingClientRect();
+    cursor.style.height = h1Rect.height + "px";
     h1.appendChild(cursor);
 
     let i = 0;
