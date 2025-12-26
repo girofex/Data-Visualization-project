@@ -1,6 +1,7 @@
 :root {
   /* Colors */
   --beige: #C4BDB2;
+  --white: #fffaf2;
   --black: #1C1C1A;
   --orange: #B23D10;
   --blue: #3547cc;
@@ -75,7 +76,8 @@ h1{
 .section,
 .sidebar-menu,
 h1,
-h2{
+h2,
+#dropdown button{
   font-family: var(--antic);
 }
 
@@ -86,7 +88,8 @@ h2{
 .section,
 .sidebar-menu,
 h2,
-.brand-title{
+.brand-title,
+#dropdown button{
   font-weight: 600 !important;
 }
 
@@ -115,13 +118,6 @@ a{
   text-decoration: none;
 }
 
-.plot{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5rem;
-}
-
 /* -------- Icons -------- */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
@@ -136,12 +132,28 @@ a{
 }
 
 /* -------- Columns -------- */
-.grid{
+.grid,
+.grid2{
   margin-top: 4rem;
   display: grid;
-  grid-template-columns: 1.2fr 1.6fr 1.2fr;
   width: 100%;
   gap: 20px;
+}
+
+.grid{
+  grid-template-columns: 1.2fr 1.6fr 1.2fr;
+}
+
+.grid2{
+  grid-template-columns: 0.5fr 0.5fr;
+}
+
+.column-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin-top: 4rem;
 }
 
 .column {
@@ -159,11 +171,9 @@ a{
   border-right: 1px solid var(--black);
 }
 
-.column-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+.middle_column > p{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .single_column {
@@ -187,8 +197,31 @@ img {
   transform: none !important;
 }
 
-/* -------- DARK MODE -------- */
-#page.dark-theme {
-  background-color: var(--black);
+/* -------- Plots -------- */
+#chart-container,
+.plot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#dropdown{
+  border: 0.1px solid var(--black);
+  overflow: hidden;
+  width: max-content;
+}
+
+#dropdown button {
+  padding: 0.5rem;
+  background-color: var(--beige);
+  color: var(--black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#dropdown button.active,
+#dropdown button:hover {
+  background-color: var(--orange);
   color: var(--beige);
 }

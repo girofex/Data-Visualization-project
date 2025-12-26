@@ -9,7 +9,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css">
@@ -32,7 +34,9 @@
     <script src="js/scrolling.js"></script>
 
     <script type="module" src="js/navigation.js"></script>
+    <script src="js/charts/linechart-choropleth.js" defer type="module"></script>
     <script src="js/charts/linechart.js" defer type="module"></script>
+    <script src="js/charts/choropleth.js" defer type="module"></script>
 </head>
 
 <body id="page">
@@ -48,7 +52,8 @@
             <div class="title">
                 <h1 id="bigtitle" data-title="Conflicts and Human Suffering">CONFLICTS<br>AND<br>HUMAN SUFFERING</h1>
             </div>
-            <p style="margin-top: 2rem; margin-bottom: 2rem">People from the past believed that in the 21st century we would have solved world hunger,
+            <p>People from the past believed that in the 21st century we
+                would have solved world hunger,
                 debts and diseases.<br>
                 Instead, we find ourselves reading again and again about the multiple conflicts that affects the
                 world.<br><br>
@@ -58,11 +63,15 @@
                 The truth is that the entire world is suffering, and we are here to
                 narrate without bias.<br>
                 We start by comparing three of the worst wars that are happening as of now:
-                <b>The Russo-Ukranian War</b>, <b>The Middle Eastern Conflict</b>, <b>The Drug's War against the Cartel</b>.
+                <b>The Russo-Ukranian War</b>, <b>The Israeli-Palestinian War</b>, <b>The Drug War against the
+                    Cartel</b>.
                 <br><br>
                 ...
                 <br>
-                Let's take a look at the statistics of Google Trends, to understand where the world's interest is directed towards.
+                Let's take a look at the statistics of Google Trends, to understand where the world's interest is
+                directed towards: the platform every year collects data on how much the world searches for a specific
+                term/topic on the internet.<br>
+                We propose a view in both time and space perspective.
             </p>
         </div>
         <div class="column right_column">
@@ -70,18 +79,39 @@
         </div>
     </div>
 
-    <div id="linechart" class="plot"></div>
+    <div id="chart-container">
+        <div id="dropdown">
+            <button id="option1" class="active">
+                Time
+            </button>
+            <button id="option2">
+                Space
+            </button>
+        </div>
 
-    <div class="column-wrapper">
-        <div class="column single_column" style="background-image: url(img/kyiv.jpg)">
-            <div class="card">
-                <div class="title">
-                    <h1 id="bigtitle" data-title="The Russo-Ukranian War">The Russo-Ukranian<br>War</h1>
+        <div id="linechart_container">
+            <div id="linechart" class="plot"></div>
+        </div>
+
+        <div id="choropleth_container">
+            <div id="choropleth" class="plot">
+                <div class="btn">
+                    <button id="choropleth-zoom-in"><span class="material-symbols-outlined"></span></button>
+                    <button id="choropleth-zoom-out"><span class="material-symbols-outlined"></span></button>
+                    <button id="choropleth-zoom-restore"><span class="material-symbols-outlined"></span></button>
                 </div>
-                <h2 id="subtitle" data-title="Vicinity makes people care">Vicinity makes people care</h2>
-                <p>bla
-                </p>
             </div>
+        </div>
+    </div>
+
+    <div class="grid2">
+        <div class="column middle_column">
+            <p>By looking at the trends, it's easily understandable how ...<br>
+                Drug War is not of interest...<br>
+            </p>
+        </div>
+        <div class="column right_column">
+            <img src="img/riot.png">
         </div>
     </div>
 

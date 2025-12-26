@@ -37,241 +37,243 @@ const chartObserver = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
-    data.forEach(d => {
-        d.Week = parseDate(d.Week);
-        d.RussianUkranianWar = +d.RussianUkranianWar;
-        d.IsraeliPalestinianWar = +d.IsraeliPalestinianWar;
-        d.DrugWar = +d.DrugWar;
-    });
+export function renderLineChart() {
+    d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
+        data.forEach(d => {
+            d.Week = parseDate(d.Week);
+            d.RussianUkranianWar = +d.RussianUkranianWar;
+            d.IsraeliPalestinianWar = +d.IsraeliPalestinianWar;
+            d.DrugWar = +d.DrugWar;
+        });
 
-    const keys = ["RussianUkranianWar", "IsraeliPalestinianWar", "DrugWar"];
+        const keys = ["RussianUkranianWar", "IsraeliPalestinianWar", "DrugWar"];
 
-    const datasets = keys.map(k => ({
-        name: k,
-        data: data.map(d => ({
-            Week: d.Week,
-            value: d[k]
-        }))
-    }));
+        const datasets = keys.map(k => ({
+            name: k,
+            data: data.map(d => ({
+                Week: d.Week,
+                value: d[k]
+            }))
+        }));
 
-    const svgRoot = d3.select("#linechart")
-        .append("svg")
-        .attr("data-animate", "false")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        const svgRoot = d3.select("#linechart")
+            .append("svg")
+            .attr("data-animate", "false")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
 
-    chartObserver.observe(svgRoot.node());
+        chartObserver.observe(svgRoot.node());
 
-    const svg = svgRoot.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+        const svg = svgRoot.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const colorScale = d3.scaleOrdinal()
-        .domain(keys)
-        .range([black, orange, blue]);
+        const colorScale = d3.scaleOrdinal()
+            .domain(keys)
+            .range([black, orange, blue]);
 
-    //X axis
-    const x = d3.scaleTime()
-        .domain(d3.extent(data, d => d.Week))
-        .range([0, width]);
+        //X axis
+        const x = d3.scaleTime()
+            .domain(d3.extent(data, d => d.Week))
+            .range([0, width]);
 
-    svg.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).ticks(7))
-        .selectAll("text")
-        .style("font-family", prata)
-        .style("font-size", "12px");
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).ticks(7))
+            .selectAll("text")
+            .style("font-family", prata)
+            .style("font-size", "12px");
 
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height + 55)
-        .attr("text-anchor", "middle")
-        .style("font-family", antic)
-        .style("font-weight", "bold")
-        .text("Timeline");
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + 55)
+            .attr("text-anchor", "middle")
+            .style("font-family", antic)
+            .style("font-weight", "bold")
+            .text("Timeline");
 
-    //Y axis
-    const y = d3.scaleLinear()
-        .domain([
-            0,
-            d3.max(datasets, d => d3.max(d.data, p => p.value))
-        ])
-        .nice()
-        .range([height, 0]);
+        //Y axis
+        const y = d3.scaleLinear()
+            .domain([
+                0,
+                d3.max(datasets, d => d3.max(d.data, p => p.value))
+            ])
+            .nice()
+            .range([height, 0]);
 
-    svg.append("g")
-        .call(d3.axisLeft(y).tickFormat(d => d3.format(",")(d).replace(/,/g, ".")))
-        .selectAll("text")
-        .style("font-family", prata)
-        .style("font-size", "12px");
+        svg.append("g")
+            .call(d3.axisLeft(y).tickFormat(d => d3.format(",")(d).replace(/,/g, ".")))
+            .selectAll("text")
+            .style("font-family", prata)
+            .style("font-size", "12px");
 
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -80)
-        .attr("x", -height / 2)
-        .attr("text-anchor", "middle")
-        .style("font-family", antic)
-        .style("font-weight", "bold")
-        .text("Interest Index");
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -80)
+            .attr("x", -height / 2)
+            .attr("text-anchor", "middle")
+            .style("font-family", antic)
+            .style("font-weight", "bold")
+            .text("Interest Index");
 
-    //Lines
-    const lineGen = d3.line()
-        .x(d => x(d.Week))
-        .y(d => y(d.value));
+        //Lines
+        const lineGen = d3.line()
+            .x(d => x(d.Week))
+            .y(d => y(d.value));
 
-    const groups = svg.selectAll(".area-line")
-        .data(datasets)
-        .join("g")
-        .attr("class", "area-line");
+        const groups = svg.selectAll(".area-line")
+            .data(datasets)
+            .join("g")
+            .attr("class", "area-line");
 
-    groups.append("path")
-        .attr("class", "line")
-        .attr("data-region", d => d.name)
-        .attr("d", d => lineGen(d.data))
-        .attr("fill", "none")
-        .attr("stroke", d => colorScale(d.name))
-        .attr("stroke-width", 2.5)
-        .style("cursor", "pointer")
-        .on("click", handleToggle);
+        groups.append("path")
+            .attr("class", "line")
+            .attr("data-region", d => d.name)
+            .attr("d", d => lineGen(d.data))
+            .attr("fill", "none")
+            .attr("stroke", d => colorScale(d.name))
+            .attr("stroke-width", 2.5)
+            .style("cursor", "pointer")
+            .on("click", handleToggle);
 
-    //Labels
-    let labels = datasets.map(d => {
-        const lastPoint = [...d.data].reverse().find(p => p.value != null);
+        //Labels
+        let labels = datasets.map(d => {
+            const lastPoint = [...d.data].reverse().find(p => p.value != null);
 
-        return {
-            name: d.name,
-            color: colorScale(d.name),
-            x: x(lastPoint.Week),
-            y: y(lastPoint.value),
-            origY: y(lastPoint.value)
-        };
-    });
+            return {
+                name: d.name,
+                color: colorScale(d.name),
+                x: x(lastPoint.Week),
+                y: y(lastPoint.value),
+                origY: y(lastPoint.value)
+            };
+        });
 
-    const minSpacing = 20;
-    const maxIter = 10;
+        const minSpacing = 20;
+        const maxIter = 10;
 
-    labels.sort((a, b) => a.y - b.y);
+        labels.sort((a, b) => a.y - b.y);
 
-    for (let k = 0; k < maxIter; k++) {
-        for (let i = 1; i < labels.length; i++) {
-            const diff = labels[i].y - labels[i - 1].y;
+        for (let k = 0; k < maxIter; k++) {
+            for (let i = 1; i < labels.length; i++) {
+                const diff = labels[i].y - labels[i - 1].y;
 
-            if (diff < minSpacing) {
-                const shift = (minSpacing - diff) / 2;
-                labels[i].y += shift;
-                labels[i - 1].y -= shift;
+                if (diff < minSpacing) {
+                    const shift = (minSpacing - diff) / 2;
+                    labels[i].y += shift;
+                    labels[i - 1].y -= shift;
+                }
             }
+
+            labels.forEach(l => {
+                l.y = Math.max(0, Math.min(height, l.y));
+                l.x = width + 8;
+            });
         }
 
         labels.forEach(l => {
-            l.y = Math.max(0, Math.min(height, l.y));
-            l.x = width + 8;
+            l.y += 15;
         });
-    }
 
-    labels.forEach(l => {
-        l.y += 15;
-    });
+        labels.forEach(l => {
+            svg.append("text")
+                .attr("data-region", l.name)
+                .attr("x", l.x)
+                .attr("y", l.y)
+                .text((l.name).replace(/([a-z])([A-Z])/g, "$1 $2"))
+                .style("font-family", antic)
+                .style("font-size", "12px")
+                .style("font-weight", "bold")
+                .style("fill", l.color)
+                .style("cursor", "pointer")
+                .on("click", handleToggle);
+        });
 
-    labels.forEach(l => {
-        svg.append("text")
-            .attr("data-region", l.name)
-            .attr("x", l.x)
-            .attr("y", l.y)
-            .text((l.name).replace(/([a-z])([A-Z])/g, "$1 $2"))
-            .style("font-family", antic)
-            .style("font-size", "12px")
-            .style("font-weight", "bold")
-            .style("fill", l.color)
-            .style("cursor", "pointer")
-            .on("click", handleToggle);
-    });
+        //Opacity
+        let activeRegion = null;
 
-    //Opacity
-    let activeRegion = null;
+        function handleToggle() {
+            const clicked = d3.select(this).attr("data-region");
+            activeRegion = activeRegion === clicked ? null : clicked;
 
-    function handleToggle() {
-        const clicked = d3.select(this).attr("data-region");
-        activeRegion = activeRegion === clicked ? null : clicked;
+            svg.selectAll(".line, text[data-region]")
+                .transition().duration(300)
+                .style("opacity", function () {
+                    const region = d3.select(this).attr("data-region");
+                    return !activeRegion || region === activeRegion ? 1 : 0.2;
+                });
+        }
 
-        svg.selectAll(".line, text[data-region]")
-            .transition().duration(300)
-            .style("opacity", function () {
-                const region = d3.select(this).attr("data-region");
-                return !activeRegion || region === activeRegion ? 1 : 0.2;
+        //Annotation
+        const blackDataset = datasets[0];
+        const redDataset = datasets[1];
+
+        function findPeak(dataset) {
+            return d3.max(dataset.data, d => d.value) === undefined
+                ? null
+                : dataset.data.reduce((a, b) => b.value > a.value ? b : a);
+        }
+
+        const blackPeak = findPeak(blackDataset);
+        const redPeak = findPeak(redDataset);
+
+        const notes = [];
+
+        if (blackPeak) {
+            notes.push({
+                note: {
+                    title: `Peak interest: ${blackPeak.value}`,
+                    label: `After the Russian invasion in 2022`
+                },
+                x: x(blackPeak.Week),
+                y: y(blackPeak.value),
+                dx: 60,
+                dy: -20,
+                color: black
             });
-    }
+        }
 
-    //Annotation
-    const blackDataset = datasets[0];
-    const redDataset = datasets[1];
+        if (redPeak) {
+            notes.push({
+                note: {
+                    title: `Peak interest: ${redPeak.value}`,
+                    label: `After the Gaza War started`
+                },
+                x: x(redPeak.Week),
+                y: y(redPeak.value),
+                dx: 60,
+                dy: -20,
+                color: orange
+            });
+        }
 
-    function findPeak(dataset) {
-        return d3.max(dataset.data, d => d.value) === undefined
-            ? null
-            : dataset.data.reduce((a, b) => b.value > a.value ? b : a);
-    }
+        const makeAnnotations = annotation()
+            .annotations(notes)
+            .type(annotationLabel)
+            .textWrap(150);
 
-    const blackPeak = findPeak(blackDataset);
-    const redPeak = findPeak(redDataset);
+        const annotationGroup = svg.append("g")
+            .attr("class", "annotation-group")
+            .call(makeAnnotations)
+            .style("font-family", prata)
+            .style("font-size", "12px");
 
-    const notes = [];
+        annotationGroup.selectAll(".annotation-note-label").each(function () {
+            const title = d3.select(this);
+            const color = title.style("fill");
+            const bbox = this.getBBox();
 
-    if (blackPeak) {
-        notes.push({
-            note: {
-                title: `Peak interest: ${blackPeak.value}`,
-                label: `After the Russian invasion in 2022`
-            },
-            x: x(blackPeak.Week),
-            y: y(blackPeak.value),
-            dx: 60,
-            dy: -20,
-            color: black
+            const x = bbox.x;
+            const y = bbox.y + bbox.height + 11.5;
+            const underlineLength = bbox.width + 10;
+
+            d3.select(this.parentNode)
+                .append("line")
+                .attr("x1", x)
+                .attr("x2", x + underlineLength)
+                .attr("y1", y)
+                .attr("y2", y)
+                .attr("stroke", color)
+                .attr("stroke-width", 1);
         });
-    }
-
-    if (redPeak) {
-        notes.push({
-            note: {
-                title: `Peak interest: ${redPeak.value}`,
-                label: `After the Gaza War started`
-            },
-            x: x(redPeak.Week),
-            y: y(redPeak.value),
-            dx: 60,
-            dy: -20,
-            color: orange
-        });
-    }
-
-    const makeAnnotations = annotation()
-        .annotations(notes)
-        .type(annotationLabel)
-        .textWrap(150);
-
-    const annotationGroup = svg.append("g")
-        .attr("class", "annotation-group")
-        .call(makeAnnotations)
-        .style("font-family", prata)
-        .style("font-size", "12px");
-
-    annotationGroup.selectAll(".annotation-note-label").each(function() {
-      const title = d3.select(this);
-      const color = title.style("fill");
-      const bbox = this.getBBox();
-
-      const x = bbox.x;
-      const y = bbox.y + bbox.height + 11.5;
-      const underlineLength = bbox.width + 10;
-
-      d3.select(this.parentNode)
-        .append("line")
-        .attr("x1", x)
-        .attr("x2", x + underlineLength)
-        .attr("y1", y)
-        .attr("y2", y)
-        .attr("stroke", color)
-        .attr("stroke-width", 1);
-    });
-});
+    })
+};
