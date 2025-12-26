@@ -3,7 +3,7 @@
   --beige: #C4BDB2;
   --black: #1C1C1A;
   --orange: #B23D10;
-  --white: #fff8f5;
+  --blue: #3547cc;
 
   /* Typography */
   --unifraktur: "UnifrakturCook", cursive;
@@ -113,6 +113,13 @@ a{
 
 .student-card > a{
   text-decoration: none;
+}
+
+.plot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
 }
 
 /* -------- Icons -------- */

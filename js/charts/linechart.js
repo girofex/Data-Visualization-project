@@ -5,11 +5,11 @@ const antic = getComputedStyle(document.documentElement).getPropertyValue("--ant
 const prata = getComputedStyle(document.documentElement).getPropertyValue("--prata").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
-const white = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
+const blue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
 
-const margin = { top: 70, right: 150, bottom: 55, left: 110 },
+const margin = { top: 80, right: 150, bottom: 60, left: 110 },
     width = 1200 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    height = 550 - margin.top - margin.bottom;
 
 const parseDate = d3.timeParse("%Y-%m-%d");
 
@@ -68,7 +68,7 @@ d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
 
     const colorScale = d3.scaleOrdinal()
         .domain(keys)
-        .range([black, orange, white]);
+        .range([black, orange, blue]);
 
     //X axis
     const x = d3.scaleTime()
@@ -83,8 +83,8 @@ d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
         .style("font-size", "12px");
 
     svg.append("text")
-        .attr("y", width / 2)
-        .attr("y", height + 45)
+        .attr("x", width / 2)
+        .attr("y", height + 55)
         .attr("text-anchor", "middle")
         .style("font-family", antic)
         .style("font-weight", "bold")
@@ -136,47 +136,55 @@ d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
 
     //Labels
     let labels = datasets.map(d => {
-        const lastPoint = [...d.data].reverse().find(p => lineGen.defined()(p));
+        const lastPoint = [...d.data].reverse().find(p => p.value != null);
 
         return {
             name: d.name,
             color: colorScale(d.name),
             x: x(lastPoint.Week),
-            y: y(lastPoint[yField]),
-            origY: y(lastPoint[yField])
+            y: y(lastPoint.value),
+            origY: y(lastPoint.value)
         };
     });
 
-    const minSpacing = 18;
-    labels.sort((a,b) => a.y - b.y);
+    const minSpacing = 20;
+    const maxIter = 10;
 
-    for (let i = 1; i < labels.length; i++) {
-        if ((labels[i].y - labels[i-1].y) < minSpacing)
-            labels[i].y = labels[i-1].y + minSpacing;
-    }
-    
-    for (let i = labels.length - 2; i >= 0; i--) {
-        if ((labels[i+1].y - labels[i].y) < minSpacing)
-            labels[i].y = labels[i+1].y - minSpacing;
+    labels.sort((a, b) => a.y - b.y);
+
+    for (let k = 0; k < maxIter; k++) {
+        for (let i = 1; i < labels.length; i++) {
+            const diff = labels[i].y - labels[i - 1].y;
+
+            if (diff < minSpacing) {
+                const shift = (minSpacing - diff) / 2;
+                labels[i].y += shift;
+                labels[i - 1].y -= shift;
+            }
+        }
+
+        labels.forEach(l => {
+            l.y = Math.max(0, Math.min(height, l.y));
+            l.x = width + 8;
+        });
     }
 
     labels.forEach(l => {
-        l.y = Math.max(0, Math.min(height, l.y));
-        l.x = width + 8;
+        l.y += 15;
     });
 
     labels.forEach(l => {
         svg.append("text")
-        .attr("data-region", l.name)
-        .attr("x", l.x)
-        .attr("y", l.y)
-        .text(l.name)
-        .style("font-family", antic)
-        .style("font-size", "12px")
+            .attr("data-region", l.name)
+            .attr("x", l.x)
+            .attr("y", l.y)
+            .text((l.name).replace(/([a-z])([A-Z])/g, "$1 $2"))
+            .style("font-family", antic)
+            .style("font-size", "12px")
             .style("font-weight", "bold")
-        .style("fill", l.color)
-        .style("cursor", "pointer")
-        .on("click", handleToggle);
+            .style("fill", l.color)
+            .style("cursor", "pointer")
+            .on("click", handleToggle);
     });
 
     //Opacity
@@ -193,4 +201,77 @@ d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
                 return !activeRegion || region === activeRegion ? 1 : 0.2;
             });
     }
+
+    //Annotation
+    const blackDataset = datasets[0];
+    const redDataset = datasets[1];
+
+    function findPeak(dataset) {
+        return d3.max(dataset.data, d => d.value) === undefined
+            ? null
+            : dataset.data.reduce((a, b) => b.value > a.value ? b : a);
+    }
+
+    const blackPeak = findPeak(blackDataset);
+    const redPeak = findPeak(redDataset);
+
+    const notes = [];
+
+    if (blackPeak) {
+        notes.push({
+            note: {
+                title: `Peak interest: ${blackPeak.value}`,
+                label: `After the Russian invasion in 2022`
+            },
+            x: x(blackPeak.Week),
+            y: y(blackPeak.value),
+            dx: 60,
+            dy: -20,
+            color: black
+        });
+    }
+
+    if (redPeak) {
+        notes.push({
+            note: {
+                title: `Peak interest: ${redPeak.value}`,
+                label: `After the Gaza War started`
+            },
+            x: x(redPeak.Week),
+            y: y(redPeak.value),
+            dx: 60,
+            dy: -20,
+            color: orange
+        });
+    }
+
+    const makeAnnotations = annotation()
+        .annotations(notes)
+        .type(annotationLabel)
+        .textWrap(150);
+
+    const annotationGroup = svg.append("g")
+        .attr("class", "annotation-group")
+        .call(makeAnnotations)
+        .style("font-family", prata)
+        .style("font-size", "12px");
+
+    annotationGroup.selectAll(".annotation-note-label").each(function() {
+      const title = d3.select(this);
+      const color = title.style("fill");
+      const bbox = this.getBBox();
+
+      const x = bbox.x;
+      const y = bbox.y + bbox.height + 11.5;
+      const underlineLength = bbox.width + 10;
+
+      d3.select(this.parentNode)
+        .append("line")
+        .attr("x1", x)
+        .attr("x2", x + underlineLength)
+        .attr("y1", y)
+        .attr("y2", y)
+        .attr("stroke", color)
+        .attr("stroke-width", 1);
+    });
 });
