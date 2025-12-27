@@ -1,38 +1,38 @@
 // -------- Navbar --------
 export function setupNavbar() {
-    setupThemeToggle();
-    setupMenu();
+  setupThemeToggle();
+  setupMenu();
 }
 
 // -------- Theme Toggle --------
 function setupThemeToggle() {
-    const toggleBtn = document.querySelector('.theme-toggle-btn');
-    if (!toggleBtn)
-        return;
+  const toggleBtn = document.querySelector('.theme-toggle-btn');
+  if (!toggleBtn)
+    return;
 
-    toggleBtn.addEventListener('click', () => {
-        switchMode();
-    });
+  toggleBtn.addEventListener('click', () => {
+    switchMode();
+  });
 }
 
 // -------- Menu --------
 function setupMenu() {
-    const anchorEl = document.querySelector('#usage-anchor');
-    const menuEl = document.querySelector('#usage-menu');
-    if (!anchorEl || !menuEl)
-        return;
+  const anchorEl = document.querySelector('#usage-anchor');
+  const menuEl = document.querySelector('#usage-menu');
+  if (!anchorEl || !menuEl)
+    return;
 
-    anchorEl.addEventListener('click', () => {
-        menuEl.open = !menuEl.open;
-    });
+  anchorEl.addEventListener('click', () => {
+    menuEl.open = !menuEl.open;
+  });
 
-    document.querySelectorAll('.section').forEach(item => {
-        item.addEventListener('click', () => {
-            const href = item.dataset.href;
-            if (href)
-                window.location.href = href;
-        });
+  document.querySelectorAll('.section').forEach(item => {
+    item.addEventListener('click', () => {
+      const href = item.dataset.href;
+      if (href)
+        window.location.href = href;
     });
+  });
 }
 
 // -------- Top Menu --------
@@ -80,37 +80,33 @@ export function topMenu() {
   });
 
   /* -------- Intersection Observer -------- */
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting)
-        return;
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
 
-      const id = entry.target.id;
+        const id = entry.target.id;
 
-      menu
-        .querySelectorAll('.md-menu-item')
-        .forEach(i => i.classList.remove('active'));
+        // Remove active from all
+        menu.querySelectorAll('.md-menu-item').forEach(i => i.classList.remove('active'));
 
-      const active = menu.querySelector(
-        `.md-menu-item[data-target="${id}"]`
-      );
+        // Add active to current
+        const active = menu.querySelector(`.md-menu-item[data-target="${id}"]`);
+        if (!active) return;
+        active.classList.add('active');
 
-      if (!active)
-        return;
-
-      active.classList.add('active');
-
-      const rect = active.getBoundingClientRect();
-      const parent = menu.getBoundingClientRect();
-
-      indicator.style.width = `${rect.width}px`;
-      indicator.style.transform =
-        `translateX(${rect.left - parent.left}px)`;
-    });
-  }, {
-    rootMargin: '-20% 0px -70% 0px',
-    threshold: 0
-  });
+        // Move indicator
+        const rect = active.getBoundingClientRect();
+        const parent = menu.getBoundingClientRect();
+        indicator.style.width = `${rect.width}px`;
+        indicator.style.transform = `translateX(${rect.left - parent.left}px)`;
+      });
+    },
+    {
+      rootMargin: '-50% 0px -50% 0px', // adjust the "activation zone" verticall
+      threshold: 0
+    }
+  );
 
   headers.forEach(h => observer.observe(h));
 }
