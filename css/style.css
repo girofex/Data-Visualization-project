@@ -93,6 +93,7 @@ h2,
   font-weight: 600 !important;
 }
 
+.md-label,
 p,
 .team-title,
 .student-card{
@@ -160,20 +161,25 @@ a{
   padding: 1rem;
 }
 
-.left_column > img,
-.right_column > img{
-  width: 25rem;
-  height: 20rem;
-}
-
-.middle_column{
+.middle_column,
+.first_column{
   border-left: 1px solid var(--black);
   border-right: 1px solid var(--black);
 }
 
-.middle_column > p{
+.middle_column > p,
+.first_column > p{
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+
+.first_column > h2,
+.first_column > p{
+  margin: 2rem;
+}
+
+.second_column > img{
+  width: 42rem;
 }
 
 .single_column {
@@ -206,13 +212,20 @@ img {
   flex-direction: column;
 }
 
-#dropdown{
+#dropdown,
+.btn{
   border: 0.1px solid var(--black);
   overflow: hidden;
   width: max-content;
 }
 
-#dropdown button {
+.btn{
+  height: 3rem;
+  border-bottom: none;
+}
+
+#dropdown button,
+.btn button {
   padding: 0.5rem;
   background-color: var(--beige);
   color: var(--black);
@@ -221,7 +234,11 @@ img {
 }
 
 #dropdown button.active,
-#dropdown button:hover {
+#dropdown button:hover,
+.btn button.active,
+.btn button:hover {
   background-color: var(--orange);
   color: var(--beige);
 }
+
+/* -------- Footer -------- */

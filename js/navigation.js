@@ -35,65 +35,82 @@ function setupMenu() {
     });
 }
 
-// -------- Sidebar --------
-export function sideBar() {
-    const headers = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
-    const sidebarLinks = document.getElementById('sidebarLinks');
-    const sidebarMenu = document.getElementById('sidebarMenu');
+// -------- Top Menu --------
+export function topMenu() {
+  const headers = document.querySelectorAll(
+    'h2[id], h3[id], h4[id]'
+  );
 
-    headers.forEach(header => {
-        const level = header.tagName.toLowerCase().replace('h', '');
+  const menu = document.getElementById('topMenuLinks');
+  const indicator = document.getElementById('topMenuIndicator');
 
-        //Tick
-        const tick = document.createElement('div');
-        tick.className = 'sidebar-tick';
-        tick.setAttribute('data-level', level);
-        tick.setAttribute('data-target', header.id);
-        sidebarLinks.appendChild(tick);
+  if (!headers.length || !menu || !indicator)
+    return;
 
-        const menuItem = document.createElement('div');
-        menuItem.className = 'sidemenu-item';
-        menuItem.textContent = header.getAttribute('data-title');
-        menuItem.setAttribute('data-target', header.id);
+  headers.forEach(header => {
+    const level = header.tagName.replace('H', '');
 
-        menuItem.addEventListener('click', () => {
-            const offset = 100;
-            const elementPosition = header.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.scrollY - offset;
+    const item = document.createElement('button');
+    item.className = 'md-menu-item';
+    item.dataset.level = level;
+    item.dataset.target = header.id;
+    item.setAttribute('aria-label', header.dataset.title);
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        });
+    const icon = document.createElement('span');
+    icon.className = 'md-icon material-symbols-outlined';
+    icon.textContent = 'circle';
 
-        sidebarMenu.appendChild(menuItem);
+    const label = document.createElement('span');
+    label.className = 'md-label';
+    label.textContent = header.dataset.title;
+
+    item.append(icon, label);
+
+    item.addEventListener('click', () => {
+      const offset = 96;
+      const y =
+        header.getBoundingClientRect().top +
+        window.scrollY -
+        offset;
+
+      window.scrollTo({ top: y, behavior: 'smooth' });
     });
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '-20% 0px -70% 0px',
-        threshold: 0
-    };
+    menu.appendChild(item);
+  });
 
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.id;
+  /* -------- Intersection Observer -------- */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting)
+        return;
 
-                document.querySelectorAll('.sidebar-tick').forEach(tick => tick.classList.remove('active'));
-                const activeTick = document.querySelector(`.sidebar-tick[data-target="${id}"]`);
-                if (activeTick)
-                    activeTick.classList.add('active');
+      const id = entry.target.id;
 
-                document.querySelectorAll('.sidemenu-item').forEach(item => item.classList.remove('active'));
-                const activeItem = document.querySelector(`.sidemenu-item[data-target="${id}"]`);
-                
-                if (activeItem)
-                    activeItem.classList.add('active');
-            }
-        });
-    }, observerOptions);
+      menu
+        .querySelectorAll('.md-menu-item')
+        .forEach(i => i.classList.remove('active'));
 
-    headers.forEach(header => observer.observe(header));
+      const active = menu.querySelector(
+        `.md-menu-item[data-target="${id}"]`
+      );
+
+      if (!active)
+        return;
+
+      active.classList.add('active');
+
+      const rect = active.getBoundingClientRect();
+      const parent = menu.getBoundingClientRect();
+
+      indicator.style.width = `${rect.width}px`;
+      indicator.style.transform =
+        `translateX(${rect.left - parent.left}px)`;
+    });
+  }, {
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  });
+
+  headers.forEach(h => observer.observe(h));
 }

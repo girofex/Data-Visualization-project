@@ -31,9 +31,7 @@ rootSvg.insert("rect")
     .attr("height", height + margin.top + margin.bottom)
     .attr("fill", "none")
     .attr("stroke", black)
-    .attr("stroke-width", 1)
-    .attr("rx", 10)
-    .attr("ry", 10);
+    .attr("stroke-width", 1);
 
 const svg = rootSvg.append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -126,16 +124,16 @@ export function renderChoropleth() {
 
                 tooltip.html(`
                         <strong>${countryName} interest index</strong><br/>
-                        Russian-Ukrainian War: ${events.RussianUkranianWar || "0%"}<br/>
-                        Israeli-Palestinian War: ${events.IsraeliPalestinianWar || "0%"}<br/>
-                        Drug War: ${events.DrugWar || "0%"}
+                        Russian-Ukrainian War: ${events.RussianUkranianWar || "not enough data"}<br/>
+                        Israeli-Palestinian War: ${events.IsraeliPalestinianWar || "not enough data"}<br/>
+                        Drug War: ${events.DrugWar || "not enough data"}
                     `)
                     .style("opacity", 1);
 
                 d3.select(this).attr("fill-opacity", 0.6);
             })
             .on("mousemove", function (event) {
-                tooltip.style("top", (event.pageY) + "px")
+                tooltip.style("top", (event.pageY - 40) + "px")
                     .style("left", (event.pageX) + "px");
             })
             .on("mouseout", function () {
