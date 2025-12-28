@@ -1,7 +1,7 @@
 .m3-footer,
 .team-title,
 .footer-bottom,
-#source {
+.source {
     color: var(--beige);
 }
 
@@ -88,7 +88,7 @@ body.dark-theme #logo {
     font-size: 0.8rem;
 }
 
-#source:hover {
+.source:hover {
     color: var(--orange);
     transition: all 0.2s ease;
 }

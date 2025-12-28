@@ -52,7 +52,8 @@ h2{
 }
 
 h1,
-#source{
+.link,
+.source{
   font-weight: 1000;
 }
 
@@ -117,6 +118,11 @@ a{
 
 .student-card > a{
   text-decoration: none;
+}
+
+.link:hover {
+  color: var(--orange);
+  transition: all 0.2s ease;
 }
 
 /* -------- Icons -------- */
