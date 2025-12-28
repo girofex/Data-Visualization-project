@@ -96,8 +96,12 @@ md-menu-item:hover {
   color: var(--black);
 }
 
+#topMenu > .material-symbols-outlined {
+  color: inherit;
+}
+
 .md-icon {
-  font-size: 1rem;
+  font-size: 1.5rem;
   height: 100%;
 }
 
@@ -123,6 +127,11 @@ md-menu-item:hover {
   transform: translateX(-60%) translateY(0%);
 }
 
-.md-menu-item.active {
+.md-menu-item .md-icon {
+  color: var(--black);
+  transition: color 0.2s ease;
+}
+
+.md-menu-item.active .md-icon {
   color: var(--orange);
 }

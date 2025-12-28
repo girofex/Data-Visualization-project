@@ -58,7 +58,7 @@ export function topMenu() {
 
     const icon = document.createElement('span');
     icon.className = 'md-icon material-symbols-outlined';
-    icon.textContent = 'circle';
+    icon.textContent = 'fingerprint';
 
     const label = document.createElement('span');
     label.className = 'md-label';
@@ -83,19 +83,18 @@ export function topMenu() {
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
+        if (!entry.isIntersecting)
+          return;
 
         const id = entry.target.id;
 
-        // Remove active from all
         menu.querySelectorAll('.md-menu-item').forEach(i => i.classList.remove('active'));
 
-        // Add active to current
         const active = menu.querySelector(`.md-menu-item[data-target="${id}"]`);
-        if (!active) return;
+        if (!active)
+          return;
         active.classList.add('active');
 
-        // Move indicator
         const rect = active.getBoundingClientRect();
         const parent = menu.getBoundingClientRect();
         indicator.style.width = `${rect.width}px`;
@@ -103,7 +102,7 @@ export function topMenu() {
       });
     },
     {
-      rootMargin: '-50% 0px -50% 0px', // adjust the "activation zone" verticall
+      rootMargin: '96px 0px -75% 0px',
       threshold: 0
     }
   );
