@@ -146,7 +146,8 @@ a{
 }
 
 .grid2{
-  grid-template-columns: 0.5fr 0.5fr;
+  display: grid;
+  grid-template-columns: 50vw auto;
 }
 
 .column-wrapper {
@@ -182,7 +183,7 @@ a{
 }
 
 .second_column > img{
-  width: 40rem;
+  width: 38rem;
   margin-left: 2rem;
 }
 
@@ -194,6 +195,10 @@ a{
   background-repeat: no-repeat;
 }
 
+img {
+  width: 100%;
+}
+
 .card{
   width: 60%;
   background: var(--beige);
@@ -201,48 +206,3 @@ a{
   border-radius: 0;
   border: none;
 }
-
-img {
-  width: 100%;
-  transform: none !important;
-}
-
-/* -------- Plots -------- */
-#chart-container,
-.plot{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-#dropdown,
-.btn{
-  border: 0.1px solid var(--black);
-  overflow: hidden;
-  width: max-content;
-}
-
-.btn{
-  height: 3rem;
-  border-bottom: none;
-}
-
-#dropdown button,
-.btn button {
-  padding: 0.5rem;
-  background-color: var(--beige);
-  color: var(--black);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-#dropdown button.active,
-#dropdown button:hover,
-.btn button.active,
-.btn button:hover {
-  background-color: var(--orange);
-  color: var(--beige);
-}
-
-/* -------- Footer -------- */

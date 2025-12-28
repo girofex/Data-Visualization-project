@@ -1,0 +1,49 @@
+#chart-container,
+.plot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#dropdown,
+.btn{
+  border: 0.1px solid var(--black);
+  overflow: hidden;
+  width: max-content;
+}
+
+.btn{
+  height: 2.5rem;
+  border-bottom: none;
+}
+
+#dropdown button,
+.btn button {
+  padding: 0.5rem;
+  background-color: var(--beige);
+  color: var(--black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#dropdown button.active,
+#dropdown button:hover,
+.btn button:hover {
+  background-color: var(--orange);
+  color: var(--beige);
+}
+
+#choropleth-zoom-in > .material-symbols-outlined,
+#choropleth-zoom-out > .material-symbols-outlined,
+#choropleth-zoom-restore > .material-symbols-outlined{
+  font-size: 1.5rem;
+}
+
+#choropleth:hover{
+  cursor: grab;
+}
+
+#choropleth:active{
+  cursor: grabbing;
+}

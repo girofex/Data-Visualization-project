@@ -7,7 +7,7 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const blue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
 
-const margin = { top: 80, right: 150, bottom: 60, left: 110 },
+const margin = { top: 80, right: 100, bottom: 60, left: 100 },
     width = 1200 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
@@ -84,7 +84,7 @@ export function renderLineChart() {
             .style("font-size", "12px");
 
         svg.append("text")
-            .attr("x", width / 2)
+            .attr("x", width / 2 + 3)
             .attr("y", height + 55)
             .attr("text-anchor", "middle")
             .style("font-family", antic)

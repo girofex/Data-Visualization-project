@@ -1,14 +1,19 @@
-var topButton = document.getElementById("top");
-    
 function GoTop() {
-    const scroll = () => {
-        const c = document.documentElement.scrollTop || document.body.scrollTop;
+    const start = window.pageYOffset;
+    const duration = 600;
+    const startTime = performance.now();
 
-        if (c > 0) {
-            window.requestAnimationFrame(scroll);
-            window.scrollTo(0, c - c);
-        }
-    };
+    function scroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
 
-    scroll();
+        const ease = 1 - Math.pow(1 - progress, 3);
+
+        window.scrollTo(0, start * (1 - ease));
+
+        if (progress < 1)
+            requestAnimationFrame(scroll);
+    }
+
+    requestAnimationFrame(scroll);
 }
