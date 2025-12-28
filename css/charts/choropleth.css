@@ -6,16 +6,30 @@
   flex-direction: column;
 }
 
+#choropleth_container,
+.btn{
+  display: flex;
+}
+
+#choropleth_container{
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn{
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  transform: translateX(-100%);
+  border-right: none !important;
+}
+
 #dropdown,
 .btn{
   border: 0.1px solid var(--black);
   overflow: hidden;
   width: max-content;
-}
-
-.btn{
-  height: 2.5rem;
-  border-bottom: none;
 }
 
 #dropdown button,
@@ -27,17 +41,15 @@
   transition: all 0.2s ease;
 }
 
+.btn button{
+  height: 2.5rem;
+}
+
 #dropdown button.active,
 #dropdown button:hover,
 .btn button:hover {
   background-color: var(--orange);
   color: var(--beige);
-}
-
-#choropleth-zoom-in > .material-symbols-outlined,
-#choropleth-zoom-out > .material-symbols-outlined,
-#choropleth-zoom-restore > .material-symbols-outlined{
-  font-size: 1.5rem;
 }
 
 #choropleth:hover{
