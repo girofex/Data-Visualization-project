@@ -171,6 +171,12 @@ a{
   padding: 1rem;
 }
 
+.left_column,
+.right_column{
+  display: flex;
+  align-items: center;
+}
+
 .middle_column,
 .first_column{
   border-right: 1px solid var(--black);
