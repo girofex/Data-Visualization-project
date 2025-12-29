@@ -1,0 +1,7 @@
+.single_column{
+  background-image: url(../img/woman_with_veil.jpg);
+}
+
+.grid{
+  border-bottom: 1px solid var(--black);
+}

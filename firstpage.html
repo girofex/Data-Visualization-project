@@ -9,7 +9,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css">
@@ -18,6 +20,7 @@
     <link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/top.css">
+    <link rel="stylesheet" href="css/firstpage.css">
 
     <script type="importmap">
         {
@@ -30,8 +33,8 @@
     <script type="module" src="js/main.js"></script>
     <script src="js/redirection.js"></script>
     <script src="js/scrolling.js"></script>
-
     <script src="js/navigation.js"></script>
+    <script src="js/charts/radial.js" defer type="module"></script>
 </head>
 
 <body id="page">
@@ -40,15 +43,14 @@
     <div id="sidebarWrapper"></div>
 
     <div class="column-wrapper">
-        <div class="column single_column" style="background-image: url(img/kyiv.jpg)">
+        <div class="column single_column">
             <div class="card">
                 <div class="title">
                     <h1>The Russo-Ukranian<br>War</h1>
                 </div>
                 <h2 id="vicinity" data-title="Vicinity makes people care">Vicinity makes people care</h2>
-                <p>This conflict is near us, both from a geographical and economic point of view. And we know very well how everything revolves around interests.
-                    The war started in 2022, and one of the main topics of discussion was not about the health and welfare of the populations directly involved, but around the possibility
-                    of a Russian block to our natural gas supply.
+                <p>With the Crimean occupation in 2014, the tension between Russia and Ukraine started to become concrete:
+                    in 2022 this cold-shoulder became a war, that has been progressing since.
                 </p>
             </div>
         </div>
@@ -59,12 +61,32 @@
             <img src="img/kremlin.png">
         </div>
         <div class="column middle_column">
-            <h2 id="time-space" data-title="h2">H2</h2>
-            <p>...
+            <h2 id="time-space" data-title="Economy">Economy</h2>
+            <p>This conflict is near us, both from a geographical and economic point of view, and we know very well how
+                everything revolves around interests.<br>
+                One of the main topics of discussion was not centered around the health and
+                welfare of the populations directly involved,
+                but around the possibility of a Russian block to our natural gas supply.<br>
+                As war progressed, the EU had to reinvent its strategy in terms of importing the supplies, and it had to
+                readjust to new partners.
+                <br><br>
+                We take a look at how our dependency on Russian resources changed during the previous years.
             </p>
+            <div id="radial" class="plot"></div>
         </div>
         <div class="column right_column">
             <img src="img/kyiv.png">
+        </div>
+    </div>
+
+    <div class="grid2">
+        <div class="column first_column">
+            <h2 id="dont-care" data-title="h2">h2</h2>
+            <p>...
+            </p>
+        </div>
+        <div class="column second_column">
+            <img id="gas" src="img/gas.png">
         </div>
     </div>
 

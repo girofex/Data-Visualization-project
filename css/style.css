@@ -191,11 +191,6 @@ a{
   margin: 2rem;
 }
 
-.second_column > img{
-  width: 38rem;
-  margin-left: 2rem;
-}
-
 .single_column {
   width: 70%;
   height: 70rem;
@@ -214,4 +209,11 @@ img {
   padding: 3rem;
   border-radius: 0;
   border: none;
+}
+
+.plot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

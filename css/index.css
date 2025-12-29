@@ -1,5 +1,4 @@
-#chart-container,
-.plot{
+#chart-container{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,4 +57,9 @@
 
 #choropleth:active{
   cursor: grabbing;
+}
+
+#children{
+  width: 38rem;
+  margin-left: 2rem;
 }

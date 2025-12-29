@@ -1,0 +1,16 @@
+.single_column{
+  background-image: url(../img/kyiv.jpg);
+}
+
+.grid{
+  border-bottom: 1px solid var(--black);
+}
+
+#radial{
+  padding-bottom: 2rem;
+}
+
+#gas{
+  width: 40rem;
+  margin-left: 2rem;
+}
