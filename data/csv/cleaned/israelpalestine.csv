@@ -1,0 +1,69 @@
+conflict_id,location,side_a,side_a_id,side_a_2nd,side_b,side_b_id,side_b_2nd,incompatibility,territory_name,year,intensity_level,cumulative_intensity,type_of_conflict,start_date,start_prec,start_date2,start_prec2,ep_end,ep_end_date,ep_end_prec,gwno_a,gwno_a_2nd,gwno_b,gwno_b_2nd,gwno_loc,region,version
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1949,1,0,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1950,1,0,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1951,1,0,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1952,1,0,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1953,1,0,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1954,1,0,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1955,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1956,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1957,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1958,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1959,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1960,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1961,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1962,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1963,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Palestinian insurgents,202,,1,Palestine,1964,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1965,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1966,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1967,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1968,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1969,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1970,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1971,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1972,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Non PLO groups, PLO","203, 204",,1,Palestine,1973,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1974,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1975,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1976,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1977,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1978,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1979,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1980,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1981,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",Government of Syria,1,Palestine,1982,2,1,4,1948-05-15,1,1949-12-31,5,0,,,666,,,652,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1983,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1984,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1985,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1986,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1987,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PLO, Rejectionist Front","1067, 204",,1,Palestine,1988,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"PFLP, PFLP-GC","205, 206",,1,Palestine,1989,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Fatah,207,,1,Palestine,1990,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Fatah,207,,1,Palestine,1991,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Fatah,207,,1,Palestine,1992,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Hamas,209,,1,Palestine,1993,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Hamas,209,,1,Palestine,1994,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,PIJ,208,,1,Palestine,1995,1,1,3,1948-05-15,1,1949-12-31,5,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,PNA,210,,1,Palestine,1996,1,1,3,1948-05-15,1,1949-12-31,5,1,1996-09-30,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, PNA","207, 210",,1,Palestine,2000,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, Hamas, PFLP, PIJ, PNA","205, 207, 208, 209, 210",,1,Palestine,2001,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"AMB, Fatah, Hamas, PIJ, PNA","207, 208, 209, 210, 211",,1,Palestine,2002,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"AMB, Hamas, PIJ","208, 209, 211",,1,Palestine,2003,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"AMB, Hamas, PIJ","208, 209, 211",,1,Palestine,2004,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, Hamas, PIJ","207, 208, 209",,1,Palestine,2005,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, Hamas, PIJ, PRC","207, 208, 209, 212",,1,Palestine,2006,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, Hamas, PIJ","207, 208, 209",,1,Palestine,2007,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Hamas, PIJ","208, 209",,1,Palestine,2008,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Hamas, PIJ","208, 209",,1,Palestine,2009,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,PIJ,208,,1,Palestine,2010,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Hamas, PIJ","208, 209",,1,Palestine,2011,1,1,3,1948-05-15,1,2000-10-01,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Hamas, PIJ","208, 209",,1,Palestine,2012,1,1,3,1948-05-15,1,2000-10-01,1,1,2012-11-23,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Hamas, PIJ","208, 209",,1,Palestine,2014,2,1,3,1948-05-15,1,2014-07-07,1,1,2014-12-24,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,Hamas,209,,1,Palestine,2018,1,1,3,1948-05-15,1,2018-04-12,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,PIJ,208,,1,Palestine,2019,1,1,3,1948-05-15,1,2018-04-12,1,1,2019-11-14,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Hamas, PIJ","208, 209",,1,Palestine,2021,1,1,3,1948-05-15,1,2021-05-10,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, PIJ","207, 208",,1,Palestine,2022,1,1,3,1948-05-15,1,2021-05-10,1,0,,,666,,,,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, Hamas, PIJ","207, 208, 209", Government of Yemen (North Yemen),1,Palestine,2023,2,1,4,1948-05-15,1,2021-05-10,1,0,,,666,,,678,666,2,25.1
+234,Israel,Government of Israel,121,,"Fatah, Hamas, PIJ","207, 208, 209", Government of Yemen (North Yemen),1,Palestine,2024,2,1,4,1948-05-15,1,2021-05-10,1,0,,,666,,,678,666,2,25.1
