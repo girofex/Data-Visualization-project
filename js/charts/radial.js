@@ -94,7 +94,7 @@ d3.csv("data/csv/cleaned/gas_cleaned.csv").then(data => {
         .on("mouseout", function () {
             tooltip.style("opacity", 0);
             d3.select(this).attr("fill-opacity", 1);
-        });;
+        });
 
     const labelGroup = svg.append("g");
 

@@ -9,7 +9,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css">
@@ -33,6 +35,7 @@
     <script src="js/scrolling.js"></script>
 
     <script src="js/navigation.js"></script>
+    <script src="js/charts/timeline.js" defer type="module"></script>
 </head>
 
 <body id="page">
@@ -47,26 +50,56 @@
                     <h1>The Middle Eastern<br>Conflict</h1>
                 </div>
                 <h2 id="dividing" data-title="Current and dividing">Current and dividing</h2>
-                <p>The Middle Eastern region has often been an area of great conflict: the populations are heavily divided and, as always, a lot of "Western" interests are involved.
-                    The Israeli-Palestinian situation has been around since the birth of the Israel state in 1948, but it became more public only recently because of the start of the genocide.
-                    Even in this case, the other countries started paying attention when some threats were made. We also have to remember that the Western countries were the ones that decided 
-                    to give Israel that region, creating the situation that we are now living. We can say that there is some guilt that makes us involved in this.
+                <p>The Middle Eastern region has often been an area of great conflict: the populations are heavily
+                    divided and, as always, a lot of "Western" interests are involved.
+                    The Israeli-Palestinian situation has been around since the birth of the Israel state, but
+                    it became more public only recently because of the start of the genocide.
                 </p>
             </div>
         </div>
     </div>
+
+    <div class="grid grid_separate">
+        <div class="column left_column">
+        </div>
+        <div class="column middle_column">
+            <h2 id="history" data-title="History of the Middle East">History of the Middle East</h2>
+            <p>To better understand how the situation became what it is now, we have to take a step back
+                and look at the history of the modern Middle East.<br>
+                The least familiar with history would be surprised to know that the horrors of today's war
+                is simply the consequence of decades of abuses and errors.
+                <br><br>
+                We present a timeline of the events with corresponding explanation.
+            </p>
+        </div>
+        <div class="column right_column">
+        </div>
+    </div>
+
+    <div id="timeline" class="plot"></div>
 
     <div class="grid">
         <div class="column left_column">
             <img src="img/palestine.png">
         </div>
         <div class="column middle_column">
-            <h2 id="time-space" data-title="h2">H2</h2>
-            <p>...
+            <h2 id="gaza" data-title="Gaza War">Gaza War</h2>
+            <p>parlare della disparità di azione/reazione e di perdite e dell'indignazione globale.<br>
+                grouped bar chart per confrontare le perdite
             </p>
         </div>
         <div class="column right_column">
             <img src="img/israel.png">
+        </div>
+    </div>
+
+    <div class="grid2">
+        <div class="column first_column">
+            <p>commentare grafico
+            </p>
+        </div>
+        <div class="column second_column">
+            <img id="flag" src="img/palestine_flag.png">
         </div>
     </div>
 

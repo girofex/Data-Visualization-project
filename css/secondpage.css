@@ -1,7 +1,20 @@
-.single_column{
+.single_column {
   background-image: url(../img/woman_with_veil.jpg);
 }
 
-.grid{
+.grid {
+  border-top: 1px solid var(--black);
   border-bottom: 1px solid var(--black);
+}
+
+.grid_separate {
+  border: none;
+}
+
+#timeline{
+  padding: 2rem;
+}
+
+#flag{
+  width: 30rem;
 }

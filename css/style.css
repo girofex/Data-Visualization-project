@@ -172,9 +172,11 @@ a{
 }
 
 .left_column,
-.right_column{
+.right_column,
+.second_column{
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .middle_column,
