@@ -7,8 +7,8 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 
 var margin = { top: 0, right: 0, bottom: 0, left: 0 },
-    width = 600 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    width = 550 - margin.left - margin.right,
+    height = 650 - margin.top - margin.bottom;
 
 const svg = d3.select("#network")
     .append("svg")
@@ -18,7 +18,7 @@ const svg = d3.select("#network")
     .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
 svg.append('text')
-    .attr('y', -295)
+    .attr('y', -270)
     .attr("text-anchor", "middle")
     .text("Hierarchy in the Medellín Cartel")
     .style("font-family", antic)
@@ -119,6 +119,7 @@ node.append("circle")
     .attr("r", d => radius(d))
     .attr("fill", d => color(d.organization))
     .attr("opacity", 1)
+    .attr("stroke", d => d.id === "Pablo Escobar" ? black : "none")
     .on("mouseover", function (event, d) {
         tooltip.html(`<strong>${d.id}</strong><br>${d.role} of ${d.organization}`)
             .style("opacity", 1);
@@ -161,6 +162,7 @@ function radialForce(alpha) {
             d.fx = 0;
             d.fy = 0;
         }
+
         else{
             const levelDistance = { Direct: maxDistance * 0.2, High: maxDistance * 0.5, Medium: maxDistance * 0.8 };
             const dx = d.x, dy = d.y;
