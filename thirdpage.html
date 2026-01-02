@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/scrollbar.css">
@@ -33,6 +34,7 @@
     <script src="js/scrolling.js"></script>
 
     <script src="js/navigation.js"></script>
+    <script src="js/charts/network.js" defer type="module"></script>
 </head>
 
 <body id="page">
@@ -47,7 +49,9 @@
                     <h1>The everlasting fight<br>against the cartel</h1>
                 </div>
                 <h2 id="persist" data-title="When something persists, people get used to it">When something persists, people get used to it</h2>
-                <p>Escobar che faceva anche opere buone, per cui alcuni chiudono un occhio, serve anche alla politica che certe cose continuino
+                <p>The Drug War is a global anti-narcotics campaign that aims to reduce the drug trade while also
+                    battling against government corruption.<br>
+                    The problem is that the actual abolition of drugs is not on everyone's interest: there are some entities that prefer the situation as it is.
                 </p>
             </div>
         </div>
@@ -55,12 +59,26 @@
 
     <div class="grid2">
         <div class="column first_column">
-            <h2 id="not-war" data-title="A Not-War">A Not-War</h2>
-            <p>...
+            <h2 id="plata-o-plomo" data-title="Plata o Plomo">Plata o Plomo</h2>
+            <p>Our paper in the first pages narrated of <i>stereotypical</i> wars, with soldiers, territorial invasions etc.<br>
+                In this case, however, we define this War as a <b>Not-War</b>: the battle itself is against an inanimate entity,
+                which is protected by humans.
+                <br><br>
+                The media narration exploded with the advent of Pablo Escobar and the Medellín Cartel: the Colombian drug lord monopolized
+                the cocaine trade into the US in the 1980s and by his death he had an estimated net worth of $30 billion.<br>
+                Its convictions were illegal drug trade, assassinations, bombing, bribery, racketeering and murder.<br>
+                However, like in any self-respecting criminal "family", he needed the approval of the people to keep its monopoly:
+                he sponsored social projects and charity to elevate its image.<br>
+                He also helped in the constructions of houses, clinics, sport camps in the barrios for poor people, and this gave him
+                one of his nicknames, <b>Paisa Robin Hood</b>.<br>
+                Of course this is nothing with respect to the 4,000 direct deaths he caused, including 600 police officers, and many others indirect
+                deaths caused by the drug use.<br>
+                In the end it was all about <i>Plata o Plomo</i>, silver or lead: given the magnitude of the Medellín Cartel and its allies (like Los Priscos), it's not that difficult to
+                understand why many people chose plata.
             </p>
         </div>
         <div class="column second_column">
-            ...
+            <div id="network" class="plot"></div>
         </div>
     </div>
 
@@ -75,6 +93,16 @@
         </div>
         <div class="column right_column">
             <img src="img/drugs.png">
+        </div>
+    </div>
+
+    <div class="grid2">
+        <div class="column first_column">
+            <p>commentare grafico
+            </p>
+        </div>
+        <div class="column second_column">
+            <img id="flag" src="img/escobar.png">
         </div>
     </div>
 
