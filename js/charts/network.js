@@ -29,7 +29,7 @@ svg.append('text')
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
-    .style("position", "absolute")
+    .style("position", "fixed")
     .style("opacity", 0)
     .style("background-color", beige)
     .style("border", `1px solid ${black}`)
@@ -134,8 +134,8 @@ node.append("circle")
     })
     .on("mousemove", function (event) {
         tooltip
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 10) + "px");
+            .style("left", (event.clientX + 10) + "px")
+            .style("top", (event.clientY) + "px");
     })
     .on("mouseout", function () {
         tooltip.style("opacity", 0);
