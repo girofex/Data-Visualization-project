@@ -5,7 +5,7 @@ const antic = getComputedStyle(document.documentElement).getPropertyValue("--ant
 const prata = getComputedStyle(document.documentElement).getPropertyValue("--prata").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
-const blue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 const margin = { top: 80, right: 100, bottom: 60, left: 100 },
     width = 1200 - margin.left - margin.right,
@@ -69,7 +69,7 @@ export function renderLineChart() {
 
         const colorScale = d3.scaleOrdinal()
             .domain(keys)
-            .range([black, orange, blue]);
+            .range([black, orange, green]);
 
         //X axis
         const x = d3.scaleTime()

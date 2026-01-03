@@ -6,7 +6,7 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const white = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
-const blue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
+const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 var margin = { top: 10, right: 0, bottom: 0, left: 0 },
     width = 1000 - margin.left - margin.right,
@@ -15,7 +15,7 @@ var margin = { top: 10, right: 0, bottom: 0, left: 0 },
 const eventColors = {
     "RussianUkranianWar": black,
     "IsraeliPalestinianWar": orange,
-    "DrugWar": blue
+    "DrugWar": green
 };
 
 const rootSvg = d3.select("#choropleth")
