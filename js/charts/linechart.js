@@ -7,7 +7,7 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-const margin = { top: 80, right: 100, bottom: 60, left: 100 },
+const margin = { top: 80, right: 130, bottom: 60, left: 130 },
     width = 1200 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 

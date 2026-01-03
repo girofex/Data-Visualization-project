@@ -49,12 +49,18 @@ button {
 
 md-menu {
   --md-menu-container-color: var(--beige);
+  --md-menu-container-shape: 0px;
+  border: 1px solid var(--black);
 }
 
 md-menu-item {
   --md-menu-item-container-color: var(--beige);
   --md-menu-item-label-text-color: var(--black);
-  width: 12rem;
+  width: 8rem;
+}
+
+md-menu-item::part(focus-ring) {
+  border: none;
 }
 
 md-menu-item:hover {
@@ -63,7 +69,7 @@ md-menu-item:hover {
   transition: all 0.2s ease;
 }
 
-.hamburger{
+.hamburger {
   display: flex;
   align-items: center;
   justify-self: end;
