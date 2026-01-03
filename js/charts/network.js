@@ -133,8 +133,9 @@ node.append("circle")
         d3.select(this).attr("fill-opacity", 0.6);
     })
     .on("mousemove", function (event) {
-        tooltip.style("top", (event.pageY - 40) + "px")
-            .style("left", (event.pageX) + "px");
+        tooltip
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px");
     })
     .on("mouseout", function () {
         tooltip.style("opacity", 0);
@@ -169,7 +170,7 @@ function radialForce(alpha) {
             d.fy = 0;
         }
 
-        else{
+        else {
             const levelDistance = { Direct: maxDistance * 0.2, High: maxDistance * 0.5, Medium: maxDistance * 0.8 };
             const dx = d.x, dy = d.y;
 

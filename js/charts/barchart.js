@@ -48,7 +48,7 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => 
         .domain(category)
         .range([0, width])
         .padding(0.4);
-    
+
     const maxY = d3.max(plotData, d => d.value);
     const y = d3.scaleLinear()
         .domain([0, maxY])
@@ -92,22 +92,23 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => 
         .attr("width", x.bandwidth())
         .attr("height", d => height - y(d.value))
         .attr("fill", d => colors(d.name))
-        .on("mouseover", function(event, d) {
+        .on("mouseover", function (event, d) {
             d3.select(this).attr("opacity", 0.6);
 
             tooltip.style("opacity", 1)
-                   .html(`<strong>${d.name}</strong><br/>${d3.format(",")(d.value).replace(/,/g, ".")}`);
+                .html(`<strong>${d.name}</strong><br/>${d3.format(",")(d.value).replace(/,/g, ".")}`);
         })
         .on("mousemove", function (event) {
-            tooltip.style("top", (event.pageY - 40) + "px")
-                .style("left", (event.pageX) + "px");
+            tooltip
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
             d3.select(this).attr("opacity", 1);
             tooltip.style("opacity", 0);
         });
 
 })
-.catch(error => {
-    console.error("Error loading bar chart data:", error);
-});
+    .catch(error => {
+        console.error("Error loading bar chart data:", error);
+    });

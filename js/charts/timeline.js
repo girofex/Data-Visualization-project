@@ -150,8 +150,9 @@ data.forEach((d, i) => {
             d3.select(this).attr("fill-opacity", 0.6);
         })
         .on("mousemove", function (event) {
-            tooltip.style("top", (event.pageY - 40) + "px")
-                .style("left", (event.pageX) + "px");
+            tooltip
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
         })
         .on("mouseout", function () {
             tooltip.style("opacity", 0);
