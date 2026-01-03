@@ -131,7 +131,7 @@ a{
 
 #prev_page,
 #next_page{
-  margin: 2rem;
+  margin: 5rem 5rem 2rem 5rem;
   font-size: 2rem;
   cursor: pointer;
   text-decoration: none;
