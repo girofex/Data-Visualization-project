@@ -134,6 +134,28 @@ a{
   font-size: 1.5rem;
 }
 
+#prev_page,
+#next_page{
+  margin: 2rem;
+  font-size: 2rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#prev_page{
+  transform: rotate(-90deg);
+}
+
+#next_page{
+  transform: rotate(90deg);
+}
+
+#prev_page:hover,
+#next_page:hover{
+  color: var(--orange);
+  transition: all 0.2s ease;
+}
+
 /* -------- Columns -------- */
 .grid,
 .grid2{
@@ -166,7 +188,8 @@ a{
 
 .left_column,
 .right_column,
-.second_column{
+.second_column,
+.pages{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,4 +240,8 @@ img {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.pages{
+  border: none;
 }
