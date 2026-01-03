@@ -6,9 +6,9 @@
 }
 
 .m3-footer {
-    margin-top: 2rem;
     border-top: 1px solid var(--black);
     padding-top: 2rem;
+    padding-bottom: 2rem;
     z-index: 0;
     background-color: var(--black);
 }

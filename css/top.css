@@ -1,8 +1,8 @@
 #top{
   font-size: 2rem;
   position: fixed;
-  bottom: 20px;
-  right: 30px;
+  bottom: 2rem;
+  right: 2rem;
   z-index: 1000;
   cursor: pointer;
   color: var(--orange);
