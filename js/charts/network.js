@@ -98,7 +98,13 @@ const simulation = d3.forceSimulation(nodes)
     .force("center", d3.forceCenter(0, 0))
     .force("collision", d3.forceCollide().radius(d => radius(d) + 5))
     .force("radial", radialForce)
-    .force("cluster", clusterForce);
+    .force("cluster", clusterForce)
+    .alpha(0)
+    .stop();
+
+function startSimulation() {
+    simulation.alpha(1).restart();
+}
 
 //Links
 const link = svg.selectAll(".link")
@@ -215,3 +221,21 @@ function drag(simulation) {
         .on("drag", dragged)
         .on("end", dragended);
 }
+
+//Animation
+const networkSection = document.querySelector("#network");
+
+const observer = new IntersectionObserver(
+    ([entry], observer) => {
+        if (entry.isIntersecting) {
+            startSimulation();
+            observer.unobserve(entry.target);
+        }
+    },
+    {
+        root: null,
+        threshold: 0.4
+    }
+);
+
+observer.observe(networkSection);
