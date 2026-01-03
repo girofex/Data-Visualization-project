@@ -9,7 +9,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&family=Antic+Didone&family=Prata&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -35,6 +37,7 @@
 
     <script src="js/navigation.js"></script>
     <script src="js/charts/network.js" defer type="module"></script>
+    <script src="js/charts/areachart.js" defer type="module"></script>
 </head>
 
 <body id="page">
@@ -48,10 +51,12 @@
                 <div class="title">
                     <h1>The everlasting fight<br>against the cartel</h1>
                 </div>
-                <h2 id="persist" data-title="When something persists, people get used to it">When something persists, people get used to it</h2>
+                <h2 id="persist" data-title="When something persists, people get used to it">When something persists,
+                    people get used to it</h2>
                 <p>The Drug War is a global anti-narcotics campaign that aims to reduce the drug trade while also
                     battling against government corruption.<br>
-                    The problem is that the actual abolition of drugs is not on everyone's interest: there are some entities that prefer the situation as it is.
+                    The problem is that the actual abolition of drugs is not on everyone's interest: there are some
+                    entities that prefer the situation as it is.
                 </p>
             </div>
         </div>
@@ -60,20 +65,28 @@
     <div class="grid2">
         <div class="column first_column">
             <h2 id="plata-o-plomo" data-title="Plata o Plomo">Plata o Plomo</h2>
-            <p>Our paper in the first pages narrated of <i>stereotypical</i> wars, with soldiers, territorial invasions etc.<br>
-                In this case, however, we define this War as a <b>Not-War</b>: the battle itself is against an inanimate entity,
+            <p>Our paper in the first pages narrated of <i>stereotypical</i> wars, with soldiers, territorial invasions
+                etc.<br>
+                In this case, however, we define this War as a <b>Not-War</b>: the battle itself is against an inanimate
+                entity,
                 which is protected by humans.
                 <br><br>
-                The media narration exploded with the advent of Pablo Escobar and the Medellín Cartel: the Colombian drug lord monopolized
-                the cocaine trade into the US in the 1980s and by his death he had an estimated net worth of $30 billion.<br>
+                The media narration exploded with the advent of Pablo Escobar and the Medellín Cartel: the Colombian
+                drug lord monopolized
+                the cocaine trade into the US in the 1980s and by his death he had an estimated net worth of $30
+                billion.<br>
                 Its convictions were illegal drug trade, assassinations, bombing, bribery, racketeering and murder.<br>
-                However, like in any self-respecting criminal "family", he needed the approval of the people to keep its monopoly:
+                However, like in any self-respecting criminal "family", he needed the approval of the people to keep its
+                monopoly:
                 he sponsored social projects and charity to elevate its image.<br>
-                He also helped in the constructions of houses, clinics, sport camps in the barrios for poor people, and this gave him
+                He also helped in the constructions of houses, clinics, sport camps in the barrios for poor people, and
+                this gave him
                 one of his nicknames, <b>Paisa Robin Hood</b>.<br>
-                Of course this is nothing with respect to circa 4,000 direct deaths he caused, including 600 police officers, and many others indirect
+                Of course this is nothing with respect to circa 4,000 direct deaths he caused, including 600 police
+                officers, and many others indirect
                 deaths caused by the drug use.<br>
-                In the end it was all about <i>Plata o Plomo</i>, silver or lead: given the magnitude of the Medellín Cartel and its allies (like Los Priscos), it's not that difficult to
+                In the end it was all about <i>Plata o Plomo</i>, silver or lead: given the magnitude of the Medellín
+                Cartel and its allies (like Los Priscos), it's not that difficult to
                 understand why many people chose plata.
             </p>
         </div>
@@ -87,9 +100,17 @@
             <img src="img/southamerica.png">
         </div>
         <div class="column middle_column">
-            <h2 id="drug-export" data-title="Drug Export">Drug Export</h2>
-            <p>magari connection map con gli stati che importano
+            <h2 id="war" data-title="What Makes This a War">What Makes This a War</h2>
+            <p>Even if we don't have a <i>big name</i> like Escobar to blame anymore, his legacy lives in his
+                successors.<br>
+                Many people approve of his ways and plan on continuing his vision.
+                <br><br>
+                The world is still under the charming effect of narcotic substances, even more now that new drugs
+                are being developed.<br>
+                Unfortunately, since 2000 up to 2021, the death rate due to drug disorders doesn't seem to stop
+                and it's instead increasing.
             </p>
+            <div id="area" class="plot"></div>
         </div>
         <div class="column right_column">
             <img src="img/drugs.png">
@@ -98,11 +119,23 @@
 
     <div class="grid2">
         <div class="column first_column">
-            <p>commentare grafico
+            <p>
+                At the time this article was written, Donald Trump arrested Venezuelan president Nicolas Maduro
+                accusing him of being involved in drug trafficking.<br>
+                As of now, Maduro is being taken to New York City to be trialed under the US law.<br>
+                Beside the obvious power abuse of Maduro and its questionable choices, Trump doesn't have
+                the right to <i>kidnap</i> the head of another state as if he's a monarch.<br>
+                Moreover, at least 115 people have been killed since September in the US strikes against
+                boats that have been allegedly smuggling drugs: however, experts have questioned the
+                legality of those strikes.
+                <br><br>
+                At the end, this Not-War behaves similarly as a normal War: the powerful ones take decisions without
+                considering the people.<br>
+                Does the end always justifies the means?
             </p>
         </div>
         <div class="column second_column">
-            <img id="flag" src="img/escobar.png">
+            <img id="escobar" src="img/escobar.png">
         </div>
     </div>
 
