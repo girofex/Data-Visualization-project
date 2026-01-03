@@ -5,9 +5,10 @@ const prata = getComputedStyle(document.documentElement).getPropertyValue("--pra
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
+const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-var margin = { top: 40, right: 150, bottom: 60, left: 70 },
-    width = 1200 - margin.left - margin.right,
+var margin = { top: 40, right: 40, bottom: 60, left: 80 },
+    width = 750 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 const svg = d3.select("#groupedbar")
@@ -17,7 +18,8 @@ const svg = d3.select("#groupedbar")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-const tooltip = d3.select("body").append("div")
+const tooltip = d3.select("body")
+    .append("div")
     .attr("class", "tooltip")
     .style("position", "absolute")
     .style("opacity", 0)
@@ -29,39 +31,36 @@ const tooltip = d3.select("body").append("div")
     .style("font-family", prata)
     .style("font-size", "14px");
 
-const category = ["deaths_a", "deaths_b", "deaths_civilians", "deaths_unknown"];
+const category = ["Government of Israel", "Hamas and armed groups", "Civilians"];
 const colors = d3.scaleOrdinal()
     .domain(category)
-    .range([orange, black, prata, antic]);
+    .range([black, green, orange]);
 
-d3.csv("data/csv/cleaned/fatalities_israelpalestine_cleaned.csv").then(data => {
-    
-	data.forEach(d => {
-        d.year = +d.year;
+d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => {
+    const plotData = category.map(cat => {
+        return {
+            name: cat,
+            value: +data[0][cat]
+        };
     });
 
-    const x0 = d3.scaleBand()
-        .domain(data.map(d => d.year))
-        .range([0, width])
-        .padding(0.2);
-    
-    const x1 = d3.scaleBand()
+    const x = d3.scaleBand()
         .domain(category)
-        .range([0, x0.bandwidth()])
-        .padding(0.05);
+        .range([0, width])
+        .padding(0.4);
+    
+    const maxY = d3.max(plotData, d => d.value);
+    const y = d3.scaleLinear()
+        .domain([0, maxY])
+        .nice()
+        .range([height, 0]);
 
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x0).tickFormat(d3.format("d")))
+        .call(d3.axisBottom(x))
         .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-family", "Fira Sans");
-
-	const maxY = d3.max(data, d => d3.max(category, key => d[key]));
-    const y = d3.scaleLinear()
-        .domain([0, 9000])
-        .nice()
-        .range([height, 0]);
+        .style("font-size", "14px")
+        .style("font-family", prata);
 
     const yAxis = d3.axisLeft(y)
         .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
@@ -69,40 +68,34 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_cleaned.csv").then(data => {
     svg.append("g")
         .call(yAxis)
         .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-family", "Fira Sans");
+        .style("font-size", "14px")
+        .style("font-family", prata);
 
     svg.append("text")
         .attr("class", "yAxisTitle")
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left + 15)
-        .attr("x", 0 - (height / 2))
+        .attr("y", -margin.left + 15)
+        .attr("x", -(height / 2))
         .style("text-anchor", "middle")
-        .style("font-size", "12px")
+        .style("font-size", "14px")
         .style("font-weight", "bold")
-        .style("font-family", "Roboto Slab")
-        .text("Total occurrences");
+        .style("font-family", prata)
+        .text("Total Casualties");
 
-    const yearGroups = svg.selectAll(".year-group")
-        .data(data)
-        .enter()
-        .append("g")
-        .attr("class", "year-group")
-        .attr("transform", d => `translate(${x0(d.year)},0)`);
-    
-    yearGroups.selectAll("rect")
-        .data(d => category.map(key => ({key: key, value: d[key], year: d.year})))
+    svg.selectAll(".bar")
+        .data(plotData)
         .enter()
         .append("rect")
-        .attr("x", d => x1(d.key))
+        .attr("class", "bar")
+        .attr("x", d => x(d.name))
         .attr("y", d => y(d.value))
-        .attr("width", x1.bandwidth())
+        .attr("width", x.bandwidth())
         .attr("height", d => height - y(d.value))
-        .attr("fill", d => colors(d.key))
+        .attr("fill", d => colors(d.name))
         .on("mouseover", function(event, d) {
             d3.select(this).attr("opacity", 0.7);
             tooltip.style("opacity", 1)
-                   .html(`<strong>${d.key}</strong><br/>Count: ${d3.format(",")(d.value).replace(/,/g, ".")}`);
+                   .html(`<strong>${d.name}</strong><br/>Count: ${d3.format(",")(d.value).replace(/,/g, ".")}`);
         })
         .on("mousemove", function(event) {
             tooltip.style("left", (event.pageX + 10) + "px")
@@ -113,35 +106,7 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_cleaned.csv").then(data => {
             tooltip.style("opacity", 0);
         });
 
-    // Legend
-    const legend = svg.append("g")
-        .attr("transform", `translate(${width + 20}, 0)`);
-
-    const legendItems = legend.selectAll(".legend-item")
-      .data(category)
-      .enter()
-      .append("g")
-        .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(0, ${i * 25})`);
-    
-    legendItems.append("rect")
-      .attr("width", 18)
-      .attr("height", 18)
-      .attr("fill", d => colors(d));
-    
-    legendItems.append("text")
-      .attr("x", 24)
-      .attr("y", 9)
-      .attr("dy", "0.35em")
-      .style("font-size", "12px")
-      .style("font-family", "Fira Sans")
-      .text(d => d);
-    
-    if (window.updateGroupedBarChartTheme) {
-        const initialTheme = document.body.classList.contains("body-mode");
-        window.updateGroupedBarChartTheme(initialTheme);
-    }
 })
 .catch(error => {
-    console.error("Error loading grouped bar chart data:", error);
+    console.error("Error loading bar chart data:", error);
 });
