@@ -157,7 +157,6 @@ a{
   margin-top: 4rem;
   display: grid;
   width: 100%;
-  gap: 20px;
 }
 
 .grid{
@@ -199,15 +198,13 @@ a{
   border-left: 1px solid var(--black);
 }
 
-.middle_column > p,
-.first_column > p{
+.middle_column > p{
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-.first_column > h2,
-.first_column > p{
-  margin: 2rem;
+.first_column{
+  padding: 2rem;
 }
 
 .single_column {
@@ -238,5 +235,6 @@ img {
 }
 
 .pages{
+  margin-left: 0.4rem;
   border: none;
 }

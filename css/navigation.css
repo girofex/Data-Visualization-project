@@ -95,6 +95,10 @@ md-menu-item:hover {
 }
 
 /* -------- Topmenu -------- */
+#topMenu{
+  margin-left: 0.4rem;
+}
+
 .md-menu-item {
   background: none;
   border: none;

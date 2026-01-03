@@ -31,6 +31,10 @@
   width: max-content;
 }
 
+#dropdown{
+  margin-left: 0.4rem;
+}
+
 #dropdown button,
 .btn button {
   padding: 0.5rem;
