@@ -11,7 +11,7 @@ var margin = { top: 40, right: 40, bottom: 60, left: 80 },
     width = 750 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-const svg = d3.select("#groupedbar")
+const svg = d3.select("#bar")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -59,7 +59,7 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => 
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x))
         .selectAll("text")
-        .style("font-size", "14px")
+        .style("font-size", "12px")
         .style("font-family", prata);
 
     const yAxis = d3.axisLeft(y)
@@ -68,18 +68,18 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => 
     svg.append("g")
         .call(yAxis)
         .selectAll("text")
-        .style("font-size", "14px")
+        .style("font-size", "12px")
         .style("font-family", prata);
 
     svg.append("text")
         .attr("class", "yAxisTitle")
         .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 15)
+        .attr("y", -margin.left + 10)
         .attr("x", -(height / 2))
         .style("text-anchor", "middle")
         .style("font-size", "14px")
         .style("font-weight", "bold")
-        .style("font-family", prata)
+        .style("font-family", antic)
         .text("Total Casualties");
 
     svg.selectAll(".bar")
@@ -93,13 +93,14 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => 
         .attr("height", d => height - y(d.value))
         .attr("fill", d => colors(d.name))
         .on("mouseover", function(event, d) {
-            d3.select(this).attr("opacity", 0.7);
+            d3.select(this).attr("opacity", 0.6);
+
             tooltip.style("opacity", 1)
-                   .html(`<strong>${d.name}</strong><br/>Count: ${d3.format(",")(d.value).replace(/,/g, ".")}`);
+                   .html(`<strong>${d.name}</strong><br/>${d3.format(",")(d.value).replace(/,/g, ".")}`);
         })
-        .on("mousemove", function(event) {
-            tooltip.style("left", (event.pageX + 10) + "px")
-                   .style("top", (event.pageY - 10) + "px");
+        .on("mousemove", function (event) {
+            tooltip.style("top", (event.pageY - 40) + "px")
+                .style("left", (event.pageX) + "px");
         })
         .on("mouseout", function() {
             d3.select(this).attr("opacity", 1);

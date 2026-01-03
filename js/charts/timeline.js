@@ -26,44 +26,48 @@ const tooltip = d3.select("body")
 
 const data = [
     {
-        label: 'UN partition plan', year: 1947, description: 'The General Assembly of the UN \
-        decided to partition Palestine into an Arab state, a Jewish state and the City of Jerusalem.<br/> \
-        Zionists however were not satisfied and they started the Palestine War to expand the borders.<br/> \
+        label: 'UN partition plan', year: 1947, description: 'The General Assembly of the UN partitioned Palestine \
+        into an Arab state, a Jewish state and the City of Jerusalem.<br/> \
+        Zionists however were not satisfied and they started the Palestine War to expand their borders.<br/> \
         This led to the creation of the State of Israel.' },
     {
         label: 'Suez Crisis', year: 1956, description: 'Israel occupied the Gaza Strip and exiled the All-Palestine Government, \
-        leading to the creation of the Palestine Liberation Organization.' },
+        leading to the creation of the Palestine Liberation Organization (PLO).' },
     {
-        label: 'Six-Day War', year: 1967, description: 'Israel occupied Palestinian areas and the PLO \
+        label: 'Six-Day War', year: 1967, description: 'Israel occupied Palestinian areas, while the PLO \
         was unable to establish control.<br/> \
-        The international community tried to resolve the conflict by establishing \
-        the independent Palestinian state in the West Bank and Gaza.' },
+        The international community tried to resolve the conflict by establishing the independent Palestinian state \
+        in the West Bank and Gaza.' },
     {
         label: 'Yom Kippur War', year: 1973, description: 'A coalition of Arab forces attacked Israel.<br/> \
         Following the end of the war and the victory of Israel, the UN initiated the Middle East \
         peace progress: the accords, among the rest, proposed the creation of a Self-Governing Authority \
         for the Arab population in the West Bank and Gaza Strip under Israeli control.' },
     {
-        label: 'Lebanon War', year: 1982, description: 'Palestinian militants continued to launch attacks against Israel while also battling opponents within Lebanon. <br/> \
+        label: 'Lebanon War', year: 1982, description: 'Palestinian militants continued to launch attacks against Israel \
+        while also battling opponents within Lebanon.<br/> \
         Israel tried to resolve the Palestinian issue by dismantling the PLO in Lebanon.' },
     {
-        label: 'First Intifada', year: 1987, description: 'The first Palestinian uprising, consisting of nonviolent acts of civil disobedience and protest. <br/> \
-        This led to a relocation of the PLO into the West Bank and Gaza Strip, establishing the Palestinian National Authority and the initiation of a peace process. <br/> \
+        label: 'First Intifada', year: 1987, description: 'The first Palestinian uprising, consisting of nonviolent acts \
+        of civil disobedience and protest.<br/> \
+        This led to a relocation of the PLO into the West Bank and Gaza Strip, establishing the Palestinian National Authority \
+        and the initiation of a peace process.<br/> \
         Following hundreds of casualties and a wave of anti-government propaganda, Israeli Prime Minister Rabin was assassinated.' },
     {
-        label: 'Second Intifada', year: 2000, description: 'After many years of unsuccessful negotations, the Second Intifada erupted. <br/> \
-        Israel and its Supreme Court formally declared an end to occupation, saying it "had no effective control over what occurred" in Gaza. <br/> \
-        However, many international bodies continued to consider Israel to be the occupying power of the Gaza Strip as Israel controlled its airspace, territorial waters \
-        and the movement of people or goods by air or sea.' },
+        label: 'Second Intifada', year: 2000, description: 'After many years of unsuccessful negotiations, the Second Intifada erupted.<br/> \
+        Israel and its Supreme Court declared the end of the occupation.<br/> \
+        However, many international bodies continued to consider Israel to be the occupying power of the Gaza Strip \
+        as it controlled its airspace, territorial waters and the movement of people or goods by air or sea.' },
     {
         label: 'Fatah–Hamas split', year: 2006, description: 'Hamas won a plurality in the Palestinian parliamentary election, and Israel \
-        responded with economic sanctions to mainly push for the recognition of Israel\'s right to exist. <br/> \
-        Amidst Hamas refusal, internal political struggles started and led to the Battle of Gaza. <br/> \
-        After Hamas victory, the tension with Israel increased. <br/> \
-        The UN upgraded <i>Palestine (representated by PLO)</i> to the non-member observer state <i>State of Palestine</i>.' },
+        responded with economic sanctions to push for the recognition of Israel\'s right to exist.<br/> \
+        Amidst Hamas refusal, internal political struggles led to the Battle of Gaza.<br/> \
+        After Hamas victory, the tension with Israel increased.<br/> \
+        The UN upgraded <i>Palestine (represented by PLO)</i> to the non-member observer <i>State of Palestine</i>.' },
     {
-        label: 'October 7 attacks', year: 2023, description: 'Hamas planned a surprise attack against the far-right government of Netanyahu: this resulted into \
-        many fatalities and hostages and Israel responded by declaring war on Hamas.' }
+        label: 'October 7 attacks', year: 2023, description: 'Hamas planned a surprise attack against the far-right government of Netanyahu: \
+        this resulted into many fatalities and hostages.<br/> \
+        Israel responded by declaring war.' }
 ];
 
 const svg = d3.select('#timeline')
