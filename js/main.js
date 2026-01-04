@@ -1,71 +1,79 @@
 import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
 
-window.onload = function () {
-  document.body.style.visibility = 'visible';
+window.addEventListener("load", () => {
+  // Show page
+  document.body.style.visibility = "visible";
 
-  document.addEventListener("DOMContentLoaded", () => {
-    //Typewriter animation
-    const h1Elements = document.querySelectorAll("h1");
+  // Wait until browser actually paints the page
+  requestAnimationFrame(() => {
+    requestAnimationFrame(initTypewriter);
+  });
+});
 
-    h1Elements.forEach(h1 => {
-      const title = h1.closest(".title");
+function initTypewriter() {
+  const h1Elements = document.querySelectorAll("h1");
 
-      const clone = h1.cloneNode(true);
-      clone.style.visibility = "hidden";
-      clone.style.position = "absolute";
-      clone.style.height = "auto";
-      clone.style.whiteSpace = "pre-wrap";
-      document.body.appendChild(clone);
-      const finalHeight = clone.offsetHeight;
-      document.body.removeChild(clone);
-      title.style.height = finalHeight + 25 + "px";
+  h1Elements.forEach(h1 => {
+    const title = h1.closest(".title");
 
-      let html = h1.innerHTML.replace(/<br\s*\/?>/gi, "\n");
-      const lines = html.split("\n").map(line => line.trim());
-      const text = lines.join("\n");
-      const chars = text.split("");
+    const clone = h1.cloneNode(true);
+    clone.style.visibility = "hidden";
+    clone.style.position = "absolute";
+    clone.style.whiteSpace = "pre-wrap";
+    document.body.appendChild(clone);
 
-      h1.innerHTML = "";
+    const finalHeight = clone.offsetHeight;
+    document.body.removeChild(clone);
+    title.style.height = finalHeight + 25 + "px";
 
-      const cursor = document.createElement("span");
-      cursor.style.borderRight = "2px solid var(--beige)";
-      cursor.style.display = "inline";
-      cursor.style.verticalAlign = "bottom";
-      const h1Rect = h1.getBoundingClientRect();
-      cursor.style.height = h1Rect.height + "px";
-      h1.appendChild(cursor);
+    const text = h1.innerHTML
+      .replace(/<br\s*\/?>/gi, "\n")
+      .split("\n")
+      .map(l => l.trim())
+      .join("\n");
 
-      let i = 0;
-      let animationStarted = false;
+    const chars = [...text];
+    h1.innerHTML = "";
 
-      function type() {
-        if (i < chars.length) {
-          const char = chars[i];
-          if (char === "\n")
-            h1.insertBefore(document.createElement("br"), cursor);
-          else {
-            const span = document.createElement("span");
-            span.textContent = char;
-            h1.insertBefore(span, cursor);
-          }
+    const cursor = document.createElement("span");
+    cursor.style.borderRight = "2px solid var(--beige)";
+    cursor.style.display = "inline";
+    cursor.style.verticalAlign = "bottom";
+    h1.appendChild(cursor);
 
-          i++;
-          setTimeout(type, 150);
-        } else
-          blinkCursor();
+    let i = 0;
+    let animationStarted = false;
+
+    function type() {
+      if (i < chars.length) {
+        if (chars[i] === "\n")
+          h1.insertBefore(document.createElement("br"), cursor);
+        
+        else {
+          const span = document.createElement("span");
+          span.textContent = chars[i];
+          h1.insertBefore(span, cursor);
+        }
+
+        i++;
+        setTimeout(type, 150);
       }
+      else
+        blinkCursor();
+    }
 
-      function blinkCursor() {
-        let visible = true;
+    function blinkCursor() {
+      let visible = true;
 
-        setInterval(() => {
-          cursor.style.borderRightColor = visible ? "transparent" : "var(--beige)";
-          visible = !visible;
-        }, 500);
-      }
+      setInterval(() => {
+        cursor.style.borderRightColor = visible ? "transparent" : "var(--beige)";
+        visible = !visible;
+      }, 500);
+    }
 
-      const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(
+      entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting && !animationStarted) {
             animationStarted = true;
@@ -73,12 +81,13 @@ window.onload = function () {
             observer.disconnect();
           }
         });
-      }, { threshold: 0.8 });
+      },
+      { threshold: 0.8 }
+    );
 
-      observer.observe(h1);
-    });
+    observer.observe(h1);
   });
-};
+}
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
