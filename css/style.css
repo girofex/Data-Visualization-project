@@ -18,7 +18,6 @@ html, body {
 }
 
 body{
-  visibility: hidden;
   background: var(--beige);
   color: var(--black);
 }
