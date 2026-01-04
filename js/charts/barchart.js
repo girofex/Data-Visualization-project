@@ -107,7 +107,6 @@ d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => 
             d3.select(this).attr("opacity", 1);
             tooltip.style("opacity", 0);
         });
-
 })
     .catch(error => {
         console.error("Error loading bar chart data:", error);
