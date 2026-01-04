@@ -1,58 +1,8 @@
-#chart-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-#choropleth_container,
-.btn{
-  display: flex;
-}
-
 #choropleth_container{
+  display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
-}
-
-.btn{
-  flex-direction: column;
-  position: absolute;
-  left: 0;
-  transform: translateX(-100%);
-  border-right: none !important;
-}
-
-#dropdown,
-.btn{
-  border: 0.1px solid var(--black);
-  overflow: hidden;
-  width: max-content;
-}
-
-#dropdown{
-  margin-left: 0.4rem;
-}
-
-#dropdown button,
-.btn button {
-  padding: 0.5rem;
-  background-color: var(--beige);
-  color: var(--black);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn button{
-  height: 2.5rem;
-}
-
-#dropdown button.active,
-#dropdown button:hover,
-.btn button:hover {
-  background-color: var(--orange);
-  color: var(--beige);
 }
 
 #choropleth:hover{

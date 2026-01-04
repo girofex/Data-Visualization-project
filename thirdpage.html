@@ -37,7 +37,7 @@
 
     <script src="js/navigation.js"></script>
     <script src="js/charts/network.js" defer type="module"></script>
-    <script src="js/charts/areachart.js" defer type="module"></script>
+    <script src="js/charts/areachart-pictorial.js" defer type="module"></script>
 </head>
 
 <body>
@@ -110,7 +110,25 @@
                 Unfortunately, since 2000 up to 2021, the death rate due to drug disorders doesn't seem to stop
                 and it's instead increasing.
             </p>
-            <div id="area" class="plot"></div>
+
+            <div id="chart-container">
+                <div id="dropdown">
+                    <button id="option1" class="active">
+                        Time
+                    </button>
+                    <button id="option2">
+                        Space
+                    </button>
+                </div>
+
+                <div id="areachart_container">
+                    <div id="area" class="plot"></div>
+                </div>
+
+                <div id="pictorial_container">
+                    <div id="pictorial" class="plot"></div>
+                </div>
+            </div>
         </div>
         <div class="column right_column">
             <img src="img/drugs.png">
