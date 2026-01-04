@@ -195,12 +195,28 @@ export function renderLineChart() {
             const clicked = d3.select(this).attr("data-region");
             activeRegion = activeRegion === clicked ? null : clicked;
 
-            svg.selectAll(".line, text[data-region], .annotation")
-                .transition()
-                .duration(300)
+            svg.selectAll(".line, text[data-region]")
+                .transition().duration(300)
                 .style("opacity", function () {
                     const region = d3.select(this).attr("data-region");
                     return !activeRegion || region === activeRegion ? 1 : 0.2;
+                });
+
+            svg.selectAll(".annotation-group .annotation-connector, .annotation-group .annotation-connector-line, .annotation-group path")
+                .transition().duration(300)
+                .style("opacity", function () {
+                    const region = d3.select(this).attr("data-region");
+
+                    if (!activeRegion)
+                        return 1;
+                    if (activeRegion === "RussianUkranianWar")
+                        return region === "IsraeliPalestinianWar" ? 0.2 : 1;
+                    if (activeRegion === "IsraeliPalestinianWar")
+                        return region === "RussianUkranianWar" ? 0.2 : 1;
+                    if (activeRegion === "DrugWar")
+                        return 0.2;
+
+                    return 1;
                 });
         }
 
@@ -220,7 +236,6 @@ export function renderLineChart() {
 
         if (blackPeak) {
             notes.push({
-                region: "RussianUkranianWar",
                 note: {
                     title: `Peak interest: ${blackPeak.value}`,
                     label: `After the Russian invasion in 2022`
@@ -229,13 +244,13 @@ export function renderLineChart() {
                 y: y(blackPeak.value),
                 dx: 60,
                 dy: -20,
-                color: black
+                color: black,
+                region: "RussianUkranianWar"
             });
         }
 
         if (redPeak) {
             notes.push({
-                region: "IsraeliPalestinianWar",
                 note: {
                     title: `Peak interest: ${redPeak.value}`,
                     label: `After the Gaza War started`
@@ -244,7 +259,8 @@ export function renderLineChart() {
                 y: y(redPeak.value),
                 dx: 60,
                 dy: -20,
-                color: orange
+                color: orange,
+                region: "IsraeliPalestinianWar"
             });
         }
 
@@ -259,11 +275,18 @@ export function renderLineChart() {
             .style("font-family", prata)
             .style("font-size", "12px");
 
-        annotationGroup
-            .selectAll(".annotation")
-            .attr("data-region", d => d.region);
+        annotationGroup.selectAll(".annotation")
+            .each(function (d, i) {
+                const region = notes[i].region;
+                const group = d3.select(this);
+                group.attr("data-region", region);
+                group.selectAll(".annotation-connector, .annotation-connector-line, path")
+                    .attr("data-region", region);
+                group.selectAll(".annotation-note-label, .annotation-note-title")
+                    .attr("data-region", region);
+            });
 
-        annotationGroup.selectAll(".annotation-note-label").each(function () {
+        annotationGroup.selectAll(".annotation-note-label").each(function (d, i) {
             const title = d3.select(this);
             const color = title.style("fill");
             const bbox = this.getBBox();
@@ -272,14 +295,18 @@ export function renderLineChart() {
             const y = bbox.y + bbox.height + 11.5;
             const underlineLength = bbox.width + 10;
 
+            const region = notes[i].region;
+
             d3.select(this.parentNode)
                 .append("line")
+                .attr("class", "annotation-connector")
                 .attr("x1", x)
                 .attr("x2", x + underlineLength)
                 .attr("y1", y)
                 .attr("y2", y)
                 .attr("stroke", color)
-                .attr("stroke-width", 1);
+                .attr("stroke-width", 1)
+                .attr("data-region", region);
         });
     })
 };
