@@ -1,6 +1,10 @@
 import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
 
+window.onload = function () {
+  document.img.style.visibility = 'visible';
+};
+
 // -------- Components --------
 function includeComponent(id, file, callback) {
   fetch(file)
