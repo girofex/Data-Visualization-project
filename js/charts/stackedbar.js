@@ -8,7 +8,7 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 const margin = { top: 10, right: 180, bottom: 60, left: 50 },
-    width = 700 - margin.left - margin.right,
+    width = 650 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 const tooltip = d3.select("body")
