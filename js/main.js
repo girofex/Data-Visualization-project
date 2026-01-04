@@ -1,9 +1,12 @@
 import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
 
-window.onload = function () {
-  document.img.style.visibility = 'visible';
-};
+//Images
+document.querySelectorAll("img").forEach(img => {
+  if (img.complete)
+    return;
+  img.decode?.().catch(() => { });
+});
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
