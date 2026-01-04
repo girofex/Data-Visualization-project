@@ -50,7 +50,6 @@ button {
 md-menu {
   --md-menu-container-color: var(--beige);
   --md-menu-container-shape: 0px;
-  border: 1px solid var(--black);
 }
 
 md-menu-item {
