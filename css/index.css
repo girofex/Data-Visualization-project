@@ -1,3 +1,9 @@
+#connection_container > .btn{
+  top: 0;
+  transform: translateX(440%);
+}
+
+#connection_container,
 #choropleth_container{
   display: flex;
   position: relative;
@@ -5,10 +11,17 @@
   align-items: center;
 }
 
+#pieta,
+#general{
+  width: 20rem;
+}
+
+#connection:hover,
 #choropleth:hover{
   cursor: grab;
 }
 
+#connection:active,
 #choropleth:active{
   cursor: grabbing;
 }

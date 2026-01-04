@@ -36,8 +36,7 @@
 
     <script type="module" src="js/navigation.js"></script>
     <script src="js/charts/linechart-choropleth.js" defer type="module"></script>
-    <script src="js/charts/linechart.js" defer type="module"></script>
-    <script src="js/charts/choropleth.js" defer type="module"></script>
+    <script src="js/charts/connectionmap.js" defer type="module"></script>
 </head>
 
 <body>
@@ -46,36 +45,53 @@
 
     <div class="grid">
         <div class="column left_column">
-            <img src="img/pietà.png">
+            <img id="pieta" src="img/pietà.png">
         </div>
         <div class="column middle_column">
             <div class="title">
                 <h1 id="bigtitle">VISIBLE<br>AND<br>INVISIBLE WARS</h1>
             </div>
             <p>People from the past believed that in the 21st century we
-                would have solved world hunger,
-                debts and diseases.<br>
+                would have solved world hunger, debts and diseases.<br>
                 Instead, we find ourselves reading again and again about the multiple conflicts that affects the
-                world.<br><br>
+                world.<br>
                 The irony is that we choose what to talk about and what not:
                 we unfortunately differentiate between <i>first-page</i> conflicts, those happening near
                 and that in some way affects us, and <i>less important</i> ones.<br>
                 The truth is that the entire world is suffering, and we are here to
-                narrate without bias.<br>
-                We start by comparing three wars that are happening as of now:
+                narrate without bias.
+            </p>
+        </div>
+        <div class="column right_column">
+            <img id="general" src="img/general.png">
+        </div>
+    </div>
+
+    <div id="connection_container">
+        <div class="btn">
+            <button class="connection-zoom-in"><span class="material-symbols-outlined">zoom_in</span></button>
+            <button class="connection-zoom-out"><span class="material-symbols-outlined">zoom_out</span></button>
+            <button class="connection-zoom-restore"><span class="material-symbols-outlined">replay</span></button>
+        </div>
+        <div id="connection" class="plot"></div>
+    </div>
+
+    <div class="grid grid_separate">
+        <div class="column left_column">
+        </div>
+        <div class="column middle_column">
+            <h2 id="main" data-title="Main conflicts">Main conflicts</h2>
+            <p>We start by comparing three wars that are happening as of now:
                 <b>The Russo-Ukranian War</b>, <b>The Israeli-Palestinian War</b>, <b>The Drug War against the
                     Cartel</b>.
-            </p>
-            <h2 id="time-space" data-title="Time and Space">Time and Space</h2>
-            <p>
-                Let's take a look at the statistics of Google Trends, to understand where the world's interest is
-                directed towards: the platform every year collects data on how much the world searches for a specific
-                term or topic on the internet.<br>
+                <br><br>
+                Let's take a look at the statistics of Google Trends, to understand where the world's interest
+                is directed towards: the platform every year collects data on how much the world searches for a
+                specific term or topic on the internet.<br>
                 We propose a view in both time and space perspective.
             </p>
         </div>
         <div class="column right_column">
-            <img src="img/general.png">
         </div>
     </div>
 
@@ -95,9 +111,9 @@
 
         <div id="choropleth_container">
             <div class="btn">
-                <button id="choropleth-zoom-in"><span class="material-symbols-outlined">zoom_in</span></button>
-                <button id="choropleth-zoom-out"><span class="material-symbols-outlined">zoom_out</span></button>
-                <button id="choropleth-zoom-restore"><span class="material-symbols-outlined">replay</span></button>
+                <button class="choropleth-zoom-in"><span class="material-symbols-outlined">zoom_in</span></button>
+                <button class="choropleth-zoom-out"><span class="material-symbols-outlined">zoom_out</span></button>
+                <button class="choropleth-zoom-restore"><span class="material-symbols-outlined">replay</span></button>
             </div>
             <div id="choropleth" class="plot"></div>
         </div>
