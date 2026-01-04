@@ -2,11 +2,11 @@ import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
 
 //Images
-document.querySelectorAll("img").forEach(img => {
-  if (img.complete)
-    return;
-  img.decode?.().catch(() => { });
-});
+window.addEventListener("load", () => {
+  document.querySelectorAll("img").forEach(img => {
+    img.style.visibility = "visible";
+  });
+})
 
 // -------- Components --------
 function includeComponent(id, file, callback) {

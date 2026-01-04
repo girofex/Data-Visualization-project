@@ -216,6 +216,7 @@ a{
 }
 
 img {
+  visibility: hidden;
   width: 100%;
 }
 
