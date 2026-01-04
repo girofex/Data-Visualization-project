@@ -44,7 +44,7 @@ export function renderAreaChart() {
             .style("font-size", "12px");
 
         svg.append("text")
-            .attr("x", width / 2 + 3)
+            .attr("x", width / 2 - 11)
             .attr("y", height + 50)
             .attr("text-anchor", "middle")
             .style("font-family", antic)

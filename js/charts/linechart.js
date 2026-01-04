@@ -195,8 +195,9 @@ export function renderLineChart() {
             const clicked = d3.select(this).attr("data-region");
             activeRegion = activeRegion === clicked ? null : clicked;
 
-            svg.selectAll(".line, text[data-region]")
-                .transition().duration(300)
+            svg.selectAll(".line, text[data-region], .annotation")
+                .transition()
+                .duration(300)
                 .style("opacity", function () {
                     const region = d3.select(this).attr("data-region");
                     return !activeRegion || region === activeRegion ? 1 : 0.2;
@@ -215,11 +216,11 @@ export function renderLineChart() {
 
         const blackPeak = findPeak(blackDataset);
         const redPeak = findPeak(redDataset);
-
         const notes = [];
 
         if (blackPeak) {
             notes.push({
+                region: "RussianUkranianWar",
                 note: {
                     title: `Peak interest: ${blackPeak.value}`,
                     label: `After the Russian invasion in 2022`
@@ -234,6 +235,7 @@ export function renderLineChart() {
 
         if (redPeak) {
             notes.push({
+                region: "IsraeliPalestinianWar",
                 note: {
                     title: `Peak interest: ${redPeak.value}`,
                     label: `After the Gaza War started`
@@ -256,6 +258,10 @@ export function renderLineChart() {
             .call(makeAnnotations)
             .style("font-family", prata)
             .style("font-size", "12px");
+
+        annotationGroup
+            .selectAll(".annotation")
+            .attr("data-region", d => d.region);
 
         annotationGroup.selectAll(".annotation-note-label").each(function () {
             const title = d3.select(this);

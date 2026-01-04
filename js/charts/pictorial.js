@@ -61,16 +61,30 @@ export function renderPictorial() {
             .range([0, 31]);
 
         //Groups
+        let y = 20;
+        const marginBottom = 15;
+
         const groups = svg.selectAll(".group")
             .data(data)
             .enter()
             .append("g")
             .attr("class", "group")
-            .attr("transform", (d, i) => `translate(0, ${i * 100 + 20})`)
+            .attr("transform", d => {
+                const count = Math.round(scaleValueToUnits(d.DeathRate));
+                const rows = Math.ceil(count / maxPerRow);
+
+                const groupHeight = rows * (unitSize + unitSpacing);
+
+                const pos = y;
+                y += groupHeight + marginBottom;
+
+                return `translate(0, ${pos})`;
+            })
             .attr("opacity", 1)
             .attr("cursor", "default")
             .on("mouseover", function (event, d) {
-                tooltip.html(`<strong>${d.Entity}</strong>: ${d.DeathRate} deaths every 100k people`)
+                tooltip
+                    .html(`<strong>${d.Entity}</strong>: ${d.DeathRate} deaths every 100k people`)
                     .style("opacity", 1);
 
                 d3.select(this).selectAll("text.icon")
@@ -81,7 +95,7 @@ export function renderPictorial() {
                     .style("left", (event.clientX + 10) + "px")
                     .style("top", (event.clientY + 10) + "px");
             })
-            .on("mouseout", function (event, d) {
+            .on("mouseout", function () {
                 tooltip.style("opacity", 0);
                 d3.select(this).selectAll("text.icon")
                     .style("opacity", 1);
@@ -108,7 +122,7 @@ export function renderPictorial() {
             group.append("text")
                 .attr("class", "label")
                 .attr("x", -10)
-                .attr("y", unitSize / 2)
+                .attr("y", unitSize - 14)
                 .attr("text-anchor", "end")
                 .style("font-family", antic)
                 .style("font-weight", "bold")
