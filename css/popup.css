@@ -14,6 +14,7 @@
 
 .mobile-popup-content {
     margin-top: -100rem;
+    margin-left: -15rem;
     background: var(--beige);
     border: 1px solid var(--black);
     padding: 2rem;
