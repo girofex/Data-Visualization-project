@@ -7,6 +7,7 @@ const beige = getComputedStyle(document.documentElement).getPropertyValue("--bei
 const white = getComputedStyle(document.documentElement).getPropertyValue("--white").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
+const blue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
 
 var margin = { top: 10, right: 0, bottom: 0, left: 0 },
     width = 1000 - margin.left - margin.right,
@@ -108,19 +109,33 @@ Promise.all([
     const countryEventMap = new Map();
 
     conflicts.forEach(d => {
-        if (!countryEventMap.has(d.side_a))
-            countryEventMap.set(d.side_a, { type: d.side_b ? "dual" : "single", dates: [] });
+        if (!countryEventMap.has(d.side_a)) {
+            countryEventMap.set(d.side_a, {
+                type: d.side_b ? "dual" : "single",
+                events: []
+            });
+        }
 
-        countryEventMap.get(d.side_a).dates.push(d.starting_date);
+        countryEventMap.get(d.side_a).events.push({
+            date: d.starting_date,
+            description: d.description || ""
+        });
 
         if (d.side_b) {
             d.side_b.split(",").forEach(target => {
                 const t = target.trim();
 
-                if (!countryEventMap.has(t))
-                    countryEventMap.set(t, { type: "dual", dates: [] });
+                if (!countryEventMap.has(t)) {
+                    countryEventMap.set(t, {
+                        type: "dual",
+                        events: []
+                    });
+                }
 
-                countryEventMap.get(t).dates.push(d.starting_date);
+                countryEventMap.get(t).events.push({
+                    date: d.starting_date,
+                    description: d.description || ""
+                });
             });
         }
     });
@@ -135,7 +150,14 @@ Promise.all([
             if (!countryData)
                 return black;
 
-            return countryData.type === "dual" ? orange : green;
+            const hasInternal = countryData.events.some(e =>
+                conflicts.some(c => c.side_a === d.properties.name && !c.side_b)
+            );
+
+            if (countryData.type === "dual")
+                return hasInternal ? blue : orange;
+
+            return green;
         })
         .attr("d", path)
         .style("stroke", beige)
@@ -144,17 +166,19 @@ Promise.all([
             const countryData = countryEventMap.get(d.properties.name);
             let tooltipHtml = `<strong>${d.properties.name}</strong>`;
 
-            if (countryData && countryData.dates && countryData.dates.length > 0)
-                tooltipHtml += `<br/>Since ${countryData.dates.join(", ")}`;
+            if (countryData && countryData.events.length > 0) {
+                countryData.events.forEach(e => {
+                    tooltipHtml += `<br/>Since ${e.date}: ${e.description}`;
+                });
+            }
 
             tooltip.style("opacity", 1)
                 .html(tooltipHtml);
 
             d3.select(this).attr("fill-opacity", 0.6);
         })
-        .on("mousemove", function (event, d) {
-            tooltip
-                .style("left", (event.clientX + 10) + "px")
+        .on("mousemove", function (event) {
+            tooltip.style("left", (event.clientX + 10) + "px")
                 .style("top", (event.clientY) + "px");
         })
         .on("mouseout", function () {
@@ -170,7 +194,7 @@ Promise.all([
         .attr("d", d => path({ type: "LineString", coordinates: [d.source, d.target] }))
         .style("fill", "none")
         .style("stroke", white)
-        .style("stroke-width", 1.5);
+        .style("stroke-width", 1);
 
     //Legend
     const legend = rootSvg.append("g")
@@ -188,17 +212,30 @@ Promise.all([
 
     const legendEntries = [
         { label: "Internal conflict", color: green },
-        { label: "International conflict", color: orange }
+        { label: "International conflict", color: orange },
+        { label: "Both types of conflict", color: blue },
+        { label: "No conflict", color: black },
+        { label: "War", color: white }
     ];
 
     legendEntries.forEach((entry, i) => {
         const row = legend.append("g")
             .attr("transform", `translate(0, ${i * 25})`);
 
-        row.append("rect")
-            .attr("width", 20)
-            .attr("height", 20)
-            .attr("fill", entry.color);
+        if (entry.label === "War") {
+            row.append("line")
+                .attr("x1", 0)
+                .attr("y1", 10)
+                .attr("x2", 20)
+                .attr("y2", 10)
+                .attr("stroke", entry.color)
+                .attr("stroke-width", 4);
+        } else {
+            row.append("rect")
+                .attr("width", 20)
+                .attr("height", 20)
+                .attr("fill", entry.color);
+        }
 
         row.append("text")
             .attr("x", 30)

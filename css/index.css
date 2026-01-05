@@ -1,6 +1,6 @@
 #connection_container > .btn{
   top: 0;
-  transform: translateX(25.5rem);
+  margin-left: 16.5rem;
 }
 
 #connection_container,

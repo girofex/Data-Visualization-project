@@ -1,51 +1,50 @@
-side_a,side_b,starting_date
-Israel,West Bank,1948
-Democratic Republic of the Congo,"Central African Republic,Rwanda,Burundi,Uganda",1996
-Ukraine,Russia,2014
-Sudan,South Sudan,2011
-Sudan,,2008
-Syria,,2011
-Cameroon,,2017
-Ethiopia,,2018
-Haiti,,2020
-Myanmar,,1948
-Ecuador,,2024
-Nigeria,,1998
-Niger,,2016
-Chad,,2012
-Yemen,,2014
-Cameroon,,2012
-Somalia,,1991
-Kenya,,1991
-Colombia,,1964
-Afghanistan,,1978
-Mexico,,2006
-Belize,,2006
-El Salvador,,2006
-Honduras,,2006
-Guatemala,,2006
-Nicaragua,,2006
-United States,,2006
-Venezuela,,2010
-Jamaica,,1943
-India,,1954
-Indonesia,,1962
-Democratic Republic of the Congo,,1963
-Philippines,,1969
-Morocco,,1970
-Turkey,,1972
-Angola,,1975
-Laos,,1975
-Somalia,,1991
-Peru,,1980
-Senegal,,2014
-Iraq,,2003
-Thailand,,2004
-Pakistan,,2004
-Paraguay,,2005
-Mali,,2012
-Burkina Faso,,2015
-Central African Republic,,2012
-Mozambique,,2017
-Russia,,2017
-Bangladesh,,2022
+side_a,side_b,starting_date,description
+Israel,West Bank,1948,Israeli–Palestinian territorial conflict
+Democratic Republic of the Congo,"Central African Republic,Rwanda,Burundi,Uganda",1996,Regional war linked to Rwandan genocide
+Ukraine,Russia,2014,Annexation of Crimea and war in Donbas
+Sudan,South Sudan,2011,Civil conflict leading to South Sudan independence
+Sudan,,2008,Internal insurgencies and Darfur conflict
+Syria,,2011,Civil war and anti-government protests
+Cameroon,,2017,Anglophone separatist conflict
+Ethiopia,,2018,Tigray conflict
+Haiti,,2020,Political instability and gang violence surge
+Myanmar,,1948,Ethnic insurgencies after independence
+Ecuador,,2024,Recent social unrest and indigenous protests
+Nigeria,,1998,Boko Haram insurgency
+Niger,,2016,Jihadist attacks in Sahel region
+Chad,,2012,Rebel uprisings and instability
+Yemen,,2014,Houthi rebellion escalating into civil war
+Somalia,,1991,Collapse of government and civil war
+Kenya,,1991,Ethnic clashes and political unrest
+Colombia,,1964,FARC insurgency and guerrilla warfare
+Afghanistan,,1978,Communist coup and subsequent conflicts
+Mexico,,2006,War on drugs and cartel violence
+Belize,,2006,Internal crime wave and gang violence
+El Salvador,,2006,Post-civil war gang violence
+Honduras,,2006,Gang violence
+Guatemala,,2006,Gang violence and instability
+Nicaragua,,2006,Political unrest and protests
+USA,,2006,War on terror overseas operations
+Venezuela,,2010,Political crisis and unrest
+Jamaica,,1943,Social unrest and labor strikes
+India,,1954,Naxalite and separatist insurgencies
+Indonesia,,1962,West Papua independence movements
+Democratic Republic of the Congo,,1963,Congo Crisis post-independence
+Philippines,,1969,Moro conflict in Mindanao
+Morocco,,1970,Sahrawi independence movements
+Turkey,,1972,Kurdish separatist activity
+Angola,,1975,Civil war post-independence
+Laos,,1975,Civil war and communist takeover
+Somalia,,1991,Government collapse and clan warfare
+Peru,,1980,Shining Path insurgency
+Senegal,,2014,Casamance separatist violence
+Iraq,,2003,US-led invasion and insurgency
+Thailand,,2004,Insurgency in southern provinces
+Pakistan,,2004,Taliban and Islamist insurgency
+Paraguay,,2005,Political unrest and protests
+Mali,,2012,Tuareg rebellion and Islamist insurgency
+Burkina Faso,,2015,Coup and jihadist attacks
+Central African Republic,,2012,Rebellion and sectarian violence
+Mozambique,,2017,Insurgency in Cabo Delgado
+Russia,,2017,Internal unrest and regional separatism
+Bangladesh,,2022,Political protests and instability
