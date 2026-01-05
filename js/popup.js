@@ -1,8 +1,6 @@
 export function showMobilePopup() {
     const checkAndShowPopup = () => {
         if (window.innerWidth <= 938 && !sessionStorage.getItem('mobilePopupShown')) {
-            document.body.classList.add("desktop-scale");
-
             const popupHTML = `
                 <div id="mobile-popup" class="mobile-popup-overlay">
                     <div class="mobile-popup-content">
@@ -21,7 +19,6 @@ export function showMobilePopup() {
 
             function closePopup() {
                 popup.style.animation = 'mobilePopupFadeOut 0.3s ease';
-                document.body.style.overflow = '';
 
                 setTimeout(() => {
                     popup.remove();
@@ -44,7 +41,6 @@ export function showMobilePopup() {
             };
 
             document.addEventListener('keydown', handleEscape);
-            document.body.style.overflow = 'hidden';
         }
     };
 

@@ -5,6 +5,9 @@ import { showMobilePopup } from './popup.js';
 //Images
 window.addEventListener("load", () => {
   document.querySelectorAll("img").forEach(img => img.style.visibility = "visible");
+
+  if (window.innerWidth <= 938)
+    document.body.classList.add("desktop-scale");
 });
 
 // -------- Components --------
