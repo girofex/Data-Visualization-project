@@ -1,6 +1,6 @@
 export function showMobilePopup() {
     const checkAndShowPopup = () => {
-        if (window.innerWidth <= 938) {
+        if (window.innerWidth <= 938 && !sessionStorage.getItem('mobilePopupShown')) {
             document.body.classList.add("desktop-scale");
 
             const popupHTML = `
@@ -25,6 +25,7 @@ export function showMobilePopup() {
 
                 setTimeout(() => {
                     popup.remove();
+                    sessionStorage.setItem('mobilePopupShown', 'true');
                 }, 300);
             }
 
