@@ -51,7 +51,7 @@ export function renderPictorial() {
             .attr('x', width / 2)
             .attr('y', -30)
             .attr("text-anchor", "middle")
-            .text("Countries with highest rate in 2021")
+            .text("Countries with highest death rate in 2021")
             .style("font-family", antic)
             .style("font-size", "1rem")
             .style("font-weight", "bold");

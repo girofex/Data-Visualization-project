@@ -37,7 +37,8 @@ const tooltip = d3.select("body")
     .style("z-index", "999")
     .style("pointer-events", "none")
     .style("font-family", prata)
-    .style("font-size", "14px");
+    .style("font-size", "14px")
+    .style('max-width', '200px');
 
 //Nodes
 const nodes = [

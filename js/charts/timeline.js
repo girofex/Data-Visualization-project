@@ -41,7 +41,7 @@ const data = [
     {
         label: 'Yom Kippur War', year: 1973, description: 'A coalition of Arab forces attacked Israel.<br/> \
         Following the end of the war and the victory of Israel, the UN initiated the Middle East \
-        peace progress: the accords, among the rest, proposed the creation of a Self-Governing Authority \
+        peace process: the accords, among the rest, proposed the creation of a Self-Governing Authority \
         for the Arab population in the West Bank and Gaza Strip under Israeli control.' },
     {
         label: 'Lebanon War', year: 1982, description: 'Palestinian militants continued to launch attacks against Israel \
@@ -65,7 +65,7 @@ const data = [
         After Hamas victory, the tension with Israel increased.<br/> \
         The UN upgraded <i>Palestine (represented by PLO)</i> to the non-member observer <i>State of Palestine</i>.' },
     {
-        label: 'October 7 attacks', year: 2023, description: 'Hamas planned a surprise attack against the far-right government of Netanyahu: \
+        label: 'October 7 attacks', year: 2023, description: 'Hamas planned a surprise attack against Israeli population: \
         this resulted into many fatalities and hostages.<br/> \
         Israel responded by declaring war.' }
 ];

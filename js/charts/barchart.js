@@ -8,7 +8,7 @@ const beige = getComputedStyle(document.documentElement).getPropertyValue("--bei
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 var margin = { top: 40, right: 40, bottom: 60, left: 80 },
-    width = 750 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 const tooltip = d3.select("body")

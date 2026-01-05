@@ -253,7 +253,7 @@ export function renderLineChart() {
             notes.push({
                 note: {
                     title: `Peak interest: ${redPeak.value}`,
-                    label: `After the Gaza War started`
+                    label: `After the Gaza War started in 2023`
                 },
                 x: x(redPeak.Week),
                 y: y(redPeak.value),

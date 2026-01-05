@@ -66,8 +66,7 @@ function createStackedBarChart() {
             .selectAll("text")
             .attr("transform", "rotate(-45)")
             .attr("font-size", "12px")
-            .style("font-family", antic)
-            .style("font-weight", "bold")
+            .style("font-family", prata)
             .style("text-anchor", "end");
 
         const y = d3.scaleLinear()
@@ -78,8 +77,7 @@ function createStackedBarChart() {
             .call(d3.axisLeft(y).tickFormat(d => d + "%"))
             .selectAll("text")
             .attr("font-size", "12px")
-            .style("font-family", antic)
-            .style("font-weight", "bold");
+            .style("font-family", prata);
 
         const layers = svg.selectAll(".layer")
             .data(stackedData)
@@ -123,9 +121,8 @@ function createStackedBarChart() {
             .attr("x", 24)
             .attr("y", 9)
             .attr("dy", "0.35em")
-            .style("font-size", "14px")
-            .style("font-family", antic)
-            .style("font-weight", "bold")
+            .style("font-size", "12px")
+            .style("font-family", prata)
             .text(d => d.replace("_", " "));
 
         const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
@@ -145,7 +142,7 @@ function createStackedBarChart() {
             .duration(500)
             .ease(d3.easeBackOut)
             .attr("r", 12)
-            .on("end", function() {
+            .on("end", function () {
                 d3.select(this)
                     .on("mouseover", function (event, d) {
                         d3.select(this).attr("opacity", 0.6);
@@ -173,9 +170,9 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 },
-{
-    threshold: 0.3
-});
+    {
+        threshold: 0.3
+    });
 
 const chartContainer = document.querySelector('#stackedbar');
 if (chartContainer) {

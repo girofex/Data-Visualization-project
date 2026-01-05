@@ -26,7 +26,7 @@ export function renderAreaChart() {
             .attr('x', width/2)
             .attr('y', -30)
             .attr("text-anchor", "middle")
-            .text("Mean number of people that die for drug use every 100k")
+            .text("Mean number of people every 100k that die for drug use")
             .style("font-family", antic)
             .style("font-size", "1rem")
             .style("font-weight", "bold");
