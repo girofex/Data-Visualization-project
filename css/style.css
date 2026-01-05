@@ -13,12 +13,13 @@
   --prata: "Prata", serif;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
-body{
+body {
   background: var(--beige);
   color: var(--black);
 }
@@ -33,32 +34,32 @@ body{
   pointer-events: none;
 }
 
-#main-grain::before{
+#main-grain::before {
   z-index: 9999 !important;
   mix-blend-mode: multiply;
 }
 
-.home{
+.home {
   font-family: var(--unifraktur) !important;
 }
 
 .home,
-h2{
+h2 {
   font-size: 1.5rem !important;
 }
 
-h1{
+h1 {
   font-weight: 1000;
 }
 
-h1{
+h1 {
   font-size: 3rem;
   overflow: hidden;
   white-space: pre-wrap;
   letter-spacing: 0.05em;
 }
 
-.title{
+.title {
   background-color: var(--black);
   color: var(--beige);
   display: grid;
@@ -72,11 +73,11 @@ h1{
 .sidebar-menu,
 h1,
 h2,
-#dropdown button{
+#dropdown button {
   font-family: var(--antic);
 }
 
-h2{
+h2 {
   margin-top: 1rem;
 }
 
@@ -84,33 +85,33 @@ h2{
 .sidebar-menu,
 h2,
 .brand-title,
-#dropdown button{
+#dropdown button {
   font-weight: 600 !important;
 }
 
 .md-label,
 p,
 .team-title,
-.student-card{
+.student-card {
   font-family: var(--prata);
   font-weight: 500;
 }
 
-a{
+a {
   color: var(--black);
 }
 
 .sidebar-menu,
 .brand-title,
-.student-card{
+.student-card {
   font-size: 0.8rem;
 }
 
-.brand-title{
+.brand-title {
   text-transform: uppercase;
 }
 
-.student-card > a{
+.student-card>a {
   text-decoration: none;
 }
 
@@ -131,40 +132,40 @@ a{
 }
 
 #prev_page,
-#next_page{
+#next_page {
   margin: 5rem 5rem 2rem 5rem;
   font-size: 2rem;
   cursor: pointer;
   text-decoration: none;
 }
 
-#prev_page{
+#prev_page {
   transform: rotate(-90deg);
 }
 
-#next_page{
+#next_page {
   transform: rotate(90deg);
 }
 
 #prev_page:hover,
-#next_page:hover{
+#next_page:hover {
   color: var(--orange);
   transition: all 0.2s ease;
 }
 
 /* -------- Columns -------- */
 .grid,
-.grid2{
+.grid2 {
   margin-top: 4rem;
   display: grid;
   width: 100%;
 }
 
-.grid{
+.grid {
   grid-template-columns: 1.2fr 1.6fr 1.2fr;
 }
 
-.grid2{
+.grid2 {
   display: grid;
   grid-template-columns: 50vw auto;
 }
@@ -184,27 +185,27 @@ a{
 .left_column,
 .right_column,
 .second_column,
-.pages{
+.pages {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .middle_column,
-.first_column{
+.first_column {
   border-right: 1px solid var(--black);
 }
 
-.middle_column{
+.middle_column {
   border-left: 1px solid var(--black);
 }
 
-.middle_column > p{
+.middle_column>p {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-.first_column{
+.first_column {
   padding: 2rem;
 }
 
@@ -221,7 +222,7 @@ img {
   width: 100%;
 }
 
-.card{
+.card {
   width: 60%;
   background: var(--beige);
   padding: 3rem;
@@ -229,27 +230,27 @@ img {
   border: none;
 }
 
-.plot{
+.plot {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.pages{
+.pages {
   margin-left: 0.4rem;
   border: none;
 }
 
 /* -------- Chart container -------- */
-#chart-container{
+#chart-container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.btn{
+.btn {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -259,13 +260,13 @@ img {
 }
 
 #dropdown,
-.btn{
+.btn {
   border: 0.1px solid var(--black);
   overflow: hidden;
   width: max-content;
 }
 
-#dropdown{
+#dropdown {
   margin-left: 0.4rem;
 }
 
@@ -278,7 +279,7 @@ img {
   transition: all 0.2s ease;
 }
 
-.btn button{
+.btn button {
   height: 2.5rem;
 }
 
@@ -287,4 +288,18 @@ img {
 .btn button:hover {
   background-color: var(--orange);
   color: var(--beige);
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 938px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  body.desktop-scale {
+    transform: scale(0.3);
+    transform-origin: top left;
+    width: 250%;
+  }
 }

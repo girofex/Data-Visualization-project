@@ -2,42 +2,44 @@
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
     animation: mobilePopupFadeIn 0.3s ease;
-    margin: 0 !important;
-    padding: 0 !important;
 }
 
 .mobile-popup-content {
-    margin-top: -18em;
-    margin-left: -39rem;
+    margin-top: -200rem;
     background: var(--beige);
     border: 1px solid var(--black);
     padding: 2rem;
-    max-width: 55vw;
-    width: 100%;
+    width: 30rem;
     text-align: center;
     animation: mobilePopupSlideUp 0.3s ease;
-    box-sizing: border-box;
 }
 
-h3{
+.mobile-popup-content > h3,
+.mobile-popup-button{
     font-family: var(--antic);
 }
+.mobile-popup-content > h3{
+    font-size: 4rem;
+}
 
-p{
-    font-size: 0.8rem !important;
+.mobile-popup-content > p{
+    font-size: 3rem;
+}
+
+.mobile-popup-button{
+    font-size: 2.5rem;
 }
 
 .mobile-popup-button {
+    width: 20rem;
     background: var(--black);
     color: var(--beige);
     border: 1px solid var(--black);
@@ -45,7 +47,6 @@ p{
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: var(--antic);
 }
 
 .mobile-popup-button:hover {

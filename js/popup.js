@@ -1,12 +1,14 @@
 export function showMobilePopup() {
     const checkAndShowPopup = () => {
         if (window.innerWidth <= 938) {
+            document.body.classList.add("desktop-scale");
+
             const popupHTML = `
                 <div id="mobile-popup" class="mobile-popup-overlay">
                     <div class="mobile-popup-content">
                         <h3>Notice</h3>
                         <p>For the best experience, we recommend viewing this site on a larger screen
-                            or eventually visualizing with desktop view.</p>
+                            or eventually using with desktop view.</p>
                         <button id="mobile-popup-close" class="mobile-popup-button">Continue anyway</button>
                     </div>
                 </div>
