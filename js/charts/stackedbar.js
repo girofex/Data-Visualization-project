@@ -24,123 +24,160 @@ const tooltip = d3.select("body")
     .style("font-family", prata)
     .style("font-size", "14px");
 
-d3.csv("data/csv/cleaned/russian_possession.csv").then(data => {
-    data.forEach(d => {
-        const parsed = d3.timeParse("%Y-%m-%d")(d.Date);
-        d.DateStr = parsed ? d3.timeFormat("%Y-%m-%d")(parsed) : d.Date;
-        d.Russian_Possession = +d.Russian_Possession;
-        d.Ukraine_Possession = +d.Ukraine_Possession;
-    });
+let chartCreated = false;
 
-    const categories = ["Russian_Possession", "Ukraine_Possession"];
-    const colors = d3.scaleOrdinal()
-        .domain(categories)
-        .range([orange, green]);
+function createStackedBarChart() {
+    if (chartCreated) return;
+    chartCreated = true;
 
-    const stackedData = d3.stack().keys(categories)(data);
-
-    const svgRoot = d3.select("#stackedbar")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
-
-    const svg = svgRoot.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const x = d3.scaleBand()
-        .domain(data.map(d => d.DateStr))
-        .range([0, width])
-        .padding(0.1);
-
-    const xAxis = d3.axisBottom(x).tickValues(x.domain().filter((d, i) => !(i % 5)));
-
-    svg.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(xAxis)
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .attr("font-size", "12px")
-        .style("font-family", antic)
-        .style("font-weight", "bold")
-        .style("text-anchor", "end");
-
-    const y = d3.scaleLinear()
-        .domain([0, 100])
-        .range([height, 0]);
-
-    svg.append("g")
-        .call(d3.axisLeft(y).tickFormat(d => d + "%"))
-        .selectAll("text")
-        .attr("font-size", "12px")
-        .style("font-family", antic)
-        .style("font-weight", "bold");
-
-    const layers = svg.selectAll(".layer")
-        .data(stackedData)
-        .enter()
-        .append("g")
-        .attr("class", "layer")
-        .attr("fill", d => colors(d.key));
-
-    layers.selectAll("rect")
-        .data(d => d)
-        .enter()
-        .append("rect")
-        .attr("x", d => x(d.data.DateStr))
-        .attr("y", d => y(d[1]))
-        .attr("height", d => y(d[0]) - y(d[1]))
-        .attr("width", x.bandwidth());
-
-    const legend = svg.append("g")
-        .attr("transform", `translate(${width + 20}, 0)`);
-
-    const legendItems = legend.selectAll(".legend-item")
-        .data(categories)
-        .enter()
-        .append("g")
-        .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(0, ${i * 25})`);
-
-    legendItems.append("rect")
-        .attr("width", 18)
-        .attr("height", 18)
-        .attr("fill", d => colors(d));
-
-    legendItems.append("text")
-        .attr("class", "legendText")
-        .attr("x", 24)
-        .attr("y", 9)
-        .attr("dy", "0.35em")
-        .style("font-size", "14px")
-        .style("font-family", antic)
-        .style("font-weight", "bold")
-        .text(d => d.replace("_", " "));
-
-    const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
-
-    const peakX = x(peak.DateStr) + x.bandwidth() / 2;
-    const peakY = y(peak.Russian_Possession);
-
-    svg.append("circle")
-        .attr("cx", peakX)
-        .attr("cy", peakY)
-        .attr("r", 12)
-        .attr("fill", beige)
-        .attr("stroke", black)
-        .attr("stroke-width", 2)
-        .on("mouseover", function (event, d) {
-            d3.select(this).attr("opacity", 0.6);
-
-            tooltip.style("opacity", 1)
-                .html(`<strong>Peak</strong> in ${peak.DateStr}<br/>${peak.Russian_Possession}%`);
-        })
-        .on("mousemove", function (event) {
-            tooltip
-                .style("left", (event.clientX + 15) + "px")
-                .style("top", (event.clientY) + "px");
-        })
-        .on("mouseout", function () {
-            d3.select(this).attr("opacity", 1);
-            tooltip.style("opacity", 0);
+    d3.csv("data/csv/cleaned/russian_possession.csv").then(data => {
+        data.forEach(d => {
+            const parsed = d3.timeParse("%Y-%m-%d")(d.Date);
+            d.DateStr = parsed ? d3.timeFormat("%Y-%m-%d")(parsed) : d.Date;
+            d.Russian_Possession = +d.Russian_Possession;
+            d.Ukraine_Possession = +d.Ukraine_Possession;
         });
+
+        const categories = ["Russian_Possession", "Ukraine_Possession"];
+        const colors = d3.scaleOrdinal()
+            .domain(categories)
+            .range([orange, green]);
+
+        const stackedData = d3.stack().keys(categories)(data);
+
+        const svgRoot = d3.select("#stackedbar")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        const svg = svgRoot.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.DateStr))
+            .range([0, width])
+            .padding(0.1);
+
+        const xAxis = d3.axisBottom(x).tickValues(x.domain().filter((d, i) => !(i % 5)));
+
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(xAxis)
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .attr("font-size", "12px")
+            .style("font-family", antic)
+            .style("font-weight", "bold")
+            .style("text-anchor", "end");
+
+        const y = d3.scaleLinear()
+            .domain([0, 100])
+            .range([height, 0]);
+
+        svg.append("g")
+            .call(d3.axisLeft(y).tickFormat(d => d + "%"))
+            .selectAll("text")
+            .attr("font-size", "12px")
+            .style("font-family", antic)
+            .style("font-weight", "bold");
+
+        const layers = svg.selectAll(".layer")
+            .data(stackedData)
+            .enter()
+            .append("g")
+            .attr("class", "layer")
+            .attr("fill", d => colors(d.key));
+
+        layers.selectAll("rect")
+            .data(d => d)
+            .enter()
+            .append("rect")
+            .attr("x", d => x(d.data.DateStr))
+            .attr("y", height)
+            .attr("height", 0)
+            .attr("width", x.bandwidth())
+            .transition()
+            .duration(1000)
+            .delay((d, i) => i * 10)
+            .ease(d3.easeCubicOut)
+            .attr("y", d => y(d[1]))
+            .attr("height", d => y(d[0]) - y(d[1]));
+
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width + 20}, 0)`);
+
+        const legendItems = legend.selectAll(".legend-item")
+            .data(categories)
+            .enter()
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", (d, i) => `translate(0, ${i * 25})`);
+
+        legendItems.append("rect")
+            .attr("width", 18)
+            .attr("height", 18)
+            .attr("fill", d => colors(d));
+
+        legendItems.append("text")
+            .attr("class", "legendText")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", "0.35em")
+            .style("font-size", "14px")
+            .style("font-family", antic)
+            .style("font-weight", "bold")
+            .text(d => d.replace("_", " "));
+
+        const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
+
+        const peakX = x(peak.DateStr) + x.bandwidth() / 2;
+        const peakY = y(peak.Russian_Possession);
+
+        svg.append("circle")
+            .attr("cx", peakX)
+            .attr("cy", peakY)
+            .attr("r", 0)
+            .attr("fill", beige)
+            .attr("stroke", black)
+            .attr("stroke-width", 2)
+            .transition()
+            .delay(1000)
+            .duration(500)
+            .ease(d3.easeBackOut)
+            .attr("r", 12)
+            .on("end", function() {
+                d3.select(this)
+                    .on("mouseover", function (event, d) {
+                        d3.select(this).attr("opacity", 0.6);
+                        tooltip.style("opacity", 1)
+                            .html(`<strong>Peak</strong> in ${peak.DateStr}<br/>${peak.Russian_Possession}%`);
+                    })
+                    .on("mousemove", function (event) {
+                        tooltip
+                            .style("left", (event.clientX + 15) + "px")
+                            .style("top", (event.clientY) + "px");
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this).attr("opacity", 1);
+                        tooltip.style("opacity", 0);
+                    });
+            });
+    });
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            createStackedBarChart();
+            observer.unobserve(entry.target)
+        }
+    });
+},
+{
+    threshold: 0.3
 });
+
+const chartContainer = document.querySelector('#stackedbar');
+if (chartContainer) {
+    observer.observe(chartContainer);
+}
