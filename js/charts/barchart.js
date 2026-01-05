@@ -11,13 +11,6 @@ var margin = { top: 40, right: 40, bottom: 60, left: 80 },
     width = 750 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-const svg = d3.select("#bar")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
@@ -36,78 +29,113 @@ const colors = d3.scaleOrdinal()
     .domain(category)
     .range([black, green, orange]);
 
-d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => {
-    const plotData = category.map(cat => {
-        return {
-            name: cat,
-            value: +data[0][cat]
-        };
-    });
+let chartCreated = false;
 
-    const x = d3.scaleBand()
-        .domain(category)
-        .range([0, width])
-        .padding(0.4);
+function createBarChart() {
+    if (chartCreated) return;
+    chartCreated = true;
 
-    const maxY = d3.max(plotData, d => d.value);
-    const y = d3.scaleLinear()
-        .domain([0, maxY])
-        .nice()
-        .range([height, 0]);
-
-    svg.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-family", prata);
-
-    const yAxis = d3.axisLeft(y)
-        .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
-
-    svg.append("g")
-        .call(yAxis)
-        .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-family", prata);
-
-    svg.append("text")
-        .attr("class", "yAxisTitle")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 10)
-        .attr("x", -(height / 2))
-        .style("text-anchor", "middle")
-        .style("font-size", "14px")
-        .style("font-weight", "bold")
-        .style("font-family", antic)
-        .text("Total Casualties");
-
-    svg.selectAll(".bar")
-        .data(plotData)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", d => x(d.name))
-        .attr("y", d => y(d.value))
-        .attr("width", x.bandwidth())
-        .attr("height", d => height - y(d.value))
-        .attr("fill", d => colors(d.name))
-        .on("mouseover", function (event, d) {
-            d3.select(this).attr("opacity", 0.6);
-
-            tooltip.style("opacity", 1)
-                .html(`<strong>${d.name}</strong><br/>${d3.format(",")(d.value).replace(/,/g, ".")}`);
-        })
-        .on("mousemove", function (event) {
-            tooltip
-                .style("left", (event.clientX + 15) + "px")
-                .style("top", (event.clientY) + "px");
-        })
-        .on("mouseout", function () {
-            d3.select(this).attr("opacity", 1);
-            tooltip.style("opacity", 0);
+    d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => {
+        const plotData = category.map(cat => {
+            return {
+                name: cat,
+                value: +data[0][cat]
+            };
         });
-})
-    .catch(error => {
-        console.error("Error loading bar chart data:", error);
+
+        const svg = d3.select("#bar")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x = d3.scaleBand()
+            .domain(category)
+            .range([0, width])
+            .padding(0.4);
+
+        const maxY = d3.max(plotData, d => d.value);
+        const y = d3.scaleLinear()
+            .domain([0, maxY])
+            .nice()
+            .range([height, 0]);
+
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .style("font-size", "12px")
+            .style("font-family", prata);
+
+        const yAxis = d3.axisLeft(y)
+            .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
+
+        svg.append("g")
+            .call(yAxis)
+            .selectAll("text")
+            .style("font-size", "12px")
+            .style("font-family", prata);
+
+        svg.append("text")
+            .attr("class", "yAxisTitle")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -margin.left + 10)
+            .attr("x", -(height / 2))
+            .style("text-anchor", "middle")
+            .style("font-size", "14px")
+            .style("font-weight", "bold")
+            .style("font-family", antic)
+            .text("Total Casualties");
+
+        svg.selectAll(".bar")
+            .data(plotData)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("x", d => x(d.name))
+            .attr("y", height)
+            .attr("width", x.bandwidth())
+            .attr("height", 0)
+            .attr("fill", d => colors(d.name))
+            .transition()
+            .duration(1000)
+            .delay((d, i) => i * 200)
+            .ease(d3.easeCubicOut)
+            .attr("y", d => y(d.value))
+            .attr("height", d => height - y(d.value))
+            .on("end", function () {
+                d3.select(this)
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr("opacity", 0.6);
+
+                    tooltip.style("opacity", 1)
+                        .html(`<strong>${d.name}</strong><br/>${d3.format(",")(d.value).replace(/,/g, ".")}`);
+                })
+                .on("mousemove", function (event) {
+                    tooltip
+                        .style("left", (event.clientX + 15) + "px")
+                        .style("top", (event.clientY) + "px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr("opacity", 1);
+                    tooltip.style("opacity", 0);
+                });
+            });
     });
+
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            createBarChart();
+            observer.unobserve(entry.target);
+        }
+    });
+});
+
+const chartContainer = document.querySelector('#bar');
+if (chartContainer) {
+    observer.observe(chartContainer);
+}
