@@ -13,11 +13,15 @@ var margin = { top: 0, right: 0, bottom: 0, left: 0 },
 const innerRadius = 90;
 const outerRadius = Math.min(width, height) / 2 - 40;
 
-const svg = d3.select("#radial")
+const container = document.querySelector("#polar");
+container.dataset.animated = "false";
+
+const svg = d3.select(container)
     .append("svg")
     .attr("width", width)
-    .attr("height", height)
-    .append("g")
+    .attr("height", height);
+
+const chart = svg.append("g")
     .attr("transform", `translate(${width / 2},${height / 2})`);
 
 const tooltip = d3.select("body")
@@ -33,26 +37,56 @@ const tooltip = d3.select("body")
     .style("font-family", prata)
     .style("font-size", "14px");
 
+let angleScale;
+let radiusScale;
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+
+        if (!entry.isIntersecting) return;
+        if (container.dataset.animated === "true") return;
+
+        container.dataset.animated = "true";
+
+        chart.selectAll(".bar")
+            .transition()
+            .duration(1200)
+            .delay((d, i) => i * 15)
+            .attrTween("d", d => {
+                const interpolateRadius = d3.interpolate(innerRadius, radiusScale(d.value));
+                return t => d3.arc()
+                    .innerRadius(innerRadius)
+                    .outerRadius(interpolateRadius(t))
+                    .startAngle(angleScale(d.year))
+                    .endAngle(angleScale(d.year) + angleScale.bandwidth())
+                    .padAngle(0.03)
+                    .padRadius(innerRadius)();
+            });
+
+        observer.unobserve(container);
+    });
+}, { threshold: 0.5 });
+
+
 d3.csv("data/csv/cleaned/gas_cleaned.csv").then(data => {
     data.forEach(d => {
         d.year = +d.TIME_PERIOD;
         d.value = +d.OBS_VALUE;
     });
 
-    const angleScale = d3.scaleBand()
+    angleScale = d3.scaleBand()
         .domain(data.map(d => d.year))
         .range([0, Math.PI * 2])
         .align(0);
 
-    const radiusScale = d3.scaleLinear()
+    radiusScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.value)])
         .range([innerRadius, outerRadius]);
 
-    const gridValues = radiusScale.ticks(4).slice(1);
 
-    svg.append("g")
+    chart.append("g")
         .selectAll("circle")
-        .data(gridValues)
+        .data(radiusScale.ticks(4).slice(1))
         .join("circle")
         .attr("r", d => radiusScale(d))
         .attr("fill", "none")
@@ -61,58 +95,57 @@ d3.csv("data/csv/cleaned/gas_cleaned.csv").then(data => {
 
     const arc = d3.arc()
         .innerRadius(innerRadius)
-        .outerRadius(d => radiusScale(d.value))
+        .outerRadius(innerRadius)
         .startAngle(d => angleScale(d.year))
         .endAngle(d => angleScale(d.year) + angleScale.bandwidth())
         .padAngle(0.03)
         .padRadius(innerRadius);
 
-    svg.append("g")
+    chart.append("g")
         .selectAll("path")
         .data(data)
         .join("path")
+        .attr("class", "bar")
         .attr("fill", d => d.year < 2022 ? black : orange)
         .attr("d", arc)
-        .attr("opacity", 1)
         .on("mouseover", function (event, d) {
-            const formatEuropean = (num) => {
-                return d3.format(",.2f")(num)
-                    .replace(/,/g, "TEMP")
-                    .replace(/\./g, ",")
-                    .replace(/TEMP/g, ".");
-            };
+            const formatEuropean = d3.format(",.2f");
 
-            tooltip.html(`<strong>Import in ${d.year}</strong>: ${formatEuropean(d.value)} million cubic metres`)
+            tooltip
+                .html(`<strong>Import in ${d.year}</strong>: ${formatEuropean(d.value).replace(".", ",")} million cubic metres`)
                 .style("opacity", 1);
 
             d3.select(this).attr("fill-opacity", 0.6);
         })
-        .on("mousemove", function (event) {
+        .on("mousemove", event => {
             tooltip
-                .style("left", (event.clientX + 10) + "px")
-                .style("top", (event.clientY) + "px");
+                .style("left", event.clientX + 10 + "px")
+                .style("top", event.clientY + "px");
         })
         .on("mouseout", function () {
             tooltip.style("opacity", 0);
             d3.select(this).attr("fill-opacity", 1);
         });
 
-    const labelGroup = svg.append("g");
-
-    labelGroup.selectAll("text")
+    chart.append("g")
+        .selectAll("text")
         .data(data)
         .join("text")
         .attr("text-anchor", "middle")
         .attr("transform", d => {
             const angle = angleScale(d.year) + angleScale.bandwidth() / 2;
             const r = outerRadius + 18;
-            return `rotate(${(angle * 180 / Math.PI) - 90})
-                    translate(${r},0)
-                    rotate(${angle > Math.PI ? 180 : 0})`;
+            return `
+                rotate(${angle * 180 / Math.PI - 90})
+                translate(${r},0)
+                rotate(${angle > Math.PI ? 180 : 0})
+            `;
         })
         .text(d => d.year)
         .style("font-family", antic)
         .style("font-size", "14px")
         .style("font-weight", "bold")
         .style("fill", black);
+
+    observer.observe(container);
 });
