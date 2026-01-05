@@ -12,12 +12,6 @@ var margin = { top: 10, right: 0, bottom: 0, left: 0 },
     width = 1000 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
 
-const eventColors = {
-    "war": orange,
-    "civilwar": green,
-    "none": black
-};
-
 const rootSvg = d3.select("#connection")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -81,7 +75,7 @@ d3.select('.connection-zoom-restore').on('click', () => {
 
 Promise.all([
     d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-    d3.csv("data/csv/cleaned/conflicts_cleaned.csv")
+    d3.csv("data/csv/cleaned/conflicts.csv")
 ]).then(function ([world, conflicts]) {
     projection.fitSize([width, height], world);
     const path = d3.geoPath().projection(projection);
@@ -93,26 +87,42 @@ Promise.all([
     });
 
     //Coordinates
-    const links = conflicts.map(d => {
-        const source = countryCentroids.get(d.side_a);
-        const target = countryCentroids.get(d.side_b);
+    const links = conflicts
+        .filter(d => d.side_b)
+        .flatMap(d => {
+            const targets = d.side_b.split(",").map(s => s.trim());
 
-        if (!source || !target)
-            return null;
+            return targets.map(target => {
+                const sourceCoord = countryCentroids.get(d.side_a);
+                const targetCoord = countryCentroids.get(target);
 
-        return { type: "LineString", coordinates: [source, target], conflictType: d.type_of_conflict };
-    }).filter(d => d !== null);
+                if (!sourceCoord || !targetCoord)
+                    return null;
+
+                return { source: sourceCoord, target: targetCoord };
+            });
+        })
+        .filter(d => d !== null);
 
     //Conflicts
     const countryEventMap = new Map();
+
     conflicts.forEach(d => {
         if (!countryEventMap.has(d.side_a))
-            countryEventMap.set(d.side_a, []);
-        if (!countryEventMap.has(d.side_b))
-            countryEventMap.set(d.side_b, []);
+            countryEventMap.set(d.side_a, { type: d.side_b ? "dual" : "single", dates: [] });
 
-        countryEventMap.get(d.side_a).push(d.type_of_conflict);
-        countryEventMap.get(d.side_b).push(d.type_of_conflict);
+        countryEventMap.get(d.side_a).dates.push(d.starting_date);
+
+        if (d.side_b) {
+            d.side_b.split(",").forEach(target => {
+                const t = target.trim();
+
+                if (!countryEventMap.has(t))
+                    countryEventMap.set(t, { type: "dual", dates: [] });
+
+                countryEventMap.get(t).dates.push(d.starting_date);
+            });
+        }
     });
 
     //Countries
@@ -121,23 +131,24 @@ Promise.all([
         .data(world.features)
         .enter().append("path")
         .attr("fill", d => {
-            const events = countryEventMap.get(d.properties.name);
-            if (!events || events.length === 0)
-                return eventColors["none"];
+            const countryData = countryEventMap.get(d.properties.name);
+            if (!countryData)
+                return black;
 
-            const maxType = Math.max(...events.map(Number));
-
-            if (maxType === 2) return eventColors["war"];
-            if (maxType === 3 || maxType === 4) return eventColors["civilwar"];
-            return eventColors["none"];
+            return countryData.type === "dual" ? orange : green;
         })
         .attr("d", path)
         .style("stroke", beige)
         .style("stroke-width", 0.3)
         .on("mouseover", function (event, d) {
+            const countryData = countryEventMap.get(d.properties.name);
+            let tooltipHtml = `<strong>${d.properties.name}</strong>`;
+
+            if (countryData && countryData.dates && countryData.dates.length > 0)
+                tooltipHtml += `<br/>Since ${countryData.dates.join(", ")}`;
+
             tooltip.style("opacity", 1)
-                .html(`<strong>${d.properties.name}</strong>`)
-                .style("opacity", 1);
+                .html(tooltipHtml);
 
             d3.select(this).attr("fill-opacity", 0.6);
         })
@@ -156,7 +167,7 @@ Promise.all([
         .data(links)
         .enter()
         .append("path")
-        .attr("d", d => path(d))
+        .attr("d", d => path({ type: "LineString", coordinates: [d.source, d.target] }))
         .style("fill", "none")
         .style("stroke", white)
         .style("stroke-width", 1.5);
@@ -173,26 +184,28 @@ Promise.all([
         .style("font-family", antic)
         .style("font-weight", "bold")
         .attr("fill", black)
-        .text("Type of conflict");
+        .text("Type of armed conflict");
 
-    Object.entries(eventColors).forEach(([eventType, color], i) => {
-        const legendRow = legend.append("g")
+    const legendEntries = [
+        { label: "Internal conflict", color: green },
+        { label: "International conflict", color: orange }
+    ];
+
+    legendEntries.forEach((entry, i) => {
+        const row = legend.append("g")
             .attr("transform", `translate(0, ${i * 25})`);
 
-        legendRow.append("rect")
+        row.append("rect")
             .attr("width", 20)
             .attr("height", 20)
-            .attr("fill", color);
+            .attr("fill", entry.color);
 
-        legendRow.append("text")
+        row.append("text")
             .attr("x", 30)
             .attr("y", 15)
             .style("font-size", "12px")
             .style("font-family", prata)
             .attr("fill", black)
-            .text(eventType
-                .replace(/([a-z])([A-Z])/g, "$1 $2")
-                .replace(/^./, str => str.toUpperCase())
-            );
+            .text(entry.label);
     });
 });
