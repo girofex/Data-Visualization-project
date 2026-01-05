@@ -21,6 +21,10 @@
     animation: mobilePopupSlideUp 0.3s ease;
 }
 
+h3{
+    font-family: var(--antic);
+}
+
 .mobile-popup-button {
     background: var(--black);
     color: var(--beige);
@@ -29,6 +33,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-family: var(--antic);
 }
 
 .mobile-popup-button:hover {
