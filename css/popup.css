@@ -22,7 +22,7 @@
 }
 
 h3{
-    font-family: var(--antic);
+    font-family: var(--antic) !important;
 }
 
 .mobile-popup-button {
