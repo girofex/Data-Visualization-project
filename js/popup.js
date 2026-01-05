@@ -1,5 +1,5 @@
 export function showMobilePopup() {
-    if (window.innerWidth < 768 && !sessionStorage.getItem('mobilePopupShown')) {
+    if (window.innerWidth < 768) {
         const popupHTML = `
             <div id="mobile-popup" class="mobile-popup-overlay">
                 <div class="mobile-popup-content">
@@ -35,7 +35,6 @@ export function showMobilePopup() {
 
             setTimeout(() => {
                 popup.remove();
-                sessionStorage.setItem('mobilePopupShown', 'true');
             }, 300);
         }
 
