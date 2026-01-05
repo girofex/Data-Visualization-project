@@ -2,27 +2,39 @@
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
     animation: mobilePopupFadeIn 0.3s ease;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .mobile-popup-content {
+    margin-top: -18em;
+    margin-left: -39rem;
     background: var(--beige);
     border: 1px solid var(--black);
     padding: 2rem;
-    width: 400px;
+    max-width: 55vw;
+    width: 100%;
     text-align: center;
     animation: mobilePopupSlideUp 0.3s ease;
+    box-sizing: border-box;
 }
 
 h3{
     font-family: var(--antic);
+}
+
+p{
+    font-size: 0.8rem !important;
 }
 
 .mobile-popup-button {
