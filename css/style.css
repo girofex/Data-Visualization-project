@@ -295,7 +295,6 @@ img {
   html,
   body {
     overflow-x: hidden;
-    overflow-y: hidden;
   }
 
   body.desktop-scale {
