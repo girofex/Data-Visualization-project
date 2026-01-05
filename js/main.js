@@ -2,10 +2,8 @@ import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
 import { showMobilePopup } from './popup.js';
 
-//Images
+//Responsive
 window.addEventListener("load", () => {
-  document.querySelectorAll("img").forEach(img => img.style.visibility = "visible");
-
   if (window.innerWidth <= 938)
     document.body.classList.add("desktop-scale");
 });
