@@ -300,6 +300,6 @@ img {
   body.desktop-scale {
     transform: scale(0.3);
     transform-origin: top left;
-    width: 250%;
+    width: 350%;
   }
 }
