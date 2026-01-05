@@ -13,30 +13,6 @@ const margin = { top: 80, right: 130, bottom: 60, left: 130 },
 
 const parseDate = d3.timeParse("%Y-%m-%d");
 
-const observerOptions = { root: null, threshold: 0.5 };
-
-const chartObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const svg = d3.select(entry.target);
-            if (svg.attr("data-animate") === "false") {
-                svg.attr("data-animate", "true");
-
-                svg.selectAll(".line").each(function () {
-                    const totalLength = this.getTotalLength();
-                    d3.select(this)
-                        .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
-                        .attr("stroke-dashoffset", totalLength)
-                        .transition()
-                        .duration(2500)
-                        .ease(d3.easeSin)
-                        .attr("stroke-dashoffset", 0);
-                });
-            }
-        }
-    });
-}, observerOptions);
-
 export function renderLineChart() {
     d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
         data.forEach(d => {
@@ -61,8 +37,6 @@ export function renderLineChart() {
             .attr("data-animate", "false")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
-
-        chartObserver.observe(svgRoot.node());
 
         const svg = svgRoot.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -133,6 +107,13 @@ export function renderLineChart() {
             .attr("stroke", d => colorScale(d.name))
             .attr("stroke-width", 2.5)
             .style("cursor", "pointer")
+            .each(function () {
+                const totalLength = this.getTotalLength();
+
+                d3.select(this)
+                    .attr("stroke-dasharray", totalLength)
+                    .attr("stroke-dashoffset", totalLength);
+            })
             .on("click", handleToggle);
 
         //Labels
@@ -273,7 +254,8 @@ export function renderLineChart() {
             .attr("class", "annotation-group")
             .call(makeAnnotations)
             .style("font-family", prata)
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .style("opacity", 0);
 
         annotationGroup.selectAll(".annotation")
             .each(function (d, i) {
@@ -308,5 +290,32 @@ export function renderLineChart() {
                 .attr("stroke-width", 1)
                 .attr("data-region", region);
         });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting)
+                    return;
+                if (entry.target.dataset.animated === "true")
+                    return;
+
+                entry.target.dataset.animated = "true";
+
+                svg.selectAll(".line")
+                    .transition()
+                    .duration(2500)
+                    .ease(d3.easeSin)
+                    .attr("stroke-dashoffset", 0);
+
+                annotationGroup
+                    .transition()
+                    .duration(800)
+                    .delay(500)
+                    .style("opacity", 1);
+
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(d3.select("#linechart svg").node());
     })
 };
