@@ -1,12 +1,11 @@
 import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
+import { showMobilePopup } from './popup.js';
 
 //Images
 window.addEventListener("load", () => {
-  document.querySelectorAll("img").forEach(img => {
-    img.style.visibility = "visible";
-  });
-})
+  document.querySelectorAll("img").forEach(img => img.style.visibility = "visible");
+});
 
 // -------- Components --------
 function includeComponent(id, file, callback) {
@@ -27,6 +26,8 @@ function includeComponent(id, file, callback) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  showMobilePopup();
+
   //Grain effect
   grained('#main-grain', {
     animate: false,
