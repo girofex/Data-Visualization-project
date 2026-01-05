@@ -1,6 +1,13 @@
-#connection_container > .btn{
+.map-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.map-wrapper > .btn {
+  position: absolute;
   top: 0;
-  margin-left: 16.5rem;
+  left: 0;
+  z-index: 10;
 }
 
 #connection_container,
