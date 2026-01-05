@@ -45,7 +45,6 @@ export function showMobilePopup() {
         closePopup = function () {
             document.body.style.overflow = '';
             originalClose();
-            document.body.style.overflow = 'show';
         };
     }
 }
