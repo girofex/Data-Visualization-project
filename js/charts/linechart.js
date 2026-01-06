@@ -293,28 +293,25 @@ export function renderLineChart() {
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (!entry.isIntersecting)
-                    return;
-                if (entry.target.dataset.animated === "true")
-                    return;
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    entry.target.dataset.animated = "true";
 
-                entry.target.dataset.animated = "true";
+                    svg.selectAll(".line")
+                        .transition()
+                        .duration(2500)
+                        .ease(d3.easeSin)
+                        .attr("stroke-dashoffset", 0);
 
-                svg.selectAll(".line")
-                    .transition()
-                    .duration(2500)
-                    .ease(d3.easeSin)
-                    .attr("stroke-dashoffset", 0);
+                    annotationGroup
+                        .transition()
+                        .duration(800)
+                        .delay(500)
+                        .style("opacity", 1);
 
-                annotationGroup
-                    .transition()
-                    .duration(800)
-                    .delay(500)
-                    .style("opacity", 1);
-
-                observer.unobserve(entry.target);
+                    observer.unobserve(entry.target);
+                }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.9 });
 
         observer.observe(d3.select("#linechart svg").node());
     })

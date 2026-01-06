@@ -87,22 +87,19 @@ export function renderAreaChart() {
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (!entry.isIntersecting)
-                    return;
-                if (entry.target.dataset.animated === "true")
-                    return;
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    entry.target.dataset.animated = "true";
 
-                entry.target.dataset.animated = "true";
+                    clipRect
+                        .transition()
+                        .duration(2500)
+                        .ease(d3.easeSin)
+                        .attr("width", width);
 
-                clipRect
-                    .transition()
-                    .duration(2500)
-                    .ease(d3.easeSin)
-                    .attr("width", width);
-
-                observer.unobserve(entry.target);
+                    observer.unobserve(entry.target);
+                }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 1 });
 
         observer.observe(d3.select("#area svg").node());
     });

@@ -67,7 +67,8 @@ const data = [
     {
         label: 'October 7 attacks', year: 2023, description: 'Hamas planned a surprise attack against Israeli population: \
         this resulted into many fatalities and hostages.<br/> \
-        Israel responded by declaring war.' }
+        Israel responded by declaring war.<br/> \
+        A war that is continuing as of now.' }
 ];
 
 const svg = d3.select('#timeline')
@@ -186,22 +187,18 @@ data.forEach((d, i) => {
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (!entry.isIntersecting)
-            return;
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+            entry.target.dataset.animated = "true";
 
-        if (entry.target.dataset.animated === "true")
-            return;
+            svg.selectAll(".arrow")
+                .transition()
+                .duration(2500)
+                .ease(d3.easeSin)
+                .attr("stroke-dashoffset", 0);
 
-        entry.target.dataset.animated = "true";
-
-        svg.selectAll(".arrow")
-            .transition()
-            .duration(2500)
-            .ease(d3.easeSin)
-            .attr("stroke-dashoffset", 0);
-
-        observer.unobserve(entry.target);
+            observer.unobserve(entry.target);
+        }
     });
-}, { threshold: 0.5 });
+}, { threshold: 1 });
 
 observer.observe(d3.select("#timeline svg").node());

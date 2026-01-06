@@ -14,7 +14,6 @@ const innerRadius = 90;
 const outerRadius = Math.min(width, height) / 2 - 40;
 
 const container = document.querySelector("#polar");
-container.dataset.animated = "false";
 
 const svg = d3.select(container)
     .append("svg")
@@ -42,31 +41,28 @@ let radiusScale;
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+        if (entry.isIntersecting && !container.dataset.animated) {
+            container.dataset.animated = "true";
 
-        if (!entry.isIntersecting) return;
-        if (container.dataset.animated === "true") return;
+            chart.selectAll(".bar")
+                .transition()
+                .duration(1200)
+                .delay((d, i) => i * 15)
+                .attrTween("d", d => {
+                    const interpolateRadius = d3.interpolate(innerRadius, radiusScale(d.value));
+                    return t => d3.arc()
+                        .innerRadius(innerRadius)
+                        .outerRadius(interpolateRadius(t))
+                        .startAngle(angleScale(d.year))
+                        .endAngle(angleScale(d.year) + angleScale.bandwidth())
+                        .padAngle(0.03)
+                        .padRadius(innerRadius)();
+                });
 
-        container.dataset.animated = "true";
-
-        chart.selectAll(".bar")
-            .transition()
-            .duration(1200)
-            .delay((d, i) => i * 15)
-            .attrTween("d", d => {
-                const interpolateRadius = d3.interpolate(innerRadius, radiusScale(d.value));
-                return t => d3.arc()
-                    .innerRadius(innerRadius)
-                    .outerRadius(interpolateRadius(t))
-                    .startAngle(angleScale(d.year))
-                    .endAngle(angleScale(d.year) + angleScale.bandwidth())
-                    .padAngle(0.03)
-                    .padRadius(innerRadius)();
-            });
-
-        observer.unobserve(container);
+            observer.unobserve(container);
+        }
     });
-}, { threshold: 0.5 });
-
+}, { threshold: 1 });
 
 d3.csv("data/csv/cleaned/gas_cleaned.csv").then(data => {
     data.forEach(d => {

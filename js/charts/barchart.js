@@ -151,11 +151,14 @@ function createBarChart() {
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
             createBarChart();
             observer.unobserve(entry.target);
         }
     });
+}, {
+    threshold: 1,
+    rootMargin: '0px 0px -400px 0px'
 });
 
 const chartContainer = document.querySelector('#bar');

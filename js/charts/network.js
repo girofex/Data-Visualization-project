@@ -8,7 +8,7 @@ const beige = getComputedStyle(document.documentElement).getPropertyValue("--bei
 
 var margin = { top: 0, right: 0, bottom: 0, left: 0 },
     width = 550 - margin.left - margin.right,
-    height = 650 - margin.top - margin.bottom;
+    height = 550 - margin.top - margin.bottom;
 
 const svg = d3.select("#network")
     .append("svg")
@@ -18,7 +18,7 @@ const svg = d3.select("#network")
     .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
 svg.append('text')
-    .attr('y', -270)
+    .attr('y', -240)
     .attr("text-anchor", "middle")
     .text("Hierarchy in the Medellín Cartel")
     .style("font-family", antic)
@@ -94,8 +94,8 @@ const roleIcons = {
 
 //Force simulation
 const simulation = d3.forceSimulation(nodes)
-    .force("link", d3.forceLink(links).id(d => d.id).distance(150))
-    .force("charge", d3.forceManyBody().strength(-300))
+    .force("link", d3.forceLink(links).id(d => d.id).distance(170))
+    .force("charge", d3.forceManyBody().strength(100))
     .force("center", d3.forceCenter(0, 0))
     .force("collision", d3.forceCollide().radius(d => radius(d) + 5))
     .force("radial", radialForce)
@@ -104,7 +104,44 @@ const simulation = d3.forceSimulation(nodes)
     .stop();
 
 function startSimulation() {
-    simulation.alpha(1).restart();
+    simulation.alpha(0.9).restart();
+}
+
+function radialForce(alpha) {
+    const maxDistance = Math.min(width, height) / 2 - 50;
+    nodes.forEach(d => {
+        if (d.id === "Pablo Escobar") {
+            d.fx = 0;
+            d.fy = 0;
+        }
+
+        else {
+            const levelDistance = { Direct: maxDistance * 0.2, High: maxDistance * 0.5, Medium: maxDistance * 0.8 };
+            const dx = d.x, dy = d.y;
+
+            const angle = Math.atan2(dy, dx);
+            const targetX = levelDistance[d.level] * Math.cos(angle);
+            const targetY = levelDistance[d.level] * Math.sin(angle);
+
+            d.vx += (targetX - d.x) * 0.005 * alpha;
+            d.vy += (targetY - d.y) * 0.005 * alpha;
+        }
+    });
+}
+
+function clusterForce(alpha) {
+    const clusters = d3.groups(nodes, d => d.organization);
+    clusters.forEach(([org, group]) => {
+        const centroid = {
+            x: d3.mean(group, d => d.x),
+            y: d3.mean(group, d => d.y)
+        };
+
+        group.forEach(d => {
+            d.vx += (centroid.x - d.x) * 0.05 * alpha;
+            d.vy += (centroid.y - d.y) * 0.05 * alpha;
+        });
+    });
 }
 
 //Links
@@ -162,44 +199,6 @@ simulation.on("tick", () => {
     node.attr("transform", d => `translate(${d.x}, ${d.y})`);
 });
 
-//Forces
-function radialForce(alpha) {
-    const maxDistance = Math.min(width, height) / 2 - 50;
-    nodes.forEach(d => {
-        if (d.id === "Pablo Escobar") {
-            d.fx = 0;
-            d.fy = 0;
-        }
-
-        else {
-            const levelDistance = { Direct: maxDistance * 0.2, High: maxDistance * 0.5, Medium: maxDistance * 0.8 };
-            const dx = d.x, dy = d.y;
-
-            const angle = Math.atan2(dy, dx);
-            const targetX = levelDistance[d.level] * Math.cos(angle);
-            const targetY = levelDistance[d.level] * Math.sin(angle);
-
-            d.vx += (targetX - d.x) * 0.1 * alpha;
-            d.vy += (targetY - d.y) * 0.1 * alpha;
-        }
-    });
-}
-
-function clusterForce(alpha) {
-    const clusters = d3.groups(nodes, d => d.organization);
-    clusters.forEach(([org, group]) => {
-        const centroid = {
-            x: d3.mean(group, d => d.x),
-            y: d3.mean(group, d => d.y)
-        };
-
-        group.forEach(d => {
-            d.vx += (centroid.x - d.x) * 0.05 * alpha;
-            d.vy += (centroid.y - d.y) * 0.05 * alpha;
-        });
-    });
-}
-
 //Dragging
 function drag(simulation) {
     function dragstarted(event, d) {
@@ -236,7 +235,7 @@ const observer = new IntersectionObserver(
     },
     {
         root: null,
-        threshold: 0.4
+        threshold: 0.8
     }
 );
 
