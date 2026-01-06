@@ -94,7 +94,7 @@ md-menu-item:hover {
 }
 
 /* -------- Topmenu -------- */
-#topMenu{
+#topMenu {
   margin-left: 0.4rem;
 }
 
@@ -103,9 +103,11 @@ md-menu-item:hover {
   border: none;
   cursor: pointer;
   color: var(--black);
+  position: relative;
+  /* Add this to make it the positioning context */
 }
 
-#topMenu > .material-symbols-outlined {
+#topMenu>.material-symbols-outlined {
   color: inherit;
 }
 
@@ -115,8 +117,9 @@ md-menu-item:hover {
 
 .md-label {
   position: absolute;
-  bottom: -2rem;
-  transform: translateX(-50%) translateY(4px);
+  bottom: -2.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
   background: var(--beige);
   color: var(--black);
   border: 1px solid var(--black);
@@ -127,12 +130,13 @@ md-menu-item:hover {
     opacity 0.2s ease,
     transform 0.2s ease;
   z-index: 10;
+  white-space: nowrap;
 }
 
 .md-menu-item:hover .md-label,
 .md-menu-item:focus-visible .md-label {
   opacity: 1;
-  transform: translateX(-60%) translateY(0%);
+  transform: translateX(-50%) translateY(0%);
 }
 
 .md-menu-item .md-icon {
