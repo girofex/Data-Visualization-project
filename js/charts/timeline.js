@@ -27,7 +27,7 @@ const tooltip = d3.select("body")
 const data = [
     {
         label: 'UN partition plan', year: 1947, description: 'The General Assembly of the UN partitioned Palestine \
-        into an Arab state, a Jewish state and the City of Jerusalem.<br/> \
+        into an Arab state, a Jewish state (old Israel) and the City of Jerusalem.<br/> \
         Zionists however were not satisfied and they started the Palestine War to expand their borders.<br/> \
         This led to the creation of the State of Israel.' },
     {

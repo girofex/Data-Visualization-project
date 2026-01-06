@@ -104,7 +104,6 @@ md-menu-item:hover {
   cursor: pointer;
   color: var(--black);
   position: relative;
-  /* Add this to make it the positioning context */
 }
 
 #topMenu>.material-symbols-outlined {
@@ -116,6 +115,8 @@ md-menu-item:hover {
 }
 
 .md-label {
+  font-family: var(--antic);
+  font-weight: bold;
   position: absolute;
   bottom: -2.5rem;
   left: 50%;
@@ -126,9 +127,7 @@ md-menu-item:hover {
   padding: 0.5rem;
   opacity: 0;
   pointer-events: none;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 10;
   white-space: nowrap;
 }
