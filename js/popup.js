@@ -6,7 +6,7 @@ export function showMobilePopup() {
                     <div class="mobile-popup-content">
                         <h3>Notice</h3>
                         <p>For the best experience, we recommend viewing this site on a larger screen
-                            or eventually using with desktop view.</p>
+                            or eventually using desktop view.</p>
                         <button id="mobile-popup-close" class="mobile-popup-button">Continue anyway</button>
                     </div>
                 </div>
