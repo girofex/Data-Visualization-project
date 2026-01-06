@@ -7,9 +7,9 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-var margin = { top: 40, right: 40, bottom: 60, left: 80 },
-    width = 700 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+var margin = { top: 10, right: 5, bottom: 45, left: 80 },
+    width = 500 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
 const tooltip = d3.select("body")
     .append("div")
@@ -24,9 +24,16 @@ const tooltip = d3.select("body")
     .style("font-family", prata)
     .style("font-size", "14px");
 
-const category = ["Government of Israel", "Hamas and armed groups", "Civilians"];
+const categoryKeys = ["Government of Israel", "Hamas and armed groups", "Civilians"];
+
+const categoryLabels = {
+    "Government of Israel": "Government\nof Israel",
+    "Hamas and armed groups": "Hamas\nand armed groups",
+    "Civilians": "Civilians"
+};
+
 const colors = d3.scaleOrdinal()
-    .domain(category)
+    .domain(categoryKeys)
     .range([black, green, orange]);
 
 let chartCreated = false;
@@ -36,12 +43,11 @@ function createBarChart() {
     chartCreated = true;
 
     d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => {
-        const plotData = category.map(cat => {
-            return {
-                name: cat,
-                value: +data[0][cat]
-            };
-        });
+        const plotData = categoryKeys.map(key => ({
+            key,
+            label: categoryLabels[key],
+            value: +data[0][key]
+        }));
 
         const svg = d3.select("#bar")
             .append("svg")
@@ -51,7 +57,7 @@ function createBarChart() {
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
         const x = d3.scaleBand()
-            .domain(category)
+            .domain(categoryKeys)
             .range([0, width])
             .padding(0.4);
 
@@ -63,10 +69,26 @@ function createBarChart() {
 
         svg.append("g")
             .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x))
+            .call(d3.axisBottom(x).tickFormat(d => categoryLabels[d]))
             .selectAll("text")
+            .style("font-family", prata)
             .style("font-size", "12px")
-            .style("font-family", prata);
+            .attr("text-anchor", "middle")
+            .each(function (d) {
+                const text = d3.select(this);
+                const lines = categoryLabels[d].split("\n");
+
+                if (lines.length > 1)
+                    text.attr("dy", "-0.6em");
+
+                text.text(null);
+                lines.forEach((line, i) => {
+                    text.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text(line);
+                });
+            });
 
         const yAxis = d3.axisLeft(y)
             .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
@@ -93,11 +115,11 @@ function createBarChart() {
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", d => x(d.name))
+            .attr("x", d => x(d.key))
             .attr("y", height)
             .attr("width", x.bandwidth())
             .attr("height", 0)
-            .attr("fill", d => colors(d.name))
+            .attr("fill", d => colors(d.key))
             .transition()
             .duration(1000)
             .delay((d, i) => i * 200)
@@ -106,24 +128,25 @@ function createBarChart() {
             .attr("height", d => height - y(d.value))
             .on("end", function () {
                 d3.select(this)
-                .on("mouseover", function (event, d) {
-                    d3.select(this).attr("opacity", 0.6);
+                    .on("mouseover", function (event, d) {
+                        d3.select(this).attr("opacity", 0.6);
 
-                    tooltip.style("opacity", 1)
-                        .html(`<strong>${d.name}</strong><br/>${d3.format(",")(d.value).replace(/,/g, ".")}`);
-                })
-                .on("mousemove", function (event) {
-                    tooltip
-                        .style("left", (event.clientX + 15) + "px")
-                        .style("top", (event.clientY) + "px");
-                })
-                .on("mouseout", function () {
-                    d3.select(this).attr("opacity", 1);
-                    tooltip.style("opacity", 0);
-                });
+                        tooltip
+                            .style("opacity", 1)
+                            .html(`<strong>${d.label}</strong><br/>
+                                ${d3.format(",")(d.value).replace(/,/g, ".")} total casualties`);
+                    })
+                    .on("mousemove", function (event) {
+                        tooltip
+                            .style("left", (event.clientX + 15) + "px")
+                            .style("top", (event.clientY) + "px");
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this).attr("opacity", 1);
+                        tooltip.style("opacity", 0);
+                    });
             });
     });
-
 }
 
 const observer = new IntersectionObserver((entries) => {

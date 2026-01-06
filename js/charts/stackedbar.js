@@ -147,7 +147,8 @@ function createStackedBarChart() {
                     .on("mouseover", function (event, d) {
                         d3.select(this).attr("opacity", 0.6);
                         tooltip.style("opacity", 1)
-                            .html(`<strong>Peak</strong> in ${peak.DateStr}<br/>${peak.Russian_Possession}%`);
+                            .html(`<strong>Peak</strong> in ${peak.DateStr}<br/>
+                                ${peak.Russian_Possession}% Russian possession`);
                     })
                     .on("mousemove", function (event) {
                         tooltip

@@ -16,6 +16,7 @@ export function renderAreaChart() {
         });
 
         var svg = d3.select("#area")
+            .attr("data-animate", "false")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -23,7 +24,7 @@ export function renderAreaChart() {
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         svg.append('text')
-            .attr('x', width/2)
+            .attr('x', width / 2)
             .attr('y', -30)
             .attr("text-anchor", "middle")
             .text("Mean number of people every 100k that die for drug use")
@@ -63,13 +64,46 @@ export function renderAreaChart() {
             .style("font-size", "12px");
 
         //Area
+        const clip = svg.append("defs")
+            .append("clipPath")
+            .attr("id", "clip-area");
+
+        const clipRect = clip.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 0)
+            .attr("height", height);
+
         svg.append("path")
             .datum(data)
+            .attr("class", "area")
             .attr("fill", orange)
+            .attr("clip-path", "url(#clip-area)")
             .attr("d", d3.area()
-                .x(function (d) { return x(d.Year) })
+                .x(d => x(d.Year))
                 .y0(y(0))
-                .y1(function (d) { return y(d.DeathRate) })
-            )
+                .y1(d => y(d.DeathRate))
+            );
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting)
+                    return;
+                if (entry.target.dataset.animated === "true")
+                    return;
+
+                entry.target.dataset.animated = "true";
+
+                clipRect
+                    .transition()
+                    .duration(2500)
+                    .ease(d3.easeSin)
+                    .attr("width", width);
+
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(d3.select("#area svg").node());
     });
 }

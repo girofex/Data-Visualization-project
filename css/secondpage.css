@@ -2,6 +2,11 @@
   background-image: url(../img/woman_with_veil.jpg);
 }
 
+#palestine,
+#israel{
+  min-height: 46rem;
+}
+
 .grid {
   border-top: 1px solid var(--black);
   border-bottom: 1px solid var(--black);

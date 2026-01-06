@@ -72,6 +72,7 @@ const data = [
 
 const svg = d3.select('#timeline')
     .append('svg')
+    .attr("data-animate", "false")
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -83,12 +84,20 @@ const xScale = d3.scaleLinear()
 
 //Line
 svg.append('line')
+    .attr("class", "arrow")
     .attr('x1', -40)
     .attr('y1', height / 2)
     .attr('x2', width + 4)
     .attr('y2', height / 2)
     .attr('stroke', black)
-    .attr('stroke-width', 2);
+    .attr('stroke-width', 2)
+    .each(function () {
+        const totalLength = this.getTotalLength();
+
+        d3.select(this)
+            .attr("stroke-dasharray", totalLength)
+            .attr("stroke-dashoffset", totalLength);
+    });
 
 //Arrow
 svg.append('path')
@@ -169,3 +178,25 @@ data.forEach((d, i) => {
         .attr('fill', beige)
         .text(d.label);
 });
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting)
+            return;
+
+        if (entry.target.dataset.animated === "true")
+            return;
+
+        entry.target.dataset.animated = "true";
+
+        svg.selectAll(".arrow")
+            .transition()
+            .duration(2500)
+            .ease(d3.easeSin)
+            .attr("stroke-dashoffset", 0);
+
+        observer.unobserve(entry.target);
+    });
+}, { threshold: 0.5 });
+
+observer.observe(d3.select("#timeline svg").node());

@@ -30,7 +30,7 @@ const unitSpacing = 15;
 const maxPerRow = 15;
 
 export function renderPictorial() {
-    d3.csv("data/csv/cleaned/top3_cleaned.csv").then(data => {
+    return d3.csv("data/csv/cleaned/top3_cleaned.csv").then(data => {
         data.forEach(d => {
             d.Entity = d.Entity;
             d.DeathRate = +d.DeathRate;
@@ -101,14 +101,27 @@ export function renderPictorial() {
                     .style("opacity", 1);
             });
 
-        //Units
-        groups.each(function (d) {
-            const count = Math.round(scaleValueToUnits(d.DeathRate));
-            const group = d3.select(this);
-            const units = d3.range(count);
+        //Labels
+        groups.append("text")
+            .attr("class", "label")
+            .attr("x", -10)
+            .attr("y", unitSize - 14)
+            .attr("text-anchor", "end")
+            .style("font-family", antic)
+            .style("font-weight", "bold")
+            .style("font-size", "12px")
+            .text(d => d.Entity);
 
-            group.selectAll("text.icon")
-                .data(units)
+        //Units
+        const allIcons = [];
+
+        groups.each(function (d) {
+            const group = d3.select(this);
+            const count = Math.round(scaleValueToUnits(d.DeathRate));
+            const unitsData = d3.range(count);
+
+            const icons = group.selectAll("text.icon")
+                .data(unitsData)
                 .enter()
                 .append("text")
                 .attr("class", "icon")
@@ -117,17 +130,14 @@ export function renderPictorial() {
                 .text("man_2")
                 .style("font-family", '"Material Symbols Outlined"')
                 .style("font-size", "30px")
-                .style("fill", colorScale(d.Entity));
+                .style("fill", colorScale(d.Entity))
+                .style("opacity", 0)
+                .attr("transform", "scale(0)");
 
-            group.append("text")
-                .attr("class", "label")
-                .attr("x", -10)
-                .attr("y", unitSize - 14)
-                .attr("text-anchor", "end")
-                .style("font-family", antic)
-                .style("font-weight", "bold")
-                .style("font-size", "12px")
-                .text(d.Entity);
+            allIcons.push(icons);
         });
+
+        svg.node()._allIcons = allIcons;
+        return allIcons;
     });
 }
