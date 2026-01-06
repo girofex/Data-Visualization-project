@@ -145,28 +145,14 @@ data.forEach((d, i) => {
     const boxGroup = svg.append('g')
         .attr('transform', `translate(${x}, ${boxY})`);
 
+    //Box
     boxGroup.append('rect')
         .datum(d)
         .attr('x', -70)
         .attr('y', -20)
         .attr('width', 140)
         .attr('height', 40)
-        .attr('fill', orange)
-        .on("mouseover", function (event, d) {
-            tooltip.html(`${d.description}`)
-                .style("opacity", 1);
-
-            d3.select(this).attr("fill-opacity", 0.6);
-        })
-        .on("mousemove", function (event) {
-            tooltip
-                .style("left", (event.clientX + 10) + "px")
-                .style("top", (event.clientY) + "px");
-        })
-        .on("mouseout", function () {
-            tooltip.style("opacity", 0);
-            d3.select(this).attr("fill-opacity", 1);
-        });
+        .attr('fill', orange);
 
     boxGroup.append('text')
         .attr('x', 0)
@@ -176,7 +162,26 @@ data.forEach((d, i) => {
         .attr('font-size', '14px')
         .attr('font-family', prata)
         .attr('fill', beige)
+        .attr('pointer-events', 'none')
         .text(d.label);
+
+    //Tooltip
+    boxGroup
+        .datum(d)
+        .on("mouseover", function (event, d) {
+            tooltip.html(`${d.description}`)
+                .style("opacity", 1);
+            d3.select(this).select('rect').attr("fill-opacity", 0.6);
+        })
+        .on("mousemove", function (event) {
+            tooltip
+                .style("left", (event.clientX + 10) + "px")
+                .style("top", (event.clientY) + "px");
+        })
+        .on("mouseout", function () {
+            tooltip.style("opacity", 0);
+            d3.select(this).select('rect').attr("fill-opacity", 1);
+        });
 });
 
 const observer = new IntersectionObserver((entries) => {
