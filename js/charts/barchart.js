@@ -7,22 +7,9 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-var margin = { top: 30, right: 50, bottom: 50, left: 50 },
+var margin = { top: 50, right: 50, bottom: 50, left: 50 },
     width = 500 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
-const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "fixed")
-    .style("opacity", 0)
-    .style("background-color", `${beige}`)
-    .style("border", `1px solid ${black}`)
-    .style("padding", "10px")
-    .style("z-index", "999")
-    .style("pointer-events", "none")
-    .style("font-family", prata)
-    .style("font-size", "14px");
+    height = 350 - margin.top - margin.bottom;
 
 const categoryKeys = ["Government of Israel", "Hamas and armed groups", "Civilians"];
 
@@ -91,8 +78,8 @@ function createBarChart() {
             });
 
         svg.append("text")
-            .attr("x", width / 8)
-            .attr("y", 0)
+            .attr("x", width / 2)
+            .attr("y", -35)
             .attr("text-anchor", "middle")
             .style("font-family", antic)
             .style("font-weight", "bold")
@@ -114,27 +101,7 @@ function createBarChart() {
             .delay((d, i) => i * 200)
             .ease(d3.easeCubicOut)
             .attr("y", d => y(d.value))
-            .attr("height", d => height - y(d.value))
-            .on("end", function () {
-                d3.select(this)
-                    .on("mouseover", function (event, d) {
-                        d3.select(this).attr("opacity", 0.6);
-
-                        tooltip
-                            .style("opacity", 1)
-                            .html(`<strong>${d.label}</strong><br/>
-                                ${d3.format(",")(d.value).replace(/,/g, ".")} total casualties`);
-                    })
-                    .on("mousemove", function (event) {
-                        tooltip
-                            .style("left", (event.clientX + 15) + "px")
-                            .style("top", (event.clientY) + "px");
-                    })
-                    .on("mouseout", function () {
-                        d3.select(this).attr("opacity", 1);
-                        tooltip.style("opacity", 0);
-                    });
-            });
+            .attr("height", d => height - y(d.value));
 
         svg.selectAll(".bar-label")
             .data(plotData)

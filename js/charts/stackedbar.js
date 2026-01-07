@@ -8,7 +8,7 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 const margin = { top: 10, right: 180, bottom: 60, left: 50 },
-    width = 850 - margin.left - margin.right,
+    width = 690 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 const tooltip = d3.select("body")
@@ -35,10 +35,10 @@ function createStackedBarChart() {
             const parsed = d3.timeParse("%Y-%m-%d")(d.Date);
             d.DateStr = parsed ? d3.timeFormat("%d/%m/%y")(parsed) : d.Date;
             d.Russian_Possession = +d.Russian_Possession;
-            d.Ukraine_Possession = +d.Ukraine_Possession;
+            d.Ukrainian_Possession = +d.Ukrainian_Possession;
         });
 
-        const categories = ["Russian_Possession", "Ukraine_Possession"];
+        const categories = ["Russian_Possession", "Ukrainian_Possession"];
         const colors = d3.scaleOrdinal()
             .domain(categories)
             .range([orange, green]);
@@ -87,14 +87,25 @@ function createStackedBarChart() {
             .attr("x", d => x(d.data.DateStr))
             .attr("y", height)
             .attr("height", 0)
-            .attr("width", x.bandwidth()+5)
+            .attr("width", x.bandwidth() + 5)
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("opacity", 0.6);
-                const category = this.parentNode.__data__.key.replace("_", " ");
-                tooltip.style("opacity", 1)
+                const key = this.parentNode.__data__.key;
+                let valueLabel = "";
+                let value = "";
+
+                if (key === "Russian_Possession") {
+                    valueLabel = "Russian Possession";
+                    value = d.data.Russian_Possession;
+                } else if (key === "Ukrainian_Possession") {
+                    valueLabel = "Ukrainian Possession";
+                    value = d.data.Ukrainian_Possession;
+                }
+
+                tooltip
+                    .style("opacity", 1)
                     .html(`<strong>${d.data.DateStr}</strong><br/>
-                        Russian Possession: ${d.data.Russian_Possession}%<br/>
-                        Ukraine Possession: ${d.data.Ukraine_Possession}%`);
+                        ${valueLabel}: ${value}%`);
             })
             .on("mousemove", function (event) {
                 tooltip
@@ -138,7 +149,7 @@ function createStackedBarChart() {
 
         const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
 
-        const peakX = x(peak.DateStr) + x.bandwidth() / 2;
+        const peakX = x(peak.DateStr) + x.bandwidth() - 1;
         const peakY = y(peak.Russian_Possession);
 
         svg.append("circle")
@@ -158,8 +169,8 @@ function createStackedBarChart() {
                     .on("mouseover", function (event, d) {
                         d3.select(this).attr("opacity", 0.6);
                         tooltip.style("opacity", 1)
-                            .html(`<strong>Peak</strong> in ${peak.DateStr}<br/>
-                                ${peak.Russian_Possession}% Russian possession`);
+                            .html(`<strong>${peak.DateStr}</strong><br/>
+                                Peak of Russian possession: ${peak.Russian_Possession}%`);
                     })
                     .on("mousemove", function (event) {
                         tooltip

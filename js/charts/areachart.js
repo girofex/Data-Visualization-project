@@ -6,7 +6,7 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 
-var margin = { top: 70, right: 5, bottom: 70, left: 30 },
+var margin = { top: 70, right: 10, bottom: 70, left: 30 },
     width = 500 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
@@ -61,7 +61,7 @@ export function renderAreaChart() {
             .style("font-size", "12px");
 
         svg.append("text")
-            .attr("x", width / 2 - 11)
+            .attr("x", width / 2 - 6)
             .attr("y", height + 50)
             .attr("text-anchor", "middle")
             .style("font-family", antic)
