@@ -7,7 +7,7 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-var margin = { top: 10, right: 5, bottom: 45, left: 80 },
+var margin = { top: 30, right: 50, bottom: 50, left: 50 },
     width = 500 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -90,25 +90,13 @@ function createBarChart() {
                 });
             });
 
-        const yAxis = d3.axisLeft(y)
-            .tickFormat(d => d3.format(",")(d).replace(/,/g, "."));
-
-        svg.append("g")
-            .call(yAxis)
-            .selectAll("text")
-            .style("font-size", "12px")
-            .style("font-family", prata);
-
         svg.append("text")
-            .attr("class", "yAxisTitle")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 10)
-            .attr("x", -(height / 2))
-            .style("text-anchor", "middle")
-            .style("font-size", "14px")
-            .style("font-weight", "bold")
+            .attr("x", width / 8)
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
             .style("font-family", antic)
-            .text("Total Casualties");
+            .style("font-weight", "bold")
+            .text("Casualties");
 
         svg.selectAll(".bar")
             .data(plotData)
@@ -146,6 +134,18 @@ function createBarChart() {
                         tooltip.style("opacity", 0);
                     });
             });
+
+        svg.selectAll(".bar-label")
+            .data(plotData)
+            .enter()
+            .append("text")
+            .attr("class", "bar-label")
+            .attr("x", d => x(d.key) + x.bandwidth() / 2)
+            .attr("y", d => y(d.value) - 5)
+            .attr("text-anchor", "middle")
+            .style("font-family", prata)
+            .style("font-size", "12px")
+            .text(d => d3.format(",")(d.value).replace(/,/g, "."));
     });
 }
 
