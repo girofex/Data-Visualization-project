@@ -47,7 +47,9 @@ const tooltip = d3.select("body")
     .style("z-index", "999")
     .style("pointer-events", "none")
     .style("font-family", prata)
-    .style("font-size", "12px");
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
 
 //Zoom
 let myZoom = d3.zoom()
@@ -168,7 +170,7 @@ Promise.all([
 
             if (countryData && countryData.events.length > 0) {
                 countryData.events.forEach(e => {
-                    tooltipHtml += `<br/>Since ${e.date}: ${e.description}`;
+                    tooltipHtml += `<br/>Since ${e.date}: ${e.description}.`;
                 });
             }
 
@@ -207,6 +209,7 @@ Promise.all([
         .style("font-size", "14px")
         .style("font-family", antic)
         .style("font-weight", "bold")
+        .style("line-height", "1.4")
         .attr("fill", black)
         .text("Type of armed conflict");
 

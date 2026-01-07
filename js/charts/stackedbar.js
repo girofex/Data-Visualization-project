@@ -1,6 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-const antic = getComputedStyle(document.documentElement).getPropertyValue("--antic").trim();
 const prata = getComputedStyle(document.documentElement).getPropertyValue("--prata").trim();
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
@@ -22,7 +21,9 @@ const tooltip = d3.select("body")
     .style("z-index", "999")
     .style("pointer-events", "none")
     .style("font-family", prata)
-    .style("font-size", "14px");
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
 
 let chartCreated = false;
 

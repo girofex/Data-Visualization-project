@@ -4,7 +4,6 @@ const antic = getComputedStyle(document.documentElement).getPropertyValue("--ant
 const prata = getComputedStyle(document.documentElement).getPropertyValue("--prata").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
-const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -72,7 +71,7 @@ function createBarChart() {
                 lines.forEach((line, i) => {
                     text.append("tspan")
                         .attr("x", 0)
-                        .attr("dy", "1.2em")
+                        .attr("dy", "1.4em")
                         .text(line);
                 });
             });

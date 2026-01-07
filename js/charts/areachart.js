@@ -23,7 +23,9 @@ export function renderAreaChart() {
         .style("z-index", "999")
         .style("pointer-events", "none")
         .style("font-family", prata)
-        .style("font-size", "14px");
+        .style("font-size", "14px")
+        .style("line-height", "1.5")
+        .style("max-width", "200px");
 
     d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
@@ -46,7 +48,8 @@ export function renderAreaChart() {
             .text("Mean number of people every 100k that die for drug use")
             .style("font-family", antic)
             .style("font-size", "1rem")
-            .style("font-weight", "bold");
+            .style("font-weight", "bold")
+            .style("line-height", "1.4");
 
         //X axis
         var x = d3.scaleLinear()

@@ -31,6 +31,17 @@
 
 .brand-title {
     letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600 !important;
+}
+
+.brand-title,
+.student-card {
+    font-size: 0.8rem;
+}
+
+.student-card>a {
+    text-decoration: none;
 }
 
 /* ---------------- Logo ---------------- */
@@ -85,7 +96,8 @@ body.dark-theme #logo {
 .footer-bottom {
     padding: 1rem;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 .source:hover {

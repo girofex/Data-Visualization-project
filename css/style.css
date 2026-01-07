@@ -39,24 +39,18 @@ body {
   mix-blend-mode: multiply;
 }
 
-.home {
-  font-family: var(--unifraktur) !important;
-}
-
-.home,
-h2{
-  font-size: 1.5rem !important;
-}
-
 h1 {
   font-weight: 1000;
-}
-
-h1 {
   font-size: 3rem;
+  line-height: 1.2;
   overflow: hidden;
   white-space: pre-wrap;
   letter-spacing: 0.05em;
+}
+
+h2{
+  font-size: 1.5rem !important;
+  line-height: 1.4;
 }
 
 .title {
@@ -65,26 +59,23 @@ h1 {
   display: grid;
   place-items: center;
   text-align: center;
-  padding: 0.5rem;
+  padding: 2rem;
   width: auto;
 }
 
+.title > h1{
+  visibility: hidden;
+}
+
 .section,
-.sidebar-menu,
 h1,
 h2,
 #dropdown button {
   font-family: var(--antic);
 }
 
-h2 {
-  margin-top: 1rem;
-}
-
 .section,
-.sidebar-menu,
 h2,
-.brand-title,
 #dropdown button {
   font-weight: 600 !important;
 }
@@ -93,6 +84,7 @@ h3{
   font-family: var(--prata);
   font-size: 1.3rem;
   font-weight: normal;
+  line-height: 1.5;
 }
 
 .md-label,
@@ -103,24 +95,12 @@ ul,
 ol {
   font-family: var(--prata);
   font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 a {
   color: var(--black);
-}
-
-.sidebar-menu,
-.brand-title,
-.student-card {
-  font-size: 0.8rem;
-}
-
-.brand-title {
-  text-transform: uppercase;
-}
-
-.student-card > a {
-  text-decoration: none;
 }
 
 /* -------- Icons -------- */
@@ -206,9 +186,10 @@ a {
 
 .middle_column {
   border-left: 1px solid var(--black);
+  padding: 2rem;
 }
 
-.middle_column>p {
+.middle_column > p {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -230,9 +211,9 @@ img {
 }
 
 .card {
-  width: 60%;
+  width: 55%;
   background: var(--beige);
-  padding: 3rem;
+  padding: 2rem;
   border-radius: 0;
   border: none;
 }

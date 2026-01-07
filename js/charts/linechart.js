@@ -255,6 +255,7 @@ export function renderLineChart() {
             .call(makeAnnotations)
             .style("font-family", prata)
             .style("font-size", "12px")
+            .style("line-height", "1.5")
             .style("opacity", 0);
 
         annotationGroup.selectAll(".annotation")

@@ -23,7 +23,9 @@ const tooltip = d3.select("body")
     .style("z-index", "999")
     .style("pointer-events", "none")
     .style("font-family", prata)
-    .style("font-size", "12px");
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
 
 const unitSize = 12;
 const unitSpacing = 15;

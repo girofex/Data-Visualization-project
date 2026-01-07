@@ -57,18 +57,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const clone = h1.cloneNode(true);
     clone.style.visibility = "hidden";
     clone.style.position = "absolute";
-    clone.style.height = "auto";
-    clone.style.whiteSpace = "pre-wrap";
-    document.body.appendChild(clone);
-    const finalHeight = clone.offsetHeight;
-    document.body.removeChild(clone);
-    title.style.height = finalHeight + 25 + "px";
+    clone.style.pointerEvents = "none";
 
+    const h1Styles = getComputedStyle(h1);
+    clone.style.width = h1.offsetWidth + "px";
+    clone.style.font = h1Styles.font;
+    clone.style.lineHeight = h1Styles.lineHeight;
+    clone.style.letterSpacing = h1Styles.letterSpacing;
+    clone.style.whiteSpace = "pre-wrap";
+
+    document.body.appendChild(clone);
+
+    const lineHeight = parseFloat(h1Styles.lineHeight);
     let html = h1.innerHTML.replace(/<br\s*\/?>/gi, "\n");
     const lines = html.split("\n").map(line => line.trim());
-    const text = lines.join("\n");
-    const chars = text.split("");
+    const numLines = lines.length;
+    title.style.height = lineHeight * numLines + "px";
 
+    document.body.removeChild(clone);
+
+    const chars = lines.join("\n").split("");
     h1.innerHTML = "";
 
     const cursor = document.createElement("span");
@@ -112,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !animationStarted) {
           animationStarted = true;
+          h1.style.visibility = "visible";
           type();
           observer.disconnect();
         }

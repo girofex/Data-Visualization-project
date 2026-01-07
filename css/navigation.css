@@ -1,4 +1,10 @@
 /* -------- Navbar -------- */
+.home {
+  font-family: var(--unifraktur) !important;
+  font-size: 1.5rem !important;
+  line-height: 1.4;
+}
+
 .m3-navbar-container {
   position: fixed;
   top: 0;
@@ -55,7 +61,7 @@ md-menu {
 md-menu-item {
   --md-menu-item-container-color: var(--beige);
   --md-menu-item-label-text-color: var(--black);
-  width: 8rem;
+  width: 10rem;
 }
 
 md-menu-item::part(focus-ring) {
