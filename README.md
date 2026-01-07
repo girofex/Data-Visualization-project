@@ -1,20 +1,19 @@
 # Visible and Invisible Wars
 ### A Data Visualization project
+By Ex-Plot group
+* Federica Tamerisco S4942412
+* Sara Caviglia S5163676
+
 ---
-Pre-processing done via Python notebooks, through the use of the <tt>Numpy</tt> and <tt>Pandas</tt> libraries.<br>
-[Methodology & References](https://girofex.github.io/Data-Visualization-project/references.html)
 
 ## Folder structure
 ```
 .
 ├── components
-│   ├── footer.html
-│   ├── navigation.html
-│   └── top.html
 ├── css
 ├── data
 │   ├── csv
-│   │   └── cleaned
+│   │   └── cleaned (csv used for the plots)
 │   └── preprocessing
 ├── img
 ├── js
@@ -25,8 +24,3 @@ Pre-processing done via Python notebooks, through the use of the <tt>Numpy</tt> 
 ├── secondpage.html
 └── thirdpage.html
 ```
-===
-
-By Ex-Plot group
-* Federica Tamerisco S4942412
-* Sara Caviglia S5163676

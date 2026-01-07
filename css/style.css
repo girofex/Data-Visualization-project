@@ -44,13 +44,15 @@ body {
 }
 
 .home,
-h2,
-h3{
+h2{
   font-size: 1.5rem !important;
 }
 
 h1 {
   font-weight: 1000;
+}
+
+h1 {
   font-size: 3rem;
   overflow: hidden;
   white-space: pre-wrap;
@@ -82,7 +84,6 @@ h2 {
 .section,
 .sidebar-menu,
 h2,
-h3,
 .brand-title,
 #dropdown button {
   font-weight: 600 !important;
@@ -90,13 +91,16 @@ h3,
 
 h3{
   font-family: var(--prata);
+  font-size: 1.3rem;
+  font-weight: normal;
 }
 
 .md-label,
 p,
 .team-title,
 .student-card,
-ul {
+ul,
+ol {
   font-family: var(--prata);
   font-weight: 500;
 }

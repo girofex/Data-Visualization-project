@@ -49,11 +49,6 @@
                 <div class="title">
                     <h1>Methodology<br>and<br>References</h1>
                 </div>
-                <p>To work on this project, we used data coming from public datasets.<br>
-                    As most of them requested, we cite our sources and the people that worked on them, giving us the
-                    chance of visualizing
-                    clean and truthful information.
-                </p>
             </div>
         </div>
     </div>
@@ -62,21 +57,71 @@
         <div class="column left_column">
         </div>
         <div class="column middle_column">
-            <h2>Methodology</h2>
-            <p>This website was created via multiple tools:
-                <ul>
-                    <li>HTML, CSS, JavaScript, Material UI baseline for the front-end</li>
-                    <li>D3.js for the creation of the plots</li>
-                    <li>Python notebook, together with Numpy, Pandas and Matplotlib libraries, for the preprocessing of the
-                        data</li>
-                </ul>
+            <h2 id="methodology" data-title="Methodology">Methodology</h2>
+            <p>This website was created via multiple tools:</p>
+            <ul>
+                <li>HTML, CSS, JavaScript, Material UI baseline for the front-end</li>
+                <li>D3.js for the creation of the plots</li>
+                <li>Python notebook, together with Numpy, Pandas and Matplotlib libraries, for the preprocessing of the
+                    data</li>
+            </ul>
+            <h3>Plots</h3>
+            <p>
+                As requested, we implemented 10 plots:
+            <ol>
+                <li>Connection map</li>
+                <li>Line chart</li>
+                <li>Choropleth</li>
+                <li>Stacked bar chart</li>
+                <li>Polar chart</li>
+                <li>Timeline</li>
+                <li>Bar chart</li>
+                <li>Network</li>
+                <li>Area chart</li>
+                <li>Pictorial unit chart</li>
+            </ol>
+            </p>
+            <h3>Pre-processing</h3>
+            <p>
+                The majority of the data that we found was usable as a ready-to-use csv file, after some sort of
+                preprocessing.<br>
+                For example, we changed the date format into DD-MM-YY, as used in our country, Italy.
+            </p>
+            <h3>Limitations</h3>
+            <p>
+                Not all of the data that we needed was available in csv format or similar.
+            </p>
+            <ul>
+                <li>
+                    For the Connection Map in the index displaying the armed conflicts in the world,
+                    we had to manually create a csv file with data found
+                    in the respective sources, found in the following References section.
+                </li>
+                <li>
+                    For the Timeline in the second page explaining the history of the Middle East,
+                    we summarized the content of the respective source in the following section.
+                </li>
+                <li>
+                    For the Network in the third page displaying the hierarchy of the Medellín Cartel,
+                    we summarized the relationships described in the related source in the following section.
+                </li>
+            </ul>
+            <p>
+                We also had some difficulty in finding data about the cartel, in particular about monetary information
+                on
+                where Pablo Escobar's income was directed towards.<br>
+                Our first idea was, in fact, to display where his money were used, to visualize how his help towards
+                the poor was still very much obscured by his investments in the drug business.<br>
+                Whether the missed data is due to it being classified or to the help of his followers, this is not
+                something we ought to know.
                 <br><br>
-                The majority of the data that we used was usable as a <tt>csv</tt> file, after some sort of preprocessing.<br>
-                However, there were still some difficulties in finding some easy-to-use data of some of the topics.<br>
-                In particular:
-                <ul>
-                    <li></li>
-                </ul>
+                We also struggled to classify the armed conflict happening in the world: many of them are caused by
+                events
+                that happened in the previous century, therefore they have developed during the years, becoming
+                protests,
+                civil wars, simple internal struggles or interstate wars.<br>
+                To be as clear and truthful as possible, we considered the more recent and relevant events for each
+                country.
             </p>
         </div>
         <div class="column right_column">
@@ -87,7 +132,12 @@
         <div class="column left_column">
         </div>
         <div class="column middle_column">
-            <h2>References</h2>
+            <h2 id="references" data-title="References">References</h2>
+            <p>
+                To work on this project, we used data coming from public datasets.<br>
+                As most of them requested, we cite our sources and the people that worked on them, giving us the
+                chance of visualizing clean and truthful information.<br>
+            </p>
             <h3>Introduction</h3>
             <p>
                 <a class="source_text" href="https://en.wikipedia.org/wiki/List_of_ongoing_armed_conflicts"
@@ -140,6 +190,11 @@
                     target="_blank">Time</a><br><br>
                 <a class="source_text" href="https://en.wikipedia.org/wiki/Operation_Southern_Spear"
                     target="_blank">Wikipedia - Operation Southern Spear</a>
+            </p>
+            <h3>Images</h3>
+            <p>
+                All of the used images were downloaded from the <a class="source_text" href="https://unsplash.com/it"
+                    target="_blank">Unsplash</a> website, that offers copyright free options.
             </p>
         </div>
         <div class="column right_column">
