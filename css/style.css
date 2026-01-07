@@ -95,7 +95,8 @@ h3{
 .md-label,
 p,
 .team-title,
-.student-card {
+.student-card,
+ul {
   font-family: var(--prata);
   font-weight: 500;
 }
@@ -114,7 +115,7 @@ a {
   text-transform: uppercase;
 }
 
-.student-card>a {
+.student-card > a {
   text-decoration: none;
 }
 

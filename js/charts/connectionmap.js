@@ -76,7 +76,7 @@ d3.select('.connection-zoom-restore').on('click', () => {
 
 Promise.all([
     d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-    d3.csv("data/csv/cleaned/conflicts.csv")
+    d3.csv("data/csv/cleaned/connectionflow.csv")
 ]).then(function ([world, conflicts]) {
     projection.fitSize([width, height], world);
     const path = d3.geoPath().projection(projection);
