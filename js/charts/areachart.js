@@ -25,7 +25,7 @@ export function renderAreaChart() {
         .style("font-family", prata)
         .style("font-size", "14px");
 
-    d3.csv("data/csv/cleaned/drug_deaths_cleaned.csv").then(data => {
+    d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
             d.Year = +d.Year;
             d.DeathRate = +d.DeathRate;
@@ -72,7 +72,7 @@ export function renderAreaChart() {
         var y = d3.scaleLinear()
             .domain([0, 1.5])
             .range([height, 0]);
-        
+
         svg.append("g")
             .call(d3.axisLeft(y).ticks(4))
             .selectAll("text")
@@ -129,31 +129,26 @@ export function renderAreaChart() {
                 focus.style("display", "none");
                 tooltip.style("opacity", 0);
             })
-            .on("mousemove", function(event) {
+            .on("mousemove", function (event) {
                 const [mouseX] = d3.pointer(event);
                 const x0 = x.invert(mouseX);
-                
-                // Find closest data point
+
                 const bisect = d3.bisector(d => d.Year).left;
                 const index = bisect(data, x0);
                 const d0 = data[index - 1];
                 const d1 = data[index];
-                
-                // Choose closer point
+
                 const d = d1 && d0 ? (x0 - d0.Year > d1.Year - x0 ? d1 : d0) : (d0 || d1);
-                
+
                 if (d) {
-                    // Position the vertical line
                     focus.select("line")
                         .attr("x1", x(d.Year))
                         .attr("x2", x(d.Year));
-                    
-                    // Position the circle
+
                     focus.select("circle")
                         .attr("cx", x(d.Year))
                         .attr("cy", y(d.DeathRate));
-                    
-                    // Show tooltip
+
                     tooltip.style("opacity", 1)
                         .html(`<strong>Year:</strong> ${d.Year}<br/><strong>Death Rate:</strong> ${d.DeathRate.toFixed(2)}`)
                         .style("left", (event.clientX + 15) + "px")

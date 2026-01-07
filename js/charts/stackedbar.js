@@ -30,7 +30,7 @@ function createStackedBarChart() {
     if (chartCreated) return;
     chartCreated = true;
 
-    d3.csv("data/csv/cleaned/russian_possession.csv").then(data => {
+    d3.csv("data/csv/cleaned/russian_possession_cleaned.csv").then(data => {
         data.forEach(d => {
             const parsed = d3.timeParse("%Y-%m-%d")(d.Date);
             d.DateStr = parsed ? d3.timeFormat("%d/%m/%y")(parsed) : d.Date;

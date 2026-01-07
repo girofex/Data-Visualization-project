@@ -30,7 +30,7 @@ const unitSpacing = 15;
 const maxPerRow = 15;
 
 export function renderPictorial() {
-    return d3.csv("data/csv/cleaned/top3_cleaned.csv").then(data => {
+    return d3.csv("data/csv/cleaned/pictorial.csv").then(data => {
         data.forEach(d => {
             d.Entity = d.Entity;
             d.DeathRate = +d.DeathRate;

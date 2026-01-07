@@ -82,7 +82,7 @@ d3.select('.choropleth-zoom-restore').on('click', () => {
 export function renderChoropleth() {
     Promise.all([
         d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
-        d3.csv("data/csv/cleaned/map_trends_cleaned.csv")
+        d3.csv("data/csv/cleaned/choropleth.csv")
     ]).then(function (loadData) {
         let topo = loadData[0];
         let eventData = loadData[1];

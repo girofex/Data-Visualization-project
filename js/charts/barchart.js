@@ -29,7 +29,7 @@ function createBarChart() {
     if (chartCreated) return;
     chartCreated = true;
 
-    d3.csv("data/csv/cleaned/fatalities_israelpalestine_per_side.csv").then(data => {
+    d3.csv("data/csv/cleaned/barchart.csv").then(data => {
         const plotData = categoryKeys.map(key => ({
             key,
             label: categoryLabels[key],

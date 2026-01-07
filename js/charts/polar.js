@@ -64,7 +64,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 1 });
 
-d3.csv("data/csv/cleaned/gas_cleaned.csv").then(data => {
+d3.csv("data/csv/cleaned/polar.csv").then(data => {
     data.forEach(d => {
         d.year = +d.TIME_PERIOD;
         d.value = +d.OBS_VALUE;

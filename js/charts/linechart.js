@@ -14,7 +14,7 @@ const margin = { top: 80, right: 130, bottom: 60, left: 130 },
 const parseDate = d3.timeParse("%Y-%m-%d");
 
 export function renderLineChart() {
-    d3.csv("data/csv/cleaned/timeline_trends_cleaned.csv").then(data => {
+    d3.csv("data/csv/cleaned/linechart.csv").then(data => {
         data.forEach(d => {
             d.Week = parseDate(d.Week);
             d.RussianUkranianWar = +d.RussianUkranianWar;
