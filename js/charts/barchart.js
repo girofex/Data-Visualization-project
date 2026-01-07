@@ -96,6 +96,7 @@ function createBarChart() {
             .attr("text-anchor", "middle")
             .style("font-family", antic)
             .style("font-weight", "bold")
+            .font-size("1rem")
             .text("Casualties");
 
         svg.selectAll(".bar")
