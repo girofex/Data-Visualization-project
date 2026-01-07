@@ -8,7 +8,7 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 const margin = { top: 10, right: 180, bottom: 60, left: 50 },
-    width = 650 - margin.left - margin.right,
+    width = 850 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 const tooltip = d3.select("body")
@@ -33,7 +33,7 @@ function createStackedBarChart() {
     d3.csv("data/csv/cleaned/russian_possession.csv").then(data => {
         data.forEach(d => {
             const parsed = d3.timeParse("%Y-%m-%d")(d.Date);
-            d.DateStr = parsed ? d3.timeFormat("%Y-%m-%d")(parsed) : d.Date;
+            d.DateStr = parsed ? d3.timeFormat("%d/%m/%y")(parsed) : d.Date;
             d.Russian_Possession = +d.Russian_Possession;
             d.Ukraine_Possession = +d.Ukraine_Possession;
         });
@@ -56,7 +56,7 @@ function createStackedBarChart() {
         const x = d3.scaleBand()
             .domain(data.map(d => d.DateStr))
             .range([0, width])
-            .padding(0.1);
+            .padding(0.5);
 
         const xAxis = d3.axisBottom(x).tickValues(x.domain().filter((d, i) => !(i % 5)));
 
@@ -64,7 +64,7 @@ function createStackedBarChart() {
             .attr("transform", `translate(0,${height})`)
             .call(xAxis)
             .selectAll("text")
-            .attr("transform", "rotate(-45)")
+            .attr("transform", "rotate(-30)")
             .attr("font-size", "12px")
             .style("font-family", prata)
             .style("text-anchor", "end");
@@ -72,12 +72,6 @@ function createStackedBarChart() {
         const y = d3.scaleLinear()
             .domain([0, 100])
             .range([height, 0]);
-
-        svg.append("g")
-            .call(d3.axisLeft(y).tickFormat(d => d + "%"))
-            .selectAll("text")
-            .attr("font-size", "12px")
-            .style("font-family", prata);
 
         const layers = svg.selectAll(".layer")
             .data(stackedData)
@@ -93,7 +87,24 @@ function createStackedBarChart() {
             .attr("x", d => x(d.data.DateStr))
             .attr("y", height)
             .attr("height", 0)
-            .attr("width", x.bandwidth())
+            .attr("width", x.bandwidth()+5)
+            .on("mouseover", function (event, d) {
+                d3.select(this).attr("opacity", 0.6);
+                const category = this.parentNode.__data__.key.replace("_", " ");
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.data.DateStr}</strong><br/>
+                        Russian Possession: ${d.data.Russian_Possession}%<br/>
+                        Ukraine Possession: ${d.data.Ukraine_Possession}%`);
+            })
+            .on("mousemove", function (event) {
+                tooltip
+                    .style("left", (event.clientX + 15) + "px")
+                    .style("top", (event.clientY) + "px");
+            })
+            .on("mouseout", function () {
+                d3.select(this).attr("opacity", 1);
+                tooltip.style("opacity", 0);
+            })
             .transition()
             .duration(1000)
             .delay((d, i) => i * 10)
