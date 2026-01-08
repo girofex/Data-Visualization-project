@@ -6,10 +6,6 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-var margin = { top: 50, right: 50, bottom: 50, left: 50 },
-    width = 500 - margin.left - margin.right,
-    height = 350 - margin.top - margin.bottom;
-
 const categoryKeys = ["Government of Israel", "Hamas and armed groups", "Civilians"];
 
 const categoryLabels = {
@@ -27,6 +23,13 @@ let chartCreated = false;
 function createBarChart() {
     if (chartCreated) return;
     chartCreated = true;
+
+    d3.select("#bar svg").remove();
+
+    const screenWidth = window.innerWidth;
+    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 767 ? 250 : 350) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/barchart.csv").then(data => {
         const plotData = categoryKeys.map(key => ({
@@ -78,7 +81,7 @@ function createBarChart() {
 
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", -35)
+            .attr("y", height - 280)
             .attr("text-anchor", "middle")
             .style("font-family", antic)
             .style("font-weight", "bold")
@@ -132,3 +135,8 @@ const chartContainer = document.querySelector('#bar');
 if (chartContainer) {
     observer.observe(chartContainer);
 }
+
+windiw.addEventListener('resize', () => {
+    chartCreated = false;
+    createBarChart();
+});

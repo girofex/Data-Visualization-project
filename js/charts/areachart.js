@@ -6,11 +6,13 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 
-var margin = { top: 70, right: 10, bottom: 70, left: 30 },
-    width = 500 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
 export function renderAreaChart() {
+    d3.select("#area svg").remove();
+
+    const screenWidth = window.innerWidth;
+    const margin = { top: 70, right: 10, bottom: 70, left: 30 };
+    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 767 ? 200 : 300) - margin.top - margin.bottom;
 
     const tooltip = d3.select("body")
         .append("div")
@@ -41,15 +43,29 @@ export function renderAreaChart() {
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        svg.append('text')
+        const title = svg.append('text')
             .attr('x', width / 2)
             .attr('y', -30)
             .attr("text-anchor", "middle")
-            .text("Mean number of people every 100k that die for drug use")
             .style("font-family", antic)
             .style("font-size", "1rem")
             .style("font-weight", "bold")
             .style("line-height", "1.4");
+
+        if(screenWidth <= 767) {
+            title.append("tspan")
+                .attr("x", width / 2)
+                .attr("dy", 0)
+                .text("Mean number of people every 100k");
+
+            title.append("tspan")
+                .attr("x", width / 2)
+                .attr("dy", "1.2em")
+                .text("that die for drug use");
+        } else {
+            title.text("Mean number of people every 100k that die for drug use");
+        }
+
 
         //X axis
         var x = d3.scaleLinear()
@@ -173,8 +189,12 @@ export function renderAreaChart() {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 1 });
+        }, { threshold: 0.3  });
 
         observer.observe(d3.select("#area svg").node());
     });
-}
+};
+
+window.addEventListener("resize", () => {
+    renderAreachart();
+});

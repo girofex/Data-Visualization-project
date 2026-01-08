@@ -8,10 +8,6 @@ const beige = getComputedStyle(document.documentElement).getPropertyValue("--bei
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 const blue = getComputedStyle(document.documentElement).getPropertyValue("--blue").trim();
 
-var margin = { top: 70, right: 100, bottom: 0, left: 100 },
-    width = 500 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
@@ -29,9 +25,17 @@ const tooltip = d3.select("body")
 
 const unitSize = 12;
 const unitSpacing = 15;
-const maxPerRow = 15;
 
 export function renderPictorial() {
+    d3.select("#pictorial svg").remove();
+
+    const screenWidth = window.innerWidth;
+    const margin = { top: 70, right: 100, bottom: 0, left: 100 };
+    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 767 ? 200 : 300) - margin.top - margin.bottom;
+
+    const maxPerRow = screenWidth <= 767 ? 10 : 15;
+
     return d3.csv("data/csv/cleaned/pictorial.csv").then(data => {
         data.forEach(d => {
             d.Entity = d.Entity;
@@ -49,14 +53,27 @@ export function renderPictorial() {
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        svg.append('text')
+        const title = svg.append('text')
             .attr('x', width / 2)
             .attr('y', -30)
             .attr("text-anchor", "middle")
-            .text("Countries with highest death rate due to drugs in 2021")
             .style("font-family", antic)
             .style("font-size", "1rem")
             .style("font-weight", "bold");
+
+        if(screenWidth <= 767) {
+            title.append("tspan")
+                .attr("x", width / 2)
+                .attr("dy", 0)
+                .text("Countries with highest death rate");
+
+            title.append("tspan")
+                .attr("x", width / 2)
+                .attr("dy", "1.2em")
+                .text("due to drugs in 2021");
+        } else {
+            title.text("Countries with highest death rate due to drugs in 2021");
+        }
 
         const scaleValueToUnits = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.DeathRate)])
@@ -142,4 +159,13 @@ export function renderPictorial() {
         svg.node()._allIcons = allIcons;
         return allIcons;
     });
-}
+};
+
+let resizeTimeout;
+
+window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        renderPictorial();
+    }, 200);
+});

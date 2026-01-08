@@ -23,3 +23,30 @@
 #flag{
   width: 30rem;
 }
+
+/* -------- Responsive -------- */
+@media (max-width: 768px) {
+  .grid2 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .grid2 .first_column {
+    border-left: 1px solid var(--black);
+    border-right: 1px solid var(--black);
+    padding: 2rem;
+    width: 80%;
+  }
+
+  .grid2 .second_column {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    border: none;
+  }
+  
+  #timeline {
+    width: 80%;
+    margin: 2rem auto;
+  }
+}
