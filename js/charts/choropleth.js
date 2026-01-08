@@ -8,80 +8,83 @@ const white = getComputedStyle(document.documentElement).getPropertyValue("--whi
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-var margin = { top: 10, right: 0, bottom: 0, left: 0 },
-    width = 1000 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
-
 const eventColors = {
     "RussianUkranianWar": black,
     "IsraeliPalestinianWar": orange,
     "DrugWar": green
 };
 
-const rootSvg = d3.select("#choropleth")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
-
-rootSvg.insert("rect")
-    .attr("class", "rectangle")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .attr("fill", "none")
-    .attr("stroke", black)
-    .attr("stroke-width", 1);
-
-const svg = rootSvg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-const projection = d3.geoMercator()
-    .rotate([-10, 0])
-    .scale(130)
-    .translate([width / 1.8, height / 1.8]);
-
-const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "fixed")
-    .style("opacity", 0)
-    .style("background-color", `${beige}`)
-    .style("border", `1px solid ${black}`)
-    .style("padding", "10px")
-    .style("z-index", "999")
-    .style("pointer-events", "none")
-    .style("font-family", prata)
-    .style("font-size", "14px")
-    .style("line-height", "1.5")
-    .style("max-width", "200px");
-
-//Zoom
-let myZoom = d3.zoom()
-    .scaleExtent([1, 10])
-    .on('zoom', (e) => svg.attr('transform', e.transform));
-
-rootSvg.call(myZoom);
-
-d3.select('.choropleth-zoom-in').on('click', () =>
-    rootSvg.transition().call(myZoom.scaleBy, 2)
-);
-
-d3.select('.choropleth-zoom-out').on('click', () => {
-    const t = d3.zoomTransform(rootSvg.node());
-    if (t.k <= 1.001)
-        rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
-    else
-        rootSvg.transition().call(myZoom.scaleBy, 0.5);
-});
-
-d3.select('.choropleth-zoom-restore').on('click', () => {
-    rootSvg.transition()
-        .duration(750)
-        .call(myZoom.transform, d3.zoomIdentity);
-});
-
 export function renderChoropleth() {
+    d3.select("#choropleth svg").remove();
+
+    const screenWidth = window.innerWidth;
+    const margin = { top: 10, right: 0, bottom: 0, left: 0 };
+    const width = (screenWidth <= 767 ? 500 : 1000) - margin.left - margin.right;
+    const height = (screenWidth <= 767 ? 500 : 700) - margin.top - margin.bottom;
+
+    const rootSvg = d3.select("#choropleth")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    rootSvg.insert("rect")
+        .attr("class", "rectangle")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("fill", "none")
+        .attr("stroke", black)
+        .attr("stroke-width", 1);
+
+    const svg = rootSvg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const projection = d3.geoMercator()
+        .rotate([-10, 0])
+        .scale(screenWidth <= 767 ? 100 : 130)
+        .translate([width / 1.8, height / 1.8]);
+
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "fixed")
+        .style("opacity", 0)
+        .style("background-color", `${beige}`)
+        .style("border", `1px solid ${black}`)
+        .style("padding", "10px")
+        .style("z-index", "999")
+        .style("pointer-events", "none")
+        .style("font-family", prata)
+        .style("font-size", "14px")
+        .style("line-height", "1.5")
+        .style("max-width", "200px");
+
+    //Zoom
+    let myZoom = d3.zoom()
+        .scaleExtent(screenWidth <= 767 ? [1, 6] : [1, 10])
+        .on('zoom', (e) => svg.attr('transform', e.transform));
+
+    rootSvg.call(myZoom);
+
+    d3.select('.choropleth-zoom-in').on('click', () =>
+        rootSvg.transition().call(myZoom.scaleBy, 2)
+    );
+
+    d3.select('.choropleth-zoom-out').on('click', () => {
+        const t = d3.zoomTransform(rootSvg.node());
+        if (t.k <= 1.001)
+            rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
+        else
+            rootSvg.transition().call(myZoom.scaleBy, 0.5);
+    });
+
+    d3.select('.choropleth-zoom-restore').on('click', () => {
+        rootSvg.transition()
+            .duration(750)
+            .call(myZoom.transform, d3.zoomIdentity);
+    });
+
     Promise.all([
         d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
         d3.csv("data/csv/cleaned/choropleth.csv")
@@ -89,7 +92,13 @@ export function renderChoropleth() {
         let topo = loadData[0];
         let eventData = loadData[1];
 
-        projection.fitSize([width, height], topo);
+        projection.fitSize([width, height - (screenWidth <= 767 ? 100 : 0)], topo);
+
+        if (screenWidth <= 767)
+            projection.translate([
+                width / 2,
+                (height - 100) / 2 + 150
+            ]);
 
         const pathGenerator = d3.geoPath().projection(projection);
 
@@ -147,7 +156,7 @@ export function renderChoropleth() {
         //Legend
         const legend = rootSvg.append("g")
             .attr("class", "legend")
-            .attr("transform", `translate(20, ${height - 650})`);
+            .attr("transform", `translate(20, ${height - (screenWidth <= 767 ? 450 : 650)})`);
 
         legend.append("text")
             .attr("x", 0)
@@ -192,3 +201,7 @@ export function renderChoropleth() {
             .text("Low search index");
     });
 };
+
+window.addEventListener("resize", () => {
+    renderChoropleth();
+});

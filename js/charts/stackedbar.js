@@ -30,6 +30,7 @@ let chartCreated = false;
 
 function createStackedBarChart() {
     if (chartCreated) return;
+    
     chartCreated = true;
 
     d3.csv("data/csv/cleaned/stacked.csv").then(data => {
@@ -124,33 +125,6 @@ function createStackedBarChart() {
             .ease(d3.easeCubicOut)
             .attr("y", d => y(d[1]))
             .attr("height", d => y(d[0]) - y(d[1]));
-        
-        /*
-        const legend = svg.append("g")
-            .attr("transform", `translate(${width + 20}, 0)`);
-
-        const legendItems = legend.selectAll(".legend-item")
-            .data(categories)
-            .enter()
-            .append("g")
-            .attr("class", "legend-item")
-            .attr("transform", (d, i) => `translate(0, ${i * 25})`);
-
-        legendItems.append("rect")
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("fill", d => colors(d));
-
-        legendItems.append("text")
-            .attr("class", "legendText")
-            .attr("x", 24)
-            .attr("y", 9)
-            .attr("dy", "0.35em")
-            .style("font-size", "12px")
-            .style("font-family", prata)
-            .text(d => d.replace("_", " "));
-
-        */
         
         const title = svg.append("text")
             .attr("x", width / 2)

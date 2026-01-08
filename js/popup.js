@@ -1,12 +1,12 @@
 export function showMobilePopup() {
     const checkAndShowPopup = () => {
-        if (window.innerWidth <= 938 && !sessionStorage.getItem('mobilePopupShown')) {
+        if (window.innerWidth <= 766 && !sessionStorage.getItem('mobilePopupShown')) {
             const popupHTML = `
                 <div id="mobile-popup" class="mobile-popup-overlay">
                     <div class="mobile-popup-content">
                         <h3>Notice</h3>
                         <p>For the best experience, we recommend viewing this site on a larger screen
-                            or eventually using desktop view.</p>
+                            or eventually rotating the device.</p>
                         <button id="mobile-popup-close" class="mobile-popup-button">Continue anyway</button>
                     </div>
                 </div>

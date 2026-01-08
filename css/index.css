@@ -3,7 +3,7 @@
   display: inline-block;
 }
 
-.map-wrapper > .btn {
+.map-wrapper>.btn {
   position: absolute;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
 }
 
 #connection_container,
-#choropleth_container{
+#choropleth_container {
   display: flex;
   position: relative;
   justify-content: center;
@@ -19,20 +19,42 @@
 }
 
 #pieta,
-#general{
+#general {
   width: 20rem;
 }
 
 #connection:hover,
-#choropleth:hover{
+#choropleth:hover {
   cursor: grab;
 }
 
 #connection:active,
-#choropleth:active{
+#choropleth:active {
   cursor: grabbing;
 }
 
-#children{
+#children {
   width: 30rem;
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 768px) {
+  .grid2 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid2 .first_column {
+    border-left: 1px solid var(--black);
+    border-right: 1px solid var(--black);
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .grid2 .second_column {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: none;
+  }
 }

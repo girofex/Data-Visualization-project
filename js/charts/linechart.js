@@ -7,13 +7,25 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-const margin = { top: 80, right: 130, bottom: 60, left: 130 },
-    width = 1200 - margin.left - margin.right,
-    height = 550 - margin.top - margin.bottom;
-
 const parseDate = d3.timeParse("%Y-%m-%d");
 
 export function renderLineChart() {
+    d3.select("#linechart svg").remove();
+
+    const screenWidth = window.innerWidth;
+    const margin = { top: 80, right: 130, bottom: 60, left: 130 };
+    const width = (screenWidth <= 767 ? 700 : 1200) - margin.left - margin.right;
+    const height = 550 - margin.top - margin.bottom;
+
+    const svgRoot = d3.select("#linechart")
+        .append("svg")
+        .attr("data-animate", "false")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    const svg = svgRoot.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
     d3.csv("data/csv/cleaned/linechart.csv").then(data => {
         data.forEach(d => {
             d.Week = parseDate(d.Week);
@@ -31,15 +43,6 @@ export function renderLineChart() {
                 value: d[k]
             }))
         }));
-
-        const svgRoot = d3.select("#linechart")
-            .append("svg")
-            .attr("data-animate", "false")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
-
-        const svg = svgRoot.append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
 
         const colorScale = d3.scaleOrdinal()
             .domain(keys)
@@ -317,3 +320,7 @@ export function renderLineChart() {
         observer.observe(d3.select("#linechart svg").node());
     })
 };
+
+window.addEventListener("resize", () => {
+    renderLineChart();
+});

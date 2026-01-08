@@ -6,25 +6,6 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 
-var margin = { top: 30, right: 150, bottom: 30, left: 150 },
-    width = 1400 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
-const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "fixed")
-    .style("opacity", 0)
-    .style("background-color", `${beige}`)
-    .style("border", `1px solid ${black}`)
-    .style("padding", "10px")
-    .style("z-index", "999")
-    .style("pointer-events", "none")
-    .style("font-family", prata)
-    .style("font-size", "14px")
-    .style("line-height", "1.5")
-    .style("max-width", "200px");
-
 const data = [
     {
         label: 'UN partition plan', year: 1947, description: 'The General Assembly of the UN partitioned Palestine \
@@ -72,134 +53,196 @@ const data = [
         A war that is continuing as of now.' }
 ];
 
-const svg = d3.select('#timeline')
-    .append('svg')
-    .attr("data-animate", "false")
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
+function render() {
+    d3.select("#timeline svg").remove();
+    const isVertical = window.innerWidth <= 768;
 
-const xScale = d3.scaleLinear()
-    .domain([1947, 2023])
-    .range([0, width]);
+    const margin = { top: 30, right: 150, bottom: 30, left: 150 };
+    const width = (isVertical ? 550 : 1400) - margin.left - margin.right;
+    const height = (isVertical ? 1400 : 300) - margin.top - margin.bottom;
 
-//Line
-svg.append('line')
-    .attr("class", "arrow")
-    .attr('x1', -40)
-    .attr('y1', height / 2)
-    .attr('x2', width + 4)
-    .attr('y2', height / 2)
-    .attr('stroke', black)
-    .attr('stroke-width', 2)
-    .each(function () {
-        const totalLength = this.getTotalLength();
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "fixed")
+        .style("opacity", 0)
+        .style("background-color", `${beige}`)
+        .style("border", `1px solid ${black}`)
+        .style("padding", "10px")
+        .style("z-index", "999")
+        .style("pointer-events", "none")
+        .style("font-family", prata)
+        .style("font-size", "14px")
+        .style("line-height", "1.5")
+        .style("max-width", "200px");
 
-        d3.select(this)
-            .attr("stroke-dasharray", totalLength)
-            .attr("stroke-dashoffset", totalLength);
+    const svg = d3.select('#timeline')
+        .append('svg')
+        .attr("data-animate", "false")
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const xScale = d3.scaleLinear()
+        .domain([1947, 2023])
+        .range([0, (isVertical ? height : width)]);
+
+    if (isVertical) {
+        //Line
+        svg.append('line')
+            .attr('x1', width / 2)
+            .attr('y1', -40)
+            .attr('x2', width / 2)
+            .attr('y2', height + 4)
+            .attr('stroke', black)
+            .attr('stroke-width', 2);
+
+        //Arrow
+        svg.append('path')
+            .attr('d', `M ${width / 2 - 6} ${height + 40} l 12 0 l -6 -10 Z`) // arrow
+            .attr('fill', black);
+    } else {
+        //Line
+        svg.append('line')
+            .attr("class", "arrow")
+            .attr('x1', -40)
+            .attr('y1', height / 2)
+            .attr('x2', width + 4)
+            .attr('y2', height / 2)
+            .attr('stroke', black)
+            .attr('stroke-width', 2)
+            .each(function () {
+                const totalLength = this.getTotalLength();
+
+                d3.select(this)
+                    .attr("stroke-dasharray", totalLength)
+                    .attr("stroke-dashoffset", totalLength);
+            });
+
+        //Arrow
+        svg.append('path')
+            .attr('d', `M ${width + 40} ${height / 2} l -10 -6 l 0 12 Z`)
+            .attr('fill', black);
+    }
+
+    data.forEach((d, i) => {
+        const pos = xScale(d.year);
+        const isLeft = i % 2 === 0;
+
+        //Vertical positions
+        const cx = isVertical ? width / 2 : pos;
+        const cy = isVertical ? pos : height / 2;
+
+        const boxOffset = 120;
+        const boxX = isVertical
+            ? (isLeft ? width / 2 - boxOffset : width / 2 + boxOffset)
+            : pos;
+
+        const boxY = isVertical
+            ? pos
+            : (isLeft ? 0 : height);
+
+        //Circle
+        svg.append('circle')
+            .attr('cx', cx)
+            .attr('cy', cy)
+            .attr('r', 25)
+            .attr('fill', beige)
+            .attr('stroke', black)
+            .attr('stroke-width', 1);
+
+        //Year label
+        svg.append('text')
+            .attr('x', cx)
+            .attr('y', cy)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .attr('font-family', antic)
+            .attr('font-weight', 'bold')
+            .attr('font-size', '14px')
+            .attr('fill', black)
+            .text(d.year);
+
+        //Dotted connector
+        const startX = isVertical
+            ? cx + (isLeft ? -25 : 25)
+            : cx;
+
+        const startY = isVertical
+            ? cy
+            : cy + (isLeft ? -25 : 25);
+
+        svg.append('line')
+            .attr('x1', startX)
+            .attr('y1', startY)
+            .attr('x2', isVertical ? boxX : cx)
+            .attr('y2', isVertical ? cy : boxY - 10)
+            .attr('stroke', black)
+            .attr('stroke-width', 1)
+            .attr('stroke-dasharray', '4,4');
+
+        //Box group
+        const boxGroup = svg.append('g')
+            .attr('transform', `translate(${boxX}, ${boxY})`);
+
+        boxGroup.append('rect')
+            .attr('x', isVertical ? (isLeft ? -140 : 0) : -70)
+            .attr('y', -20)
+            .attr('width', 140)
+            .attr('height', 40)
+            .attr('fill', orange);
+
+        boxGroup.append('text')
+            .attr('x', isVertical ? (isLeft ? -70 : 70) : 0)
+            .attr('y', 5)
+            .attr('text-anchor', 'middle')
+            .attr('font-weight', 'bold')
+            .attr('font-size', '14px')
+            .attr('font-family', prata)
+            .attr('fill', beige)
+            .attr('pointer-events', 'none')
+            .text(d.label);
+
+        //Tooltip
+        boxGroup
+            .datum(d)
+            .on("mouseover", function (event, d) {
+                tooltip.html(d.description).style("opacity", 1);
+                d3.select(this).select('rect').attr("fill-opacity", 0.6);
+            })
+            .on("mousemove", function (event) {
+                tooltip
+                    .style("left", (event.clientX + 10) + "px")
+                    .style("top", (event.clientY) + "px");
+            })
+            .on("mouseout", function () {
+                tooltip.style("opacity", 0);
+                d3.select(this).select('rect').attr("fill-opacity", 1);
+            });
     });
 
-//Arrow
-svg.append('path')
-    .attr('d', `M ${width + 40} ${height / 2} l -10 -6 l 0 12 Z`)
-    .attr('fill', black);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.animated) {
+                entry.target.dataset.animated = "true";
 
-data.forEach((d, i) => {
-    const x = xScale(d.year);
-    const isUp = i % 2 === 0;
+                svg.selectAll(".arrow")
+                    .transition()
+                    .duration(2500)
+                    .ease(d3.easeSin)
+                    .attr("stroke-dashoffset", 0);
 
-    const lineEndY = isUp ? 0 : height;
-    const boxY = isUp ? 0 : height;
-
-    //Circle
-    svg.append('circle')
-        .attr('cx', x)
-        .attr('cy', height / 2)
-        .attr('r', 25)
-        .attr('fill', beige)
-        .attr('stroke', black)
-        .attr('stroke-width', 1);
-
-    //Year label
-    svg.append('text')
-        .attr('x', x)
-        .attr('y', height / 2)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr('font-family', antic)
-        .attr('font-weight', 'bold')
-        .attr('font-size', '14px')
-        .attr('fill', black)
-        .text(d.year);
-
-    //Dotted line
-    svg.append('line')
-        .attr('x1', x)
-        .attr('y1', height / 2 + (isUp ? -25 : 25))
-        .attr('x2', x)
-        .attr('y2', lineEndY)
-        .attr('stroke', black)
-        .attr('stroke-width', 1)
-        .attr('stroke-dasharray', '4,4');
-
-    const boxGroup = svg.append('g')
-        .attr('transform', `translate(${x}, ${boxY})`);
-
-    //Box
-    boxGroup.append('rect')
-        .datum(d)
-        .attr('x', -70)
-        .attr('y', -20)
-        .attr('width', 140)
-        .attr('height', 40)
-        .attr('fill', orange);
-
-    boxGroup.append('text')
-        .attr('x', 0)
-        .attr('y', 5)
-        .attr('text-anchor', 'middle')
-        .attr('font-weight', 'bold')
-        .attr('font-size', '14px')
-        .attr('font-family', prata)
-        .attr('fill', beige)
-        .attr('pointer-events', 'none')
-        .text(d.label);
-
-    //Tooltip
-    boxGroup
-        .datum(d)
-        .on("mouseover", function (event, d) {
-            tooltip.html(`${d.description}`)
-                .style("opacity", 1);
-            d3.select(this).select('rect').attr("fill-opacity", 0.6);
-        })
-        .on("mousemove", function (event) {
-            tooltip
-                .style("left", (event.clientX + 10) + "px")
-                .style("top", (event.clientY) + "px");
-        })
-        .on("mouseout", function () {
-            tooltip.style("opacity", 0);
-            d3.select(this).select('rect').attr("fill-opacity", 1);
+                observer.unobserve(entry.target);
+            }
         });
+    }, { threshold: 1 });
+
+    observer.observe(d3.select("#timeline svg").node());
+};
+
+render();
+
+window.addEventListener("resize", () => {
+    render();
 });
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.animated) {
-            entry.target.dataset.animated = "true";
-
-            svg.selectAll(".arrow")
-                .transition()
-                .duration(2500)
-                .ease(d3.easeSin)
-                .attr("stroke-dashoffset", 0);
-
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 1 });
-
-observer.observe(d3.select("#timeline svg").node());

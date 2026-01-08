@@ -279,15 +279,13 @@ img {
 }
 
 /* -------- Responsive -------- */
-@media (max-width: 938px) {
-  html,
-  body {
-    overflow-x: hidden;
+@media (max-width: 768px) {
+  #pieta,
+  #general{
+    width: 10rem !important;
   }
 
-  body.desktop-scale {
-    transform: scale(0.3);
-    transform-origin: top left;
-    width: 400%;
+  .title {
+    height: auto !important;
   }
 }
