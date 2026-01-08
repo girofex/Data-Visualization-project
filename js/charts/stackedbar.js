@@ -1,12 +1,13 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 const prata = getComputedStyle(document.documentElement).getPropertyValue("--prata").trim();
+const antic = getComputedStyle(document.documentElement).getPropertyValue("--antic").trim();
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-const margin = { top: 10, right: 180, bottom: 60, left: 50 },
+const margin = { top: 50, right: 80, bottom: 60, left: 80 },
     width = 690 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -123,7 +124,8 @@ function createStackedBarChart() {
             .ease(d3.easeCubicOut)
             .attr("y", d => y(d[1]))
             .attr("height", d => y(d[0]) - y(d[1]));
-
+        
+        /*
         const legend = svg.append("g")
             .attr("transform", `translate(${width + 20}, 0)`);
 
@@ -147,6 +149,33 @@ function createStackedBarChart() {
             .style("font-size", "12px")
             .style("font-family", prata)
             .text(d => d.replace("_", " "));
+
+        */
+        
+        const title = svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", -30)
+            .attr("text-anchor", "middle")
+            .style("font-size", "1rem")
+            .style("font-family", antic)
+            .style("font-weight", "bold");
+
+        title.append("tspan")
+            .text("Possession by ");
+
+        title.append("tspan")
+            .text("Russia")
+            .style("fill", orange);
+        
+        title.append("tspan")
+            .text(" and ");
+
+        title.append("tspan")
+            .text("Ukraine")
+            .style("fill", green);
+
+        title.append("tspan")
+            .text(" of Ukrainian territories over time (%)");
 
         const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
 
