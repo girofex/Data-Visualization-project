@@ -159,7 +159,7 @@ function render() {
                     observer.unobserve(container);
                 }
             });
-        }, { threshold: (isLandscape ? 0.3 : 1) });
+        }, { threshold: (isLandscape ? 0.3 : 0.9) });
 
         observer.observe(container);
     })

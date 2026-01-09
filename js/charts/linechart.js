@@ -330,7 +330,7 @@ const observer = new IntersectionObserver((entries) => {
             observer.unobserve(entry.target)
         }
     });
-}, { threshold: (isLandscape ? 0.3 : 1) });
+}, { threshold: (isLandscape ? 0.3 : 0.9) });
 
 const chartContainer = document.querySelector('#linechart');
 if (chartContainer) {
