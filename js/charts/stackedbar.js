@@ -22,31 +22,39 @@ const tooltip = d3.select("body")
     .style("line-height", "1.5")
     .style("max-width", "200px");
 
-let chartCreated = false;
 let isLandscape = false;
+const container = document.querySelector("#stackedbar");
+let hasAnimatedOnce = false;
 
-function createStackedBarChart() {
-    if (chartCreated)
+function render(animate) {
+    if (!container)
         return;
 
-    chartCreated = true;
+    //Remove first rendering
+    d3.select(container).select("svg").remove();
 
-    d3.select("#stacked svg").remove();
-    
-    if(screen.width <= 980 && screen.height <= 436)
+    //Check resolution screen
+    if (screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 50, right: 80, bottom: 60, left: 80 };
     const width = 690 - margin.left - margin.right;
     const height = (isLandscape ? 300 : 400) - margin.top - margin.bottom;
 
-    const svgRoot = d3.select("#stackedbar")
+    //Chart
+    const svgRoot = d3.select(container)
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
     const svg = svgRoot.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    //Reset animation flag on resize
+    if (container.dataset.resized) {
+        container.dataset.animated = "false";
+        delete container.dataset.resized;
+    }
 
     d3.csv("data/csv/cleaned/stacked.csv").then(data => {
         data.forEach(d => {
@@ -68,10 +76,13 @@ function createStackedBarChart() {
             .range([0, width])
             .padding(0.5);
 
-        const xAxis = d3.axisBottom(x).tickValues(x.domain().filter((d, i) => !(i % 5)));
+        const xAxis = d3.axisBottom(x)
+            .tickValues(x.domain()
+                .filter((d, i) => !(i % 5))
+            );
 
         svg.append("g")
-            .attr("transform", `translate(0,${height})`)
+            .attr("transform", `translate(0, ${height})`)
             .call(xAxis)
             .selectAll("text")
             .attr("transform", "rotate(-30)")
@@ -90,7 +101,7 @@ function createStackedBarChart() {
             .attr("class", "layer")
             .attr("fill", d => colors(d.key));
 
-        layers.selectAll("rect")
+        const rects = layers.selectAll("rect")
             .data(d => d)
             .enter()
             .append("rect")
@@ -100,6 +111,7 @@ function createStackedBarChart() {
             .attr("width", x.bandwidth() + 5)
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("opacity", 0.6);
+
                 const key = this.parentNode.__data__.key;
                 let valueLabel = "";
                 let value = "";
@@ -125,14 +137,25 @@ function createStackedBarChart() {
             .on("mouseout", function () {
                 d3.select(this).attr("opacity", 1);
                 tooltip.style("opacity", 0);
-            })
-            .transition()
-            .duration(1000)
-            .delay((d, i) => i * 10)
-            .ease(d3.easeCubicOut)
-            .attr("y", d => y(d[1]))
-            .attr("height", d => y(d[0]) - y(d[1]));
+            });
 
+        //Animation
+        if (animate) {
+            rects
+                .attr("visibility", "visible")
+                .transition()
+                .duration(1000)
+                .delay((_, i) => i * 10)
+                .ease(d3.easeCubicOut)
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]));
+        } else {
+            rects
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]));
+        }
+
+        //Title
         const title = svg.append("text")
             .attr("x", width / 2)
             .attr("y", -30)
@@ -141,25 +164,13 @@ function createStackedBarChart() {
             .style("font-family", antic)
             .style("font-weight", "bold");
 
-        title.append("tspan")
-            .text("Possession by ");
-
-        title.append("tspan")
-            .text("Russia")
-            .style("fill", orange);
-
-        title.append("tspan")
-            .text(" and ");
-
-        title.append("tspan")
-            .text("Ukraine")
-            .style("fill", green);
-
-        title.append("tspan")
-            .text(" of Ukrainian territories over time (%)");
+        title.append("tspan").text("Possession by ");
+        title.append("tspan").text("Russia").style("fill", orange);
+        title.append("tspan").text(" and ");
+        title.append("tspan").text("Ukraine").style("fill", green);
+        title.append("tspan").text(" of Ukrainian territories over time (%)");
 
         const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
-
         const peakX = x(peak.DateStr) + x.bandwidth() - 1;
         const peakY = y(peak.Russian_Possession);
 
@@ -193,27 +204,28 @@ function createStackedBarChart() {
                         tooltip.style("opacity", 0);
                     });
             });
-    });
-}
+    })
+};
 
-const observer = new IntersectionObserver((entries) => {
+//Observer after data is loaded and elements are created
+const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.animated) {
-            createStackedBarChart();
+        if (entry.isIntersecting && !hasAnimatedOnce) {
+            hasAnimatedOnce = true;
+            render(true);
             observer.unobserve(entry.target);
         }
     });
-},
-    {
-        threshold: (isLandscape ? 0.3 : 1),
-        rootMargin: '0px 0px -200px 0px'
-    });
+}, {
+    threshold: 0.5,
+    rootMargin: "0px 0px -200px 0px"
+});
 
-const chartContainer = document.querySelector('#stackedbar');
-if (chartContainer) {
-    observer.observe(chartContainer);
-}
+if (container)
+    observer.observe(container);
+
+render(false);
 
 window.addEventListener("resize", () => {
-    createStackedBarChart();
+    render(true);
 });

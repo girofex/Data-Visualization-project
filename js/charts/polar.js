@@ -25,35 +25,15 @@ const tooltip = d3.select("body")
     .style("line-height", "1.5")
     .style("max-width", "200px");
 
+//Chart
+const container = document.querySelector("#polar");
+
 function render() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !container.dataset.animated) {
-                container.dataset.animated = "true";
-
-                chart.selectAll(".bar")
-                    .transition()
-                    .duration(1200)
-                    .delay((d, i) => i * 15)
-                    .attrTween("d", d => {
-                        const interpolateRadius = d3.interpolate(innerRadius, radiusScale(d.value));
-                        return t => d3.arc()
-                            .innerRadius(innerRadius)
-                            .outerRadius(interpolateRadius(t))
-                            .startAngle(angleScale(d.year))
-                            .endAngle(angleScale(d.year) + angleScale.bandwidth())
-                            .padAngle(0.03)
-                            .padRadius(innerRadius)();
-                    });
-
-                observer.unobserve(container);
-            }
-        });
-    }, { threshold: (isLandscape ? 0.3 : 1) });
-
+    //Remove first rendering
     d3.select("#polar svg").remove();
 
-    if(screen.width <= 980 && screen.height <= 436)
+    //Check resolution screen
+    if (screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
@@ -63,8 +43,6 @@ function render() {
     const innerRadius = isLandscape ? 40 : 90;
     const outerRadius = Math.min(width, height) / 2 - 40;
 
-    const container = document.querySelector("#polar");
-
     const svg = d3.select(container)
         .append("svg")
         .attr("width", width)
@@ -72,6 +50,12 @@ function render() {
 
     const chart = svg.append("g")
         .attr("transform", `translate(${width / 2},${height / 2})`);
+
+    //Reset animation flag on resize
+    if (container.dataset.resized) {
+        container.dataset.animated = "false";
+        delete container.dataset.resized;
+    }
 
     d3.csv("data/csv/cleaned/polar.csv").then(data => {
         data.forEach(d => {
@@ -87,7 +71,6 @@ function render() {
         radiusScale = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.value)])
             .range([innerRadius, outerRadius]);
-
 
         chart.append("g")
             .selectAll("circle")
@@ -152,6 +135,32 @@ function render() {
             .style("font-weight", "bold")
             .style("fill", black);
 
+        //Observer after data is loaded and elements are created
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && container.dataset.animated !== "true") {
+                    container.dataset.animated = "true";
+
+                    chart.selectAll(".bar")
+                        .transition()
+                        .duration(1200)
+                        .delay((d, i) => i * 15)
+                        .attrTween("d", d => {
+                            const interpolateRadius = d3.interpolate(innerRadius, radiusScale(d.value));
+                            return t => d3.arc()
+                                .innerRadius(innerRadius)
+                                .outerRadius(interpolateRadius(t))
+                                .startAngle(angleScale(d.year))
+                                .endAngle(angleScale(d.year) + angleScale.bandwidth())
+                                .padAngle(0.03)
+                                .padRadius(innerRadius)();
+                        });
+
+                    observer.unobserve(container);
+                }
+            });
+        }, { threshold: (isLandscape ? 0.3 : 1) });
+
         observer.observe(container);
     })
 };
@@ -159,5 +168,8 @@ function render() {
 render();
 
 window.addEventListener("resize", () => {
+    if (container)
+        container.dataset.resized = "true";
+
     render();
 });

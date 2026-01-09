@@ -22,15 +22,31 @@ const tooltip = d3.select("body")
     .style("max-width", "200px");
 
 export function renderAreaChart() {
-    d3.select("#area svg").remove();
+    //Chart
+    const container = document.querySelector("#area");
 
+    //Check resolution screen
     let isLandscape = false;
-    if(screen.width <= 980 && screen.height <= 436)
+    if (screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };
     const width = (isLandscape ? 300 : 500) - margin.left - margin.right;
     const height = (isLandscape ? 200 : 300) - margin.top - margin.bottom;
+
+    // Check last rendered size
+    const lastWidth = container.dataset.width ? +container.dataset.width : null;
+    const lastHeight = container.dataset.height ? +container.dataset.height : null;
+
+    if (lastWidth === width && lastHeight === height)
+        return;
+
+    //Store new dimensions
+    container.dataset.width = width;
+    container.dataset.height = height;
+
+    //Remove first rendering
+    d3.select("#area svg").remove();
 
     d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
@@ -38,13 +54,19 @@ export function renderAreaChart() {
             d.DeathRate = +d.DeathRate;
         });
 
-        var svg = d3.select("#area")
-            .attr("data-animate", "false")
+        var svg = d3.select(container)
             .append("svg")
+            .attr("data-animate", "false")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+        //Reset animation flag on resize
+        if (container.dataset.resized) {
+            container.dataset.animated = "false";
+            delete container.dataset.resized;
+        }
 
         const title = svg.append('text')
             .attr('x', width / 2)
@@ -140,6 +162,24 @@ export function renderAreaChart() {
             .attr("stroke", black)
             .attr("stroke-width", 2);
 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && container.dataset.animated !== "true") {
+                    container.dataset.animated = "true";
+
+                    clipRect
+                        .transition()
+                        .duration(2500)
+                        .ease(d3.easeSin)
+                        .attr("width", width);
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        observer.observe(container);
+
         svg.append("rect")
             .attr("class", "overlay")
             .attr("width", width)
@@ -178,26 +218,13 @@ export function renderAreaChart() {
                 }
             });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.dataset.animated) {
-                    entry.target.dataset.animated = "true";
-
-                    clipRect
-                        .transition()
-                        .duration(2500)
-                        .ease(d3.easeSin)
-                        .attr("width", width);
-
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.3 });
-
-        observer.observe(d3.select("#area svg").node());
     });
 };
 
 window.addEventListener("resize", () => {
-    renderAreachart();
+    const container = document.querySelector("#area");
+    if (container)
+        container.dataset.resized = "true";
+
+    renderAreaChart();
 });
