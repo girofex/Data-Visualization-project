@@ -280,6 +280,14 @@ img {
 
 /* -------- Responsive -------- */
 @media (max-width: 844px) and (max-height: 390px) {
+  .grid,
+  .grid2 {
+    margin-top: 2rem !important;
+  }
+
+  .single_column {
+    margin-top: -2rem !important;
+  }
 
   #pieta,
   #general {
@@ -296,12 +304,17 @@ img {
   }
 
   h2 {
-    font-size: 1.3rem !important;
+    font-size: 1.2rem !important;
     line-height: 1.5;
   }
 
   h3 {
     font-size: 1rem !important;
     line-height: 1.6;
+  }
+
+  p {
+    font-size: 0.8rem !important;
+    line-height: 1.7;
   }
 }

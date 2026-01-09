@@ -155,13 +155,19 @@ md-menu-item:hover {
 
 /* -------- Responsive -------- */
 @media (max-width: 844px) and (max-height: 390px) {
+  .m3-navbar {
+    height: auto;
+    padding: 0.1rem;
+  }
+  
   .home {
-    font-size: 1.3rem !important;
-    line-height: 1.5 !important;
+    font-size: 0.8rem !important;
+    line-height: 1.7;
   }
 
-  .m3-navbar {
-    width: auto;
-    padding: 0.5rem;
+  .md-icon,
+  #menu {
+    font-size: 1rem !important;
+    line-height: 1.6;
   }
 }
