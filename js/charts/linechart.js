@@ -110,6 +110,7 @@ export function renderLineChart() {
             .attr("fill", "none")
             .attr("stroke", d => colorScale(d.name))
             .attr("stroke-width", 2.5)
+            .style("opacity", 0)
             .style("cursor", "pointer")
             .attr("d", d => lineGen(d.data))
             .each(function () {
@@ -119,11 +120,11 @@ export function renderLineChart() {
                     .attr("stroke-dashoffset", totalLength)
                     .transition()
                     .duration(2500)
+                    .style("opacity", 1)
                     .ease(d3.easeSin)
                     .attr("stroke-dashoffset", 0);
             })
             .on("click", handleToggle);
-
 
         //Labels
         let labels = datasets.map(d => {
@@ -175,7 +176,12 @@ export function renderLineChart() {
                 .style("font-weight", "bold")
                 .style("fill", l.color)
                 .style("cursor", "pointer")
-                .on("click", handleToggle);
+                .style("opacity", 0)
+                .on("click", handleToggle)
+                .transition()
+                .delay(2500)
+                .duration(300)
+                .style("opacity", 1);
         });
 
         //Opacity
@@ -305,7 +311,8 @@ export function renderLineChart() {
             .transition()
             .duration(2500)
             .ease(d3.easeSin)
-            .attr("stroke-dashoffset", 0);
+            .attr("stroke-dashoffset", 0)
+            .style("opacity", 1);
 
         annotationGroup
             .transition()
