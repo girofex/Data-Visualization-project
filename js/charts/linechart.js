@@ -12,14 +12,15 @@ const parseDate = d3.timeParse("%Y-%m-%d");
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
+    const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    let isPortrait = false;
-    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
-        isPortrait = true;
+    let isLandscape = false;
+    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+        isLandscape = true;
 
     const margin = { top: 80, right: 130, bottom: 60, left: 130 };
-    const width = (isPortrait ? 700 : 1200) - margin.left - margin.right;
-    const height = (isPortrait ? 400 : 550) - margin.top - margin.bottom;
+    const width = (isLandscape ? 700 : 1200) - margin.left - margin.right;
+    const height = (isLandscape ? 400 : 550) - margin.top - margin.bottom;
 
     const svgRoot = d3.select("#linechart")
         .append("svg")

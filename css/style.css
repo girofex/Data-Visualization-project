@@ -279,7 +279,7 @@ img {
 }
 
 /* -------- Responsive -------- */
-@media (max-height: 978px) and (orientation: portrait) {
+@media (max-width: 2400px) and (min-width: 2400px) and (max-height: 978px) and (orientation: landscape){
   #pieta,
   #general{
     width: 10rem !important;

@@ -32,14 +32,15 @@ const tooltip = d3.select("body")
 export function renderChoropleth() {
     d3.select("#choropleth svg").remove();
 
+    const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    let isPortrait = false;
-    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
-        isPortrait = true;
+    let isLandscape = false;
+    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+        isLandscape = true;
 
     const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-    const width = (isPortrait ? 500 : 1000) - margin.left - margin.right;
-    const height = (isPortrait ? 500 : 700) - margin.top - margin.bottom;
+    const width = (isLandscape ? 500 : 1000) - margin.left - margin.right;
+    const height = (isLandscape ? 500 : 700) - margin.top - margin.bottom;
 
     const rootSvg = d3.select("#choropleth")
         .append("svg")
@@ -61,12 +62,12 @@ export function renderChoropleth() {
 
     const projection = d3.geoMercator()
         .rotate([-10, 0])
-        .scale(isPortrait ? 100 : 130)
+        .scale(isLandscape ? 100 : 130)
         .translate([width / 1.8, height / 1.8]);
 
     //Zoom
     let myZoom = d3.zoom()
-        .scaleExtent(isPortrait ? [1, 6] : [1, 10])
+        .scaleExtent(isLandscape ? [1, 6] : [1, 10])
         .on('zoom', (e) => svg.attr('transform', e.transform));
 
     rootSvg.call(myZoom);
@@ -96,9 +97,9 @@ export function renderChoropleth() {
         let topo = loadData[0];
         let eventData = loadData[1];
 
-        projection.fitSize([width, height - (isPortrait ? 100 : 0)], topo);
+        projection.fitSize([width, height - (isLandscape ? 100 : 0)], topo);
 
-        if (isPortrait)
+        if (isLandscape)
             projection.translate([
                 width / 2,
                 (height - 100) / 2 + 150
@@ -160,7 +161,7 @@ export function renderChoropleth() {
         //Legend
         const legend = rootSvg.append("g")
             .attr("class", "legend")
-            .attr("transform", `translate(20, ${height - (isPortrait ? 450 : 650)})`);
+            .attr("transform", `translate(20, ${height - (isLandscape ? 450 : 650)})`);
 
         legend.append("text")
             .attr("x", 0)

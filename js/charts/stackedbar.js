@@ -32,14 +32,15 @@ function createStackedBarChart() {
 
     d3.select("#stacked svg").remove();
 
+    const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    let isPortrait = false;
-    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
-        isPortrait = true;
+    let isLandscape = false;
+    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+        isLandscape = true;
 
     const margin = { top: 50, right: 80, bottom: 60, left: 80 };
     const width = 690 - margin.left - margin.right;
-    const height = (isPortrait ? 300 : 400) - margin.top - margin.bottom;
+    const height = (isLandscape ? 300 : 400) - margin.top - margin.bottom;
 
     const svgRoot = d3.select("#stackedbar")
         .append("svg")
