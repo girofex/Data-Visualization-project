@@ -32,9 +32,9 @@ const tooltip = d3.select("body")
 export function renderChoropleth() {
     d3.select("#choropleth svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const isPortrait = false;
-    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+    const screenHeight = window.innerHeight;
+    let isPortrait = false;
+    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
         isPortrait = true;
 
     const margin = { top: 10, right: 0, bottom: 0, left: 0 };

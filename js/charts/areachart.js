@@ -24,9 +24,9 @@ const tooltip = d3.select("body")
 export function renderAreaChart() {
     d3.select("#area svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const isPortrait = false;
-    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+    const screenHeight = window.innerHeight;
+    let isPortrait = false;
+    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
         isPortrait = true;
 
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };

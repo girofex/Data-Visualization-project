@@ -71,9 +71,9 @@ const tooltip = d3.select("body")
 function render() {
     d3.select("#timeline svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const isPortrait = false;
-    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+    const screenHeight = window.innerHeight;
+    let isPortrait = false;
+    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
         isPortrait = true;
 
     const margin = { top: 30, right: 150, bottom: 30, left: 150 };

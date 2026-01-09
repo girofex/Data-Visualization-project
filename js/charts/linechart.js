@@ -12,9 +12,9 @@ const parseDate = d3.timeParse("%Y-%m-%d");
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const isPortrait = false;
-    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+    const screenHeight = window.innerHeight;
+    let isPortrait = false;
+    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
         isPortrait = true;
 
     const margin = { top: 80, right: 130, bottom: 60, left: 130 };

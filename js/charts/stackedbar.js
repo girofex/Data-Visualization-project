@@ -32,9 +32,9 @@ function createStackedBarChart() {
 
     d3.select("#stacked svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const isPortrait = false;
-    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+    const screenHeight = window.innerHeight;
+    let isPortrait = false;
+    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
         isPortrait = true;
 
     const margin = { top: 50, right: 80, bottom: 60, left: 80 };

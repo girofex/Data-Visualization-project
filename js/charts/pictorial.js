@@ -26,9 +26,9 @@ const tooltip = d3.select("body")
 export function renderPictorial() {
     d3.select("#pictorial svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const isPortrait = false;
-    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+    const screenHeight = window.innerHeight;
+    let isPortrait = false;
+    if(screenHeight <= "978px" && window.matchMedia('(orientation: portrait)').matches)
         isPortrait = true;
 
     const margin = { top: 70, right: 100, bottom: 0, left: (isPortrait ? 85 : 100) };
