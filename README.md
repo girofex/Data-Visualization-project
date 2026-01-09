@@ -26,15 +26,15 @@ we focus on three of wars
 ## Folder structure
 ```
 .
-├── components                  #Navbar, footer and top button
-├── css                         #Styling
+├── components                  # Navbar, footer, top button and popup
+├── css                         # Styling
 ├── data
-│   ├── csv                     #Data
-│   │   └── cleaned             #Pre-processed csv used for the plots
-│   └── preprocessing           #Python notebooks used for the pre-processing
-├── img                         #Images
-├── js                          #Javascript files
-│   └── charts                  #Scripts for the singular charts
+│   ├── csv                     # Data
+│   │   └── cleaned             # Pre-processed csv used for the plots
+│   └── preprocessing           # Python notebooks used for the pre-processing
+├── img                         # Images
+├── js                          # Javascript files
+│   └── charts                  # Scripts for the singular charts
 ├── firstpage.html
 ├── index.html
 ├── references.html

@@ -313,7 +313,12 @@ img {
     line-height: 1.6;
   }
 
-  p {
+  .md-label,
+  p,
+  .team-title,
+  .student-card,
+  ul,
+  ol {
     font-size: 0.8rem !important;
     line-height: 1.7;
   }

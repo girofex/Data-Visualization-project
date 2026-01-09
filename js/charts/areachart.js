@@ -31,8 +31,8 @@ export function renderAreaChart() {
         isLandscape = true;
 
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };
-    const width = (isLandscape ? 500 : 300) - margin.left - margin.right;
-    const height = (isLandscape ? 300 : 200) - margin.top - margin.bottom;
+    const width = (isLandscape ? 300 : 500) - margin.left - margin.right;
+    const height = (isLandscape ? 200 : 300) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
@@ -57,7 +57,7 @@ export function renderAreaChart() {
             .style("font-weight", "bold")
             .style("line-height", "1.4");
 
-        if (!isLandscape) {
+        if (isLandscape) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)

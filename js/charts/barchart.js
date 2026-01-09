@@ -31,12 +31,12 @@ function createBarChart() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screenWidth <= "844px" && screenHeight <= "390px" && window.matchMedia('(orientation: landscape)').matches)
         isLandscape = true;
 
     const margin = { top: 50, right: 10, bottom: 50, left: 10 };
-    const width = (isLandscape ? 500 : 250) - margin.left - margin.right;
-    const height = (isLandscape ? 350 : 250) - margin.top - margin.bottom;
+    const width = (isLandscape ? 250 : 500) - margin.left - margin.right;
+    const height = (isLandscape ? 250 : 350) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/barchart.csv").then(data => {
         const plotData = categoryKeys.map(key => ({
@@ -68,7 +68,7 @@ function createBarChart() {
             .call(d3.axisBottom(x).tickFormat(d => categoryLabels[d]))
             .selectAll("text")
             .style("font-family", prata)
-            .style("font-size", (isLandscape ? "12" : "9") + "px")
+            .style("font-size", (isLandscape ? "9" : "12") + "px")
             .attr("text-anchor", "middle")
             .each(function (d) {
                 const text = d3.select(this);
@@ -88,7 +88,7 @@ function createBarChart() {
 
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height - (isLandscape ? 280 : 180))
+            .attr("y", height - (isLandscape ? 180 : 280))
             .attr("text-anchor", "middle")
             .style("font-family", antic)
             .style("font-weight", "bold")

@@ -33,11 +33,11 @@ export function renderPictorial() {
         isLandscape = true;
 
     const margin = { top: 70, right: 100, bottom: 0, left: (isLandscape ? 85 : 100) };
-    const width = (isLandscape ? 500 : 300) - margin.left - margin.right;
-    const height = (isLandscape ? 300 : 230) - margin.top - margin.bottom;
+    const width = (isLandscape ? 300 : 500) - margin.left - margin.right;
+    const height = (isLandscape ? 230 : 300) - margin.top - margin.bottom;
 
-    const unitSize = (isLandscape ? 12 : 10);
-    const unitSpacing = (isLandscape ? 15 : 10);
+    const unitSize = (isLandscape ? 10 : 12);
+    const unitSpacing = (isLandscape ? 10 : 15);
     const maxPerRow = 15;
 
     return d3.csv("data/csv/cleaned/pictorial.csv").then(data => {
@@ -65,7 +65,7 @@ export function renderPictorial() {
             .style("font-size", "1rem")
             .style("font-weight", "bold");
 
-        if (!isLandscape) {
+        if (isLandscape) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)
@@ -131,7 +131,7 @@ export function renderPictorial() {
             .attr("text-anchor", "end")
             .style("font-family", antic)
             .style("font-weight", "bold")
-            .style("font-size", (isLandscape ? "30" : "10") + "px")
+            .style("font-size", (isLandscape ? "10" : "12") + "px")
             .text(d => d.Entity);
 
         //Units
@@ -147,11 +147,11 @@ export function renderPictorial() {
                 .enter()
                 .append("text")
                 .attr("class", "icon")
-                .attr("x", (u, i) => (i % maxPerRow) * (unitSize + (isLandscape ? 15 : 5)))
+                .attr("x", (u, i) => (i % maxPerRow) * (unitSize + (isLandscape ? 5 : 15)))
                 .attr("y", (u, i) => Math.floor(i / maxPerRow) * (unitSize + unitSpacing) + unitSize * 0.75)
                 .text("man_2")
                 .style("font-family", '"Material Symbols Outlined"')
-                .style("font-size", (isLandscape ? "30" : "20") + "px")
+                .style("font-size", (isLandscape ? "20" : "30") + "px")
                 .style("fill", colorScale(d.Entity))
                 .style("opacity", 0)
                 .attr("transform", "scale(0)");

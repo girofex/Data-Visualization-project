@@ -30,12 +30,12 @@ function render() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screenWidth <= "844px" && screenHeight <= "390px" && window.matchMedia('(orientation: landscape)').matches)
         isLandscape = true;
 
     const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-    const width = (isLandscape ? 1000 : 500) - margin.left - margin.right;
-    const height = (isLandscape ? 1000 : 500) - margin.top - margin.bottom;
+    const width = (isLandscape ? 500 : 1000) - margin.left - margin.right;
+    const height = (isLandscape ? 500 : 700) - margin.top - margin.bottom;
 
     const rootSvg = d3.select("#connection")
         .append("svg")
@@ -57,12 +57,12 @@ function render() {
 
     const projection = d3.geoMercator()
         .rotate([-10, 0])
-        .scale(isLandscape ? 130 : 100)
+        .scale(isLandscape ? 100 : 130)
         .translate([width / 2, height / 1.8]);
 
     //Zoom
     let myZoom = d3.zoom()
-        .scaleExtent(isLandscape ? [1, 10] : [1, 6])
+        .scaleExtent(isLandscape ? [1, 6] : [1, 10])
         .on('zoom', (e) => svg.attr('transform', e.transform));
 
     rootSvg.call(myZoom);
@@ -89,9 +89,9 @@ function render() {
         d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
         d3.csv("data/csv/cleaned/connectionmap.csv")
     ]).then(function ([world, conflicts]) {
-        projection.fitSize([width, height - (isLandscape ? 0 : 100)], world);
+        projection.fitSize([width, height - (isLandscape ? 100 : 0)], world);
 
-        if (!isLandscape)
+        if (isLandscape)
             projection.translate([
                 width / 2,
                 (height - 100) / 2 + 100
@@ -217,7 +217,7 @@ function render() {
         //Legend
         const legend = rootSvg.append("g")
             .attr("class", "legend")
-            .attr("transform", `translate(20, ${height - (isLandscape ? 650 : 450)})`);
+            .attr("transform", `translate(20, ${height - (isLandscape ? 450 : 650)})`);
 
         legend.append("text")
             .attr("x", 0)
