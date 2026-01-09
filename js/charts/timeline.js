@@ -70,11 +70,15 @@ const tooltip = d3.select("body")
 
 function render() {
     d3.select("#timeline svg").remove();
-    const isVertical = window.innerWidth <= 768;
+
+    const screenWidth = window.innerWidth;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
 
     const margin = { top: 30, right: 150, bottom: 30, left: 150 };
-    const width = (isVertical ? 550 : 1400) - margin.left - margin.right;
-    const height = (isVertical ? 1400 : 300) - margin.top - margin.bottom;
+    const width = (isPortrait ? 550 : 1400) - margin.left - margin.right;
+    const height = (isPortrait ? 1400 : 300) - margin.top - margin.bottom;
 
     const svg = d3.select('#timeline')
         .append('svg')
@@ -86,9 +90,9 @@ function render() {
 
     const xScale = d3.scaleLinear()
         .domain([1947, 2023])
-        .range([0, (isVertical ? height : width)]);
+        .range([0, (isPortrait ? height : width)]);
 
-    if (isVertical) {
+    if (isPortrait) {
         //Line
         svg.append('line')
             .attr('x1', width / 2)
@@ -131,15 +135,15 @@ function render() {
         const isLeft = i % 2 === 0;
 
         //Vertical positions
-        const cx = isVertical ? width / 2 : pos;
-        const cy = isVertical ? pos : height / 2;
+        const cx = isPortrait ? width / 2 : pos;
+        const cy = isPortrait ? pos : height / 2;
 
         const boxOffset = 120;
-        const boxX = isVertical
+        const boxX = isPortrait
             ? (isLeft ? width / 2 - boxOffset : width / 2 + boxOffset)
             : pos;
 
-        const boxY = isVertical
+        const boxY = isPortrait
             ? pos
             : (isLeft ? 0 : height);
 
@@ -165,19 +169,19 @@ function render() {
             .text(d.year);
 
         //Dotted connector
-        const startX = isVertical
+        const startX = isPortrait
             ? cx + (isLeft ? -25 : 25)
             : cx;
 
-        const startY = isVertical
+        const startY = isPortrait
             ? cy
             : cy + (isLeft ? -25 : 25);
 
         svg.append('line')
             .attr('x1', startX)
             .attr('y1', startY)
-            .attr('x2', isVertical ? boxX : cx)
-            .attr('y2', isVertical ? cy : boxY - 10)
+            .attr('x2', isPortrait ? boxX : cx)
+            .attr('y2', isPortrait ? cy : boxY - 10)
             .attr('stroke', black)
             .attr('stroke-width', 1)
             .attr('stroke-dasharray', '4,4');
@@ -187,14 +191,14 @@ function render() {
             .attr('transform', `translate(${boxX}, ${boxY})`);
 
         boxGroup.append('rect')
-            .attr('x', isVertical ? (isLeft ? -140 : 0) : -70)
+            .attr('x', isPortrait ? (isLeft ? -140 : 0) : -70)
             .attr('y', -20)
             .attr('width', 140)
             .attr('height', 40)
             .attr('fill', orange);
 
         boxGroup.append('text')
-            .attr('x', isVertical ? (isLeft ? -70 : 70) : 0)
+            .attr('x', isPortrait ? (isLeft ? -70 : 70) : 0)
             .attr('y', 5)
             .attr('text-anchor', 'middle')
             .attr('font-weight', 'bold')

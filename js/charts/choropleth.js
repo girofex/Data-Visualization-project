@@ -33,9 +33,13 @@ export function renderChoropleth() {
     d3.select("#choropleth svg").remove();
 
     const screenWidth = window.innerWidth;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
+
     const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-    const width = (screenWidth <= 768 ? 500 : 1000) - margin.left - margin.right;
-    const height = (screenWidth <= 768 ? 500 : 700) - margin.top - margin.bottom;
+    const width = (isPortrait ? 500 : 1000) - margin.left - margin.right;
+    const height = (isPortrait ? 500 : 700) - margin.top - margin.bottom;
 
     const rootSvg = d3.select("#choropleth")
         .append("svg")
@@ -57,12 +61,12 @@ export function renderChoropleth() {
 
     const projection = d3.geoMercator()
         .rotate([-10, 0])
-        .scale(screenWidth <= 768 ? 100 : 130)
+        .scale(isPortrait ? 100 : 130)
         .translate([width / 1.8, height / 1.8]);
 
     //Zoom
     let myZoom = d3.zoom()
-        .scaleExtent(screenWidth <= 768 ? [1, 6] : [1, 10])
+        .scaleExtent(isPortrait ? [1, 6] : [1, 10])
         .on('zoom', (e) => svg.attr('transform', e.transform));
 
     rootSvg.call(myZoom);
@@ -92,9 +96,9 @@ export function renderChoropleth() {
         let topo = loadData[0];
         let eventData = loadData[1];
 
-        projection.fitSize([width, height - (screenWidth <= 768 ? 100 : 0)], topo);
+        projection.fitSize([width, height - (isPortrait ? 100 : 0)], topo);
 
-        if (screenWidth <= 768)
+        if (isPortrait)
             projection.translate([
                 width / 2,
                 (height - 100) / 2 + 150
@@ -156,7 +160,7 @@ export function renderChoropleth() {
         //Legend
         const legend = rootSvg.append("g")
             .attr("class", "legend")
-            .attr("transform", `translate(20, ${height - (screenWidth <= 768 ? 450 : 650)})`);
+            .attr("transform", `translate(20, ${height - (isPortrait ? 450 : 650)})`);
 
         legend.append("text")
             .attr("x", 0)

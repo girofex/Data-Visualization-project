@@ -25,9 +25,13 @@ export function renderAreaChart() {
     d3.select("#area svg").remove();
 
     const screenWidth = window.innerWidth;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
+
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };
-    const width = (screenWidth <= 768 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 768 ? 200 : 300) - margin.top - margin.bottom;
+    const width = (isPortrait ? 300 : 500) - margin.left - margin.right;
+    const height = (isPortrait ? 200 : 300) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
@@ -52,7 +56,7 @@ export function renderAreaChart() {
             .style("font-weight", "bold")
             .style("line-height", "1.4");
 
-        if (screenWidth <= 768) {
+        if (isPortrait) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)

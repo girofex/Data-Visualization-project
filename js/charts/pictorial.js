@@ -27,12 +27,16 @@ export function renderPictorial() {
     d3.select("#pictorial svg").remove();
 
     const screenWidth = window.innerWidth;
-    const margin = { top: 70, right: 100, bottom: 0, left: (screenWidth <= 768 ? 85 : 100) };
-    const width = (screenWidth <= 768 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 768 ? 230 : 300) - margin.top - margin.bottom;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
 
-    const unitSize = (screenWidth <= 768 ? 10 : 12);
-    const unitSpacing = (screenWidth <= 768 ? 10 : 15);
+    const margin = { top: 70, right: 100, bottom: 0, left: (isPortrait ? 85 : 100) };
+    const width = (isPortrait ? 300 : 500) - margin.left - margin.right;
+    const height = (isPortrait ? 230 : 300) - margin.top - margin.bottom;
+
+    const unitSize = (isPortrait ? 10 : 12);
+    const unitSpacing = (isPortrait ? 10 : 15);
     const maxPerRow = 15;
 
     return d3.csv("data/csv/cleaned/pictorial.csv").then(data => {
@@ -60,7 +64,7 @@ export function renderPictorial() {
             .style("font-size", "1rem")
             .style("font-weight", "bold");
 
-        if (screenWidth <= 768) {
+        if (isPortrait) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)
@@ -126,7 +130,7 @@ export function renderPictorial() {
             .attr("text-anchor", "end")
             .style("font-family", antic)
             .style("font-weight", "bold")
-            .style("font-size", (screenWidth <= 768 ? "10" : "30") + "px")
+            .style("font-size", (isPortrait ? "10" : "30") + "px")
             .text(d => d.Entity);
 
         //Units
@@ -142,11 +146,11 @@ export function renderPictorial() {
                 .enter()
                 .append("text")
                 .attr("class", "icon")
-                .attr("x", (u, i) => (i % maxPerRow) * (unitSize + (screenWidth <= 768 ? 5 : 15)))
+                .attr("x", (u, i) => (i % maxPerRow) * (unitSize + (isPortrait ? 5 : 15)))
                 .attr("y", (u, i) => Math.floor(i / maxPerRow) * (unitSize + unitSpacing) + unitSize * 0.75)
                 .text("man_2")
                 .style("font-family", '"Material Symbols Outlined"')
-                .style("font-size", (screenWidth <= 768 ? "20" : "30") + "px")
+                .style("font-size", (isPortrait ? "20" : "30") + "px")
                 .style("fill", colorScale(d.Entity))
                 .style("opacity", 0)
                 .attr("transform", "scale(0)");

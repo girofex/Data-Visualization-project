@@ -53,11 +53,15 @@ function render() {
     d3.select("#polar svg").remove();
 
     const screenWidth = window.innerWidth;
-    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
-    const width = (screenWidth <= 768 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 768 ? 300 : 500) - margin.top - margin.bottom;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
 
-    const innerRadius = screenWidth <= 768 ? 40 : 90;
+    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
+    const width = (isPortrait ? 300 : 500) - margin.left - margin.right;
+    const height = (isPortrait ? 300 : 500) - margin.top - margin.bottom;
+
+    const innerRadius = isPortrait ? 40 : 90;
     const outerRadius = Math.min(width, height) / 2 - 40;
 
     const container = document.querySelector("#polar");

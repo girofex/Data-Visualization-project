@@ -13,9 +13,13 @@ export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
     const screenWidth = window.innerWidth;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
+
     const margin = { top: 80, right: 130, bottom: 60, left: 130 };
-    const width = (screenWidth <= 768 ? 700 : 1200) - margin.left - margin.right;
-    const height = (screenWidth <= 768 ? 400 : 550) - margin.top - margin.bottom;
+    const width = (isPortrait ? 700 : 1200) - margin.left - margin.right;
+    const height = (isPortrait ? 400 : 550) - margin.top - margin.bottom;
 
     const svgRoot = d3.select("#linechart")
         .append("svg")

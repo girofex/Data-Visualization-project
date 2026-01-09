@@ -29,9 +29,13 @@ function createBarChart() {
     d3.select("#bar svg").remove();
 
     const screenWidth = window.innerWidth;
+    const isPortrait = false;
+    if(screenWidth <= "978px" && window.matchMedia('(orientation: portrait)'))
+        isPortrait = true;
+
     const margin = { top: 50, right: 10, bottom: 50, left: 10 };
-    const width = (screenWidth <= 768 ? 250 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 768 ? 250 : 350) - margin.top - margin.bottom;
+    const width = (isPortrait ? 250 : 500) - margin.left - margin.right;
+    const height = (isPortrait ? 250 : 350) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/barchart.csv").then(data => {
         const plotData = categoryKeys.map(key => ({
@@ -63,7 +67,7 @@ function createBarChart() {
             .call(d3.axisBottom(x).tickFormat(d => categoryLabels[d]))
             .selectAll("text")
             .style("font-family", prata)
-            .style("font-size", (screenWidth <= 768 ? "9" : "12") + "px")
+            .style("font-size", (isPortrait ? "9" : "12") + "px")
             .attr("text-anchor", "middle")
             .each(function (d) {
                 const text = d3.select(this);
@@ -83,7 +87,7 @@ function createBarChart() {
 
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height - (screenWidth <= 768 ? 180 : 280))
+            .attr("y", height - (isPortrait ? 180 : 280))
             .attr("text-anchor", "middle")
             .style("font-family", antic)
             .style("font-weight", "bold")
