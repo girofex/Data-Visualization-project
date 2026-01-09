@@ -45,7 +45,8 @@ function render(animate) {
     const svgRoot = d3.select(container)
         .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        .attr("height", height + margin.top + margin.bottom)
+        .style("opacity", 0);
 
     const svg = svgRoot.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -139,22 +140,6 @@ function render(animate) {
                 tooltip.style("opacity", 0);
             });
 
-        //Animation
-        if (animate) {
-            rects
-                .attr("visibility", "visible")
-                .transition()
-                .duration(1000)
-                .delay((_, i) => i * 10)
-                .ease(d3.easeCubicOut)
-                .attr("y", d => y(d[1]))
-                .attr("height", d => y(d[0]) - y(d[1]));
-        } else {
-            rects
-                .attr("y", d => y(d[1]))
-                .attr("height", d => y(d[0]) - y(d[1]));
-        }
-
         //Title
         const title = svg.append("text")
             .attr("x", width / 2)
@@ -174,40 +159,84 @@ function render(animate) {
         const peakX = x(peak.DateStr) + x.bandwidth() - 1;
         const peakY = y(peak.Russian_Possession);
 
-        svg.append("circle")
+        const peakCircle = svg.append("circle")
             .attr("cx", peakX)
             .attr("cy", peakY)
             .attr("r", 0)
             .attr("fill", beige)
             .attr("stroke", black)
-            .attr("stroke-width", 2)
-            .transition()
-            .delay(1000)
-            .duration(500)
-            .ease(d3.easeBackOut)
-            .attr("r", 12)
-            .on("end", function () {
-                d3.select(this)
-                    .on("mouseover", function (event, d) {
-                        d3.select(this).attr("opacity", 0.6);
-                        tooltip.style("opacity", 1)
-                            .html(`<strong>${peak.DateStr}</strong><br/>
-                                Peak of Russian possession: ${peak.Russian_Possession}%`);
-                    })
-                    .on("mousemove", function (event) {
-                        tooltip
-                            .style("left", (event.clientX + 15) + "px")
-                            .style("top", (event.clientY) + "px");
-                    })
-                    .on("mouseout", function () {
-                        d3.select(this).attr("opacity", 1);
-                        tooltip.style("opacity", 0);
-                    });
-            });
+            .attr("stroke-width", 2);
+
+        //Animation
+        if (animate) {
+            svgRoot.transition()
+                .duration(300)
+                .style("opacity", 1)
+                .on("end", function() {
+                    //Bars
+                    rects
+                        .transition()
+                        .duration(1000)
+                        .delay((_, i) => i * 10)
+                        .ease(d3.easeCubicOut)
+                        .attr("y", d => y(d[1]))
+                        .attr("height", d => y(d[0]) - y(d[1]));
+
+                    //Peak circle
+                    peakCircle
+                        .transition()
+                        .delay(1000)
+                        .duration(500)
+                        .ease(d3.easeBackOut)
+                        .attr("r", 12)
+                        .on("end", function () {
+                            d3.select(this)
+                                .on("mouseover", function (event, d) {
+                                    d3.select(this).attr("opacity", 0.6);
+                                    tooltip.style("opacity", 1)
+                                        .html(`<strong>${peak.DateStr}</strong><br/>
+                                            Peak of Russian possession: ${peak.Russian_Possession}%`);
+                                })
+                                .on("mousemove", function (event) {
+                                    tooltip
+                                        .style("left", (event.clientX + 15) + "px")
+                                        .style("top", (event.clientY) + "px");
+                                })
+                                .on("mouseout", function () {
+                                    d3.select(this).attr("opacity", 1);
+                                    tooltip.style("opacity", 0);
+                                });
+                        });
+                });
+        } else {
+            svgRoot.style("opacity", 1);
+            
+            rects
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]));
+
+            peakCircle
+                .attr("r", 12)
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr("opacity", 0.6);
+                    tooltip.style("opacity", 1)
+                        .html(`<strong>${peak.DateStr}</strong><br/>
+                            Peak of Russian possession: ${peak.Russian_Possession}%`);
+                })
+                .on("mousemove", function (event) {
+                    tooltip
+                        .style("left", (event.clientX + 15) + "px")
+                        .style("top", (event.clientY) + "px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr("opacity", 1);
+                    tooltip.style("opacity", 0);
+                });
+        }
     })
 };
 
-//Observer after data is loaded and elements are created
+//Observer
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !hasAnimatedOnce) {
@@ -223,8 +252,6 @@ const observer = new IntersectionObserver(entries => {
 
 if (container)
     observer.observe(container);
-
-render(false);
 
 window.addEventListener("resize", () => {
     render(true);

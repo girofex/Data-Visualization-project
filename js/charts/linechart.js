@@ -13,11 +13,11 @@ let isLandscape = false;
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
-    if(screen.width <= 980 && screen.height <= 436)
+    if (screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 85, right: 130, bottom: 60, left: 130 };
-    const width = (isLandscape ? 700 : 1200 ) - margin.left - margin.right;
+    const width = (isLandscape ? 700 : 1200) - margin.left - margin.right;
     const height = (isLandscape ? 400 : 550) - margin.top - margin.bottom;
 
     const svgRoot = d3.select("#linechart")
@@ -117,12 +117,7 @@ export function renderLineChart() {
                 const totalLength = this.getTotalLength();
                 d3.select(this)
                     .attr("stroke-dasharray", totalLength)
-                    .attr("stroke-dashoffset", totalLength)
-                    .transition()
-                    .duration(2500)
-                    .style("opacity", 1)
-                    .ease(d3.easeSin)
-                    .attr("stroke-dashoffset", 0);
+                    .attr("stroke-dashoffset", totalLength);
             })
             .on("click", handleToggle);
 
@@ -177,11 +172,7 @@ export function renderLineChart() {
                 .style("fill", l.color)
                 .style("cursor", "pointer")
                 .style("opacity", 0)
-                .on("click", handleToggle)
-                .transition()
-                .delay(2500)
-                .duration(300)
-                .style("opacity", 1);
+                .on("click", handleToggle);
         });
 
         //Opacity
@@ -306,19 +297,6 @@ export function renderLineChart() {
                 .attr("stroke-width", 1)
                 .attr("data-region", region);
         });
-
-        svg.selectAll(".line")
-            .transition()
-            .duration(2500)
-            .ease(d3.easeSin)
-            .attr("stroke-dashoffset", 0)
-            .style("opacity", 1);
-
-        annotationGroup
-            .transition()
-            .delay(2500)
-            .duration(800)
-            .style("opacity", 1);
     })
 };
 
@@ -327,7 +305,29 @@ const observer = new IntersectionObserver((entries) => {
         if (entry.isIntersecting && !entry.target.dataset.animated) {
             renderLineChart();
             entry.target.dataset.animated = true;
-            observer.unobserve(entry.target)
+            observer.unobserve(entry.target);
+
+            //Wait a bit for the chart to render
+            setTimeout(() => {
+                d3.select("#linechart").selectAll(".line")
+                    .transition()
+                    .duration(2500)
+                    .ease(d3.easeSin)
+                    .attr("stroke-dashoffset", 0)
+                    .style("opacity", 1);
+
+                d3.select("#linechart").selectAll("text[data-region]")
+                    .transition()
+                    .delay(2500)
+                    .duration(300)
+                    .style("opacity", 1);
+
+                d3.select("#linechart").select(".annotation-group")
+                    .transition()
+                    .delay(2500)
+                    .duration(800)
+                    .style("opacity", 1);
+            }, 100);
         }
     });
 }, { threshold: (isLandscape ? 0.3 : 0.9) });
