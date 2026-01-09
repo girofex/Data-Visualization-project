@@ -6,7 +6,7 @@ import { renderPictorial } from "./pictorial.js";
 function animateIcons(allIcons) {
     if (!allIcons || allIcons.length === 0)
         return;
-    
+
     const maxCount = d3.max(allIcons, icons => icons.size());
 
     for (let i = 0; i < maxCount; i++) {
@@ -60,8 +60,12 @@ buttons.forEach(btn => {
     });
 });
 
+let resizeTimer;
 window.addEventListener("resize", () => {
-    renderAreaChart();
-    pictorialPromise = renderPictorial();
-    hasAnimated = false;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        renderAreaChart();
+        pictorialPromise = renderPictorial();
+        hasAnimated = false;
+    }, 60000);
 });

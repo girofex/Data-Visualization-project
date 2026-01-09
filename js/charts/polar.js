@@ -25,6 +25,8 @@ const tooltip = d3.select("body")
     .style("line-height", "1.5")
     .style("max-width", "200px");
 
+let hasAnimatedOnce = false;
+
 //Chart
 const container = document.querySelector("#polar");
 
@@ -140,6 +142,7 @@ function render() {
             entries.forEach(entry => {
                 if (entry.isIntersecting && container.dataset.animated !== "true") {
                     container.dataset.animated = "true";
+                    hasAnimatedOnce = true;
 
                     chart.selectAll(".bar")
                         .transition()
@@ -167,9 +170,14 @@ function render() {
 
 render();
 
+let resizeTimer;
 window.addEventListener("resize", () => {
-    if (container)
-        container.dataset.resized = "true";
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const container = document.querySelector("#area");
+        if (container)
+            container.dataset.resized = "true";
 
-    render();
+        render();
+    }, 60000);
 });

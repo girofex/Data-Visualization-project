@@ -253,6 +253,10 @@ const observer = new IntersectionObserver(entries => {
 if (container)
     observer.observe(container);
 
+let resizeTimer;
 window.addEventListener("resize", () => {
-    render(true);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        render(true);
+    }, 60000);
 });

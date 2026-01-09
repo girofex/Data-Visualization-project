@@ -9,6 +9,7 @@ const green = getComputedStyle(document.documentElement).getPropertyValue("--gre
 
 const parseDate = d3.timeParse("%Y-%m-%d");
 let isLandscape = false;
+let hasAnimatedOnce = false;
 
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
@@ -303,6 +304,7 @@ export function renderLineChart() {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.dataset.animated) {
+            hasAnimatedOnce = true;
             renderLineChart();
             entry.target.dataset.animated = true;
             observer.unobserve(entry.target);
@@ -337,6 +339,10 @@ if (chartContainer) {
     observer.observe(chartContainer);
 }
 
+let resizeTimer;
 window.addEventListener("resize", () => {
-    renderLineChart();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        renderLineChart();
+    }, 60000);
 });

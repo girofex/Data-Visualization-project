@@ -21,6 +21,8 @@ const tooltip = d3.select("body")
     .style("line-height", "1.5")
     .style("max-width", "200px");
 
+let hasAnimatedOnce = false;
+
 export function renderAreaChart() {
     //Chart
     const container = document.querySelector("#area");
@@ -167,6 +169,7 @@ export function renderAreaChart() {
                 if (entry.isIntersecting && container.dataset.animated !== "true") {
                     container.dataset.animated = "true";
 
+                    hasAnimatedOnce = true;
                     clipRect
                         .transition()
                         .duration(2500)
@@ -221,10 +224,14 @@ export function renderAreaChart() {
     });
 };
 
+let resizeTimer;
 window.addEventListener("resize", () => {
-    const container = document.querySelector("#area");
-    if (container)
-        container.dataset.resized = "true";
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const container = document.querySelector("#area");
+        if (container)
+            container.dataset.resized = "true";
 
-    renderAreaChart();
+        renderAreaChart();
+    }, 60000);
 });
