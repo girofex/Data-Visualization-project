@@ -1,6 +1,5 @@
 import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
-import { showMobilePopup } from './popup.js';
 
 //Responsive
 window.addEventListener("load", () => {
@@ -27,8 +26,6 @@ function includeComponent(id, file, callback) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  showMobilePopup();
-
   //Grain effect
   grained('#main-grain', {
     animate: false,

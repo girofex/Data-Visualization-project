@@ -1,48 +1,27 @@
-export function showMobilePopup() {
-    const checkAndShowPopup = () => {
-        if (window.innerWidth <= 766 && !sessionStorage.getItem('mobilePopupShown')) {
-            const popupHTML = `
-                <div id="mobile-popup" class="mobile-popup-overlay">
-                    <div class="mobile-popup-content">
-                        <h3>Notice</h3>
-                        <p>For the best experience, we recommend viewing this site on a larger screen
-                            or eventually rotating the device.</p>
-                        <button id="mobile-popup-close" class="mobile-popup-button">Continue anyway</button>
-                    </div>
-                </div>
-            `;
+function responsiveRedirect() {
+    const isMobile = window.innerWidth <= 766;
+    const path = window.location.pathname;
+    const isOnMobilePage = path.includes('popup.html');
+    
+    const lastRedirect = sessionStorage.getItem('lastRedirectTime');
+    const now = Date.now();
+    
+    if (lastRedirect && (now - lastRedirect) < 1000)
+        return;
 
-            document.body.insertAdjacentHTML('beforeend', popupHTML);
+    if (isMobile && !isOnMobilePage) {
+        sessionStorage.setItem('desktopPageBeforeMobile', window.location.href);
+        sessionStorage.setItem('lastRedirectTime', now);
+        window.location.replace('./components/popup.html');
+    }
 
-            const popup = document.getElementById('mobile-popup');
-            const closeButton = document.getElementById('mobile-popup-close');
-
-            function closePopup() {
-                popup.style.animation = 'mobilePopupFadeOut 0.3s ease';
-
-                setTimeout(() => {
-                    popup.remove();
-                    sessionStorage.setItem('mobilePopupShown', 'true');
-                }, 300);
-            }
-
-            closeButton.addEventListener('click', closePopup);
-
-            popup.addEventListener('click', (e) => {
-                if (e.target === popup)
-                    closePopup();
-            });
-
-            const handleEscape = (e) => {
-                if (e.key === 'Escape') {
-                    closePopup();
-                    document.removeEventListener('keydown', handleEscape);
-                }
-            };
-
-            document.addEventListener('keydown', handleEscape);
-        }
-    };
-
-    setTimeout(checkAndShowPopup, 100);
+    if (!isMobile && isOnMobilePage) {
+        const previousPage = sessionStorage.getItem('desktopPageBeforeMobile');
+        sessionStorage.setItem('lastRedirectTime', now);
+        window.location.replace(previousPage || './index.html');
+    }
 }
+
+responsiveRedirect();
+
+window.matchMedia('(max-width: 766px)').addEventListener('change', responsiveRedirect);
