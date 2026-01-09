@@ -239,7 +239,7 @@ function render() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 1 });
+    }, { threshold: (isLandscape ? 0.5 : 1) });
 
     observer.observe(d3.select("#timeline svg").node());
 };

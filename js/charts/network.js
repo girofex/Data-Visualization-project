@@ -249,7 +249,7 @@ function render() {
         },
         {
             root: null,
-            threshold: 0.8
+            threshold: (isLandscape ? 0.5 : 0.8)
         }
     );
 
