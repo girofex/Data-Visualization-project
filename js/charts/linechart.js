@@ -108,6 +108,7 @@ export function renderLineChart() {
 
         groups.append("path")
             .attr("class", "line")
+            .attr("data-region", d => d.name)
             .attr("fill", "none")
             .attr("stroke", d => colorScale(d.name))
             .attr("stroke-width", 2.5)
