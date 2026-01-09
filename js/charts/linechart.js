@@ -13,7 +13,7 @@ let isLandscape = false;
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
-    if(screen.width <= 844 && screen.height <= 390)
+    if(screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 85, right: 130, bottom: 60, left: 130 };

@@ -82,7 +82,7 @@ function render() {
     d3.select("#network svg").remove();
 
     let isLandscape = false;
-    if(screen.width <= 844 && screen.height <= 390)
+    if(screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };

@@ -33,7 +33,7 @@ function createStackedBarChart() {
 
     d3.select("#stacked svg").remove();
     
-    if(screen.width <= 844 && screen.height <= 390)
+    if(screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 50, right: 80, bottom: 60, left: 80 };

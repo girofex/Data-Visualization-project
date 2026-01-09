@@ -27,7 +27,7 @@ export function renderPictorial() {
     d3.select("#pictorial svg").remove();
 
     let isLandscape = false;
-    if(screen.width <= 844 && screen.height <= 390)
+    if(screen.width <= 980 && screen.height <= 436)
         isLandscape = true;
 
     const margin = { top: 70, right: 100, bottom: 0, left: (isLandscape ? 85 : 100) };
