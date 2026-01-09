@@ -19,6 +19,7 @@ const colors = d3.scaleOrdinal()
     .range([black, green, orange]);
 
 let chartCreated = false;
+let isLandscape = false;
 
 function createBarChart() {
     if (chartCreated)
@@ -28,7 +29,6 @@ function createBarChart() {
 
     d3.select("#bar svg").remove();
 
-    let isLandscape = false;
     if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 

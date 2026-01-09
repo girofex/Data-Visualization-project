@@ -8,6 +8,7 @@ const beige = getComputedStyle(document.documentElement).getPropertyValue("--bei
 
 let angleScale;
 let radiusScale;
+let isLandscape = false;
 
 const tooltip = d3.select("body")
     .append("div")
@@ -52,7 +53,6 @@ function render() {
 
     d3.select("#polar svg").remove();
 
-    let isLandscape = false;
     if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 

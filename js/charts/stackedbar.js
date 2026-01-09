@@ -23,6 +23,7 @@ const tooltip = d3.select("body")
     .style("max-width", "200px");
 
 let chartCreated = false;
+let isLandscape = false;
 
 function createStackedBarChart() {
     if (chartCreated)
@@ -32,7 +33,6 @@ function createStackedBarChart() {
 
     d3.select("#stacked svg").remove();
     
-    let isLandscape = false;
     if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 

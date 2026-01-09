@@ -8,11 +8,11 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
 const parseDate = d3.timeParse("%Y-%m-%d");
+let isLandscape = false;
 
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
-    let isLandscape = false;
     if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 
