@@ -12,7 +12,7 @@
 }
 
 /* -------- Responsive -------- */
-@media (max-width: 739px) {
+@media (max-width: 768px) {
   .grid2 {
     display: flex;
     flex-direction: column;
@@ -22,33 +22,13 @@
     border-left: 1px solid var(--black);
     border-right: 1px solid var(--black);
     padding: 2rem;
-    width: 80%;
+    width: 90%;
   }
   
   .grid2 .second_column {
-    width: 80%;
+    width: 90%;
     display: flex;
     justify-content: center;
     border: none;
-  }
-
-  #network {
-    width: 80%;
-    margin: 2rem;
-  }
-
-  #area {
-    width: 80%;
-    margin: 2rem;
-  }
-
-  #pictorial {
-    width: 80%;
-    margin: 2rem;
-  }
-
-  #escobar {
-    width: 90%;
-    margin: 2rem;
   }
 }

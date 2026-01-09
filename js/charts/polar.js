@@ -9,6 +9,21 @@ const beige = getComputedStyle(document.documentElement).getPropertyValue("--bei
 let angleScale;
 let radiusScale;
 
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "fixed")
+    .style("opacity", 0)
+    .style("background-color", `${beige}`)
+    .style("border", `1px solid ${black}`)
+    .style("padding", "10px")
+    .style("z-index", "999")
+    .style("pointer-events", "none")
+    .style("font-family", prata)
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
+
 function render() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -39,10 +54,10 @@ function render() {
 
     const screenWidth = window.innerWidth;
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
-    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 767 ? 300 : 500) - margin.top - margin.bottom;
+    const width = (screenWidth <= 768 ? 300 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 300 : 500) - margin.top - margin.bottom;
 
-    const innerRadius = screenWidth <= 767 ? 40 : 90;
+    const innerRadius = screenWidth <= 768 ? 40 : 90;
     const outerRadius = Math.min(width, height) / 2 - 40;
 
     const container = document.querySelector("#polar");
@@ -54,21 +69,6 @@ function render() {
 
     const chart = svg.append("g")
         .attr("transform", `translate(${width / 2},${height / 2})`);
-
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("position", "fixed")
-        .style("opacity", 0)
-        .style("background-color", `${beige}`)
-        .style("border", `1px solid ${black}`)
-        .style("padding", "10px")
-        .style("z-index", "999")
-        .style("pointer-events", "none")
-        .style("font-family", prata)
-        .style("font-size", "14px")
-        .style("line-height", "1.5")
-        .style("max-width", "200px");
 
     d3.csv("data/csv/cleaned/polar.csv").then(data => {
         data.forEach(d => {

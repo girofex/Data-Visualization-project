@@ -14,13 +14,28 @@ const eventColors = {
     "DrugWar": green
 };
 
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "fixed")
+    .style("opacity", 0)
+    .style("background-color", `${beige}`)
+    .style("border", `1px solid ${black}`)
+    .style("padding", "10px")
+    .style("z-index", "999")
+    .style("pointer-events", "none")
+    .style("font-family", prata)
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
+
 export function renderChoropleth() {
     d3.select("#choropleth svg").remove();
 
     const screenWidth = window.innerWidth;
     const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-    const width = (screenWidth <= 767 ? 500 : 1000) - margin.left - margin.right;
-    const height = (screenWidth <= 767 ? 500 : 700) - margin.top - margin.bottom;
+    const width = (screenWidth <= 768 ? 500 : 1000) - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 500 : 700) - margin.top - margin.bottom;
 
     const rootSvg = d3.select("#choropleth")
         .append("svg")
@@ -42,27 +57,12 @@ export function renderChoropleth() {
 
     const projection = d3.geoMercator()
         .rotate([-10, 0])
-        .scale(screenWidth <= 767 ? 100 : 130)
+        .scale(screenWidth <= 768 ? 100 : 130)
         .translate([width / 1.8, height / 1.8]);
-
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("position", "fixed")
-        .style("opacity", 0)
-        .style("background-color", `${beige}`)
-        .style("border", `1px solid ${black}`)
-        .style("padding", "10px")
-        .style("z-index", "999")
-        .style("pointer-events", "none")
-        .style("font-family", prata)
-        .style("font-size", "14px")
-        .style("line-height", "1.5")
-        .style("max-width", "200px");
 
     //Zoom
     let myZoom = d3.zoom()
-        .scaleExtent(screenWidth <= 767 ? [1, 6] : [1, 10])
+        .scaleExtent(screenWidth <= 768 ? [1, 6] : [1, 10])
         .on('zoom', (e) => svg.attr('transform', e.transform));
 
     rootSvg.call(myZoom);
@@ -92,9 +92,9 @@ export function renderChoropleth() {
         let topo = loadData[0];
         let eventData = loadData[1];
 
-        projection.fitSize([width, height - (screenWidth <= 767 ? 100 : 0)], topo);
+        projection.fitSize([width, height - (screenWidth <= 768 ? 100 : 0)], topo);
 
-        if (screenWidth <= 767)
+        if (screenWidth <= 768)
             projection.translate([
                 width / 2,
                 (height - 100) / 2 + 150
@@ -156,7 +156,7 @@ export function renderChoropleth() {
         //Legend
         const legend = rootSvg.append("g")
             .attr("class", "legend")
-            .attr("transform", `translate(20, ${height - (screenWidth <= 767 ? 450 : 650)})`);
+            .attr("transform", `translate(20, ${height - (screenWidth <= 768 ? 450 : 650)})`);
 
         legend.append("text")
             .attr("x", 0)

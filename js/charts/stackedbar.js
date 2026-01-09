@@ -7,10 +7,6 @@ const black = getComputedStyle(document.documentElement).getPropertyValue("--bla
 const orange = getComputedStyle(document.documentElement).getPropertyValue("--orange").trim();
 const green = getComputedStyle(document.documentElement).getPropertyValue("--green").trim();
 
-const margin = { top: 50, right: 80, bottom: 60, left: 80 },
-    width = 690 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
 const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
@@ -29,9 +25,25 @@ const tooltip = d3.select("body")
 let chartCreated = false;
 
 function createStackedBarChart() {
-    if (chartCreated) return;
-    
+    if (chartCreated)
+        return;
+
     chartCreated = true;
+
+    d3.select("#stacked svg").remove();
+
+    const screenWidth = window.innerWidth;
+    const margin = { top: 50, right: 80, bottom: 60, left: 80 };
+    const width = 690 - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 300 : 400) - margin.top - margin.bottom;
+
+    const svgRoot = d3.select("#stackedbar")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    const svg = svgRoot.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
     d3.csv("data/csv/cleaned/stacked.csv").then(data => {
         data.forEach(d => {
@@ -47,14 +59,6 @@ function createStackedBarChart() {
             .range([orange, green]);
 
         const stackedData = d3.stack().keys(categories)(data);
-
-        const svgRoot = d3.select("#stackedbar")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
-
-        const svg = svgRoot.append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
 
         const x = d3.scaleBand()
             .domain(data.map(d => d.DateStr))
@@ -125,7 +129,7 @@ function createStackedBarChart() {
             .ease(d3.easeCubicOut)
             .attr("y", d => y(d[1]))
             .attr("height", d => y(d[0]) - y(d[1]));
-        
+
         const title = svg.append("text")
             .attr("x", width / 2)
             .attr("y", -30)
@@ -140,7 +144,7 @@ function createStackedBarChart() {
         title.append("tspan")
             .text("Russia")
             .style("fill", orange);
-        
+
         title.append("tspan")
             .text(" and ");
 
@@ -193,7 +197,7 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.dataset.animated) {
             createStackedBarChart();
-            observer.unobserve(entry.target)
+            observer.unobserve(entry.target);
         }
     });
 },
@@ -206,3 +210,7 @@ const chartContainer = document.querySelector('#stackedbar');
 if (chartContainer) {
     observer.observe(chartContainer);
 }
+
+window.addEventListener("resize", () => {
+    createStackedBarChart();
+});

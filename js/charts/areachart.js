@@ -6,28 +6,28 @@ const orange = getComputedStyle(document.documentElement).getPropertyValue("--or
 const beige = getComputedStyle(document.documentElement).getPropertyValue("--beige").trim();
 const black = getComputedStyle(document.documentElement).getPropertyValue("--black").trim();
 
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "fixed")
+    .style("opacity", 0)
+    .style("background-color", beige)
+    .style("border", `1px solid ${black}`)
+    .style("padding", "10px")
+    .style("z-index", "999")
+    .style("pointer-events", "none")
+    .style("font-family", prata)
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
+
 export function renderAreaChart() {
     d3.select("#area svg").remove();
 
     const screenWidth = window.innerWidth;
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };
-    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 767 ? 200 : 300) - margin.top - margin.bottom;
-
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("position", "fixed")
-        .style("opacity", 0)
-        .style("background-color", beige)
-        .style("border", `1px solid ${black}`)
-        .style("padding", "10px")
-        .style("z-index", "999")
-        .style("pointer-events", "none")
-        .style("font-family", prata)
-        .style("font-size", "14px")
-        .style("line-height", "1.5")
-        .style("max-width", "200px");
+    const width = (screenWidth <= 768 ? 300 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 200 : 300) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
@@ -52,7 +52,7 @@ export function renderAreaChart() {
             .style("font-weight", "bold")
             .style("line-height", "1.4");
 
-        if(screenWidth <= 767) {
+        if (screenWidth <= 768) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)
@@ -189,7 +189,7 @@ export function renderAreaChart() {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3  });
+        }, { threshold: 0.3 });
 
         observer.observe(d3.select("#area svg").node());
     });

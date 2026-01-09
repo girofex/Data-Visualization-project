@@ -23,18 +23,17 @@ const tooltip = d3.select("body")
     .style("line-height", "1.5")
     .style("max-width", "200px");
 
-const unitSize = 12;
-const unitSpacing = 15;
-
 export function renderPictorial() {
     d3.select("#pictorial svg").remove();
 
     const screenWidth = window.innerWidth;
-    const margin = { top: 70, right: 100, bottom: 0, left: 100 };
-    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 767 ? 200 : 300) - margin.top - margin.bottom;
+    const margin = { top: 70, right: 100, bottom: 0, left: (screenWidth <= 768 ? 85 : 100) };
+    const width = (screenWidth <= 768 ? 300 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 230 : 300) - margin.top - margin.bottom;
 
-    const maxPerRow = screenWidth <= 767 ? 10 : 15;
+    const unitSize = (screenWidth <= 768 ? 10 : 12);
+    const unitSpacing = (screenWidth <= 768 ? 10 : 15);
+    const maxPerRow = 15;
 
     return d3.csv("data/csv/cleaned/pictorial.csv").then(data => {
         data.forEach(d => {
@@ -61,7 +60,7 @@ export function renderPictorial() {
             .style("font-size", "1rem")
             .style("font-weight", "bold");
 
-        if(screenWidth <= 767) {
+        if (screenWidth <= 768) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)
@@ -71,9 +70,8 @@ export function renderPictorial() {
                 .attr("x", width / 2)
                 .attr("dy", "1.2em")
                 .text("due to drugs in 2021");
-        } else {
+        } else
             title.text("Countries with highest death rate due to drugs in 2021");
-        }
 
         const scaleValueToUnits = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.DeathRate)])
@@ -128,7 +126,7 @@ export function renderPictorial() {
             .attr("text-anchor", "end")
             .style("font-family", antic)
             .style("font-weight", "bold")
-            .style("font-size", "12px")
+            .style("font-size", (screenWidth <= 768 ? "10" : "30") + "px")
             .text(d => d.Entity);
 
         //Units
@@ -144,11 +142,11 @@ export function renderPictorial() {
                 .enter()
                 .append("text")
                 .attr("class", "icon")
-                .attr("x", (u, i) => (i % maxPerRow) * (unitSize + unitSpacing))
+                .attr("x", (u, i) => (i % maxPerRow) * (unitSize + (screenWidth <= 768 ? 5 : 15)))
                 .attr("y", (u, i) => Math.floor(i / maxPerRow) * (unitSize + unitSpacing) + unitSize * 0.75)
                 .text("man_2")
                 .style("font-family", '"Material Symbols Outlined"')
-                .style("font-size", "30px")
+                .style("font-size", (screenWidth <= 768 ? "20" : "30") + "px")
                 .style("fill", colorScale(d.Entity))
                 .style("opacity", 0)
                 .attr("transform", "scale(0)");

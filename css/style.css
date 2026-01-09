@@ -279,7 +279,7 @@ img {
 }
 
 /* -------- Responsive -------- */
-@media (max-width: 739px) {
+@media (max-width: 768px) {
   #pieta,
   #general{
     width: 10rem !important;

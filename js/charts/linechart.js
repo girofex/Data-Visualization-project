@@ -14,8 +14,8 @@ export function renderLineChart() {
 
     const screenWidth = window.innerWidth;
     const margin = { top: 80, right: 130, bottom: 60, left: 130 };
-    const width = (screenWidth <= 767 ? 700 : 1200) - margin.left - margin.right;
-    const height = 550 - margin.top - margin.bottom;
+    const width = (screenWidth <= 768 ? 700 : 1200) - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 400 : 550) - margin.top - margin.bottom;
 
     const svgRoot = d3.select("#linechart")
         .append("svg")
@@ -104,20 +104,23 @@ export function renderLineChart() {
 
         groups.append("path")
             .attr("class", "line")
-            .attr("data-region", d => d.name)
-            .attr("d", d => lineGen(d.data))
             .attr("fill", "none")
             .attr("stroke", d => colorScale(d.name))
             .attr("stroke-width", 2.5)
             .style("cursor", "pointer")
+            .attr("d", d => lineGen(d.data))
             .each(function () {
                 const totalLength = this.getTotalLength();
-
                 d3.select(this)
                     .attr("stroke-dasharray", totalLength)
-                    .attr("stroke-dashoffset", totalLength);
+                    .attr("stroke-dashoffset", totalLength)
+                    .transition()
+                    .duration(2500)
+                    .ease(d3.easeSin)
+                    .attr("stroke-dashoffset", 0);
             })
             .on("click", handleToggle);
+
 
         //Labels
         let labels = datasets.map(d => {
@@ -295,31 +298,34 @@ export function renderLineChart() {
                 .attr("data-region", region);
         });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.dataset.animated) {
-                    entry.target.dataset.animated = "true";
+        svg.selectAll(".line")
+            .transition()
+            .duration(2500)
+            .ease(d3.easeSin)
+            .attr("stroke-dashoffset", 0);
 
-                    svg.selectAll(".line")
-                        .transition()
-                        .duration(2500)
-                        .ease(d3.easeSin)
-                        .attr("stroke-dashoffset", 0);
-
-                    annotationGroup
-                        .transition()
-                        .duration(800)
-                        .delay(500)
-                        .style("opacity", 1);
-
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.9 });
-
-        observer.observe(d3.select("#linechart svg").node());
+        annotationGroup
+            .transition()
+            .delay(2500)
+            .duration(800)
+            .style("opacity", 1);
     })
 };
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+            renderLineChart();
+            entry.target.dataset.animated = true;
+            observer.unobserve(entry.target)
+        }
+    });
+}, { threshold: 1 });
+
+const chartContainer = document.querySelector('#linechart');
+if (chartContainer) {
+    observer.observe(chartContainer);
+}
 
 window.addEventListener("resize", () => {
     renderLineChart();

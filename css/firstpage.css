@@ -12,7 +12,7 @@
 }
 
 /* -------- Responsive -------- */
-@media (max-width: 739px) {
+@media (max-width: 768px) {
   .grid2 {
     display: flex;
     flex-direction: column;
@@ -22,18 +22,13 @@
     border-left: 1px solid var(--black);
     border-right: 1px solid var(--black);
     padding: 2rem;
-    width: 100%;
+    width: 90%;
   }
   
   .grid2 .second_column {
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: center;
     border: none;
-  }
-  
-  #stackedbar {
-    width: 80%;
-    margin: 2rem auto;
   }
 }

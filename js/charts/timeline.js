@@ -53,6 +53,21 @@ const data = [
         A war that is continuing as of now.' }
 ];
 
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "fixed")
+    .style("opacity", 0)
+    .style("background-color", `${beige}`)
+    .style("border", `1px solid ${black}`)
+    .style("padding", "10px")
+    .style("z-index", "999")
+    .style("pointer-events", "none")
+    .style("font-family", prata)
+    .style("font-size", "14px")
+    .style("line-height", "1.5")
+    .style("max-width", "200px");
+
 function render() {
     d3.select("#timeline svg").remove();
     const isVertical = window.innerWidth <= 768;
@@ -60,21 +75,6 @@ function render() {
     const margin = { top: 30, right: 150, bottom: 30, left: 150 };
     const width = (isVertical ? 550 : 1400) - margin.left - margin.right;
     const height = (isVertical ? 1400 : 300) - margin.top - margin.bottom;
-
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("position", "fixed")
-        .style("opacity", 0)
-        .style("background-color", `${beige}`)
-        .style("border", `1px solid ${black}`)
-        .style("padding", "10px")
-        .style("z-index", "999")
-        .style("pointer-events", "none")
-        .style("font-family", prata)
-        .style("font-size", "14px")
-        .style("line-height", "1.5")
-        .style("max-width", "200px");
 
     const svg = d3.select('#timeline')
         .append('svg')

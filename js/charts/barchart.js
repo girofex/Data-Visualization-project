@@ -21,15 +21,17 @@ const colors = d3.scaleOrdinal()
 let chartCreated = false;
 
 function createBarChart() {
-    if (chartCreated) return;
+    if (chartCreated)
+        return;
+    
     chartCreated = true;
 
     d3.select("#bar svg").remove();
 
     const screenWidth = window.innerWidth;
-    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-    const width = (screenWidth <= 767 ? 300 : 500) - margin.left - margin.right;
-    const height = (screenWidth <= 767 ? 250 : 350) - margin.top - margin.bottom;
+    const margin = { top: 50, right: 10, bottom: 50, left: 10 };
+    const width = (screenWidth <= 768 ? 250 : 500) - margin.left - margin.right;
+    const height = (screenWidth <= 768 ? 250 : 350) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/barchart.csv").then(data => {
         const plotData = categoryKeys.map(key => ({
@@ -61,7 +63,7 @@ function createBarChart() {
             .call(d3.axisBottom(x).tickFormat(d => categoryLabels[d]))
             .selectAll("text")
             .style("font-family", prata)
-            .style("font-size", "12px")
+            .style("font-size", (screenWidth <= 768 ? "9" : "12") + "px")
             .attr("text-anchor", "middle")
             .each(function (d) {
                 const text = d3.select(this);
@@ -81,7 +83,7 @@ function createBarChart() {
 
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height - 280)
+            .attr("y", height - (screenWidth <= 768 ? 180 : 280))
             .attr("text-anchor", "middle")
             .style("font-family", antic)
             .style("font-weight", "bold")
@@ -123,20 +125,16 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.dataset.animated) {
             createBarChart();
-            observer.unobserve(entry.target);
+            observer.unobserve(entry.target)
         }
     });
-}, {
-    threshold: 1,
-    rootMargin: '0px 0px -400px 0px'
-});
+},
+    {
+        threshold: 1,
+        rootMargin: '0px 0px -200px 0px'
+    });
 
 const chartContainer = document.querySelector('#bar');
 if (chartContainer) {
     observer.observe(chartContainer);
 }
-
-windiw.addEventListener('resize', () => {
-    chartCreated = false;
-    createBarChart();
-});
