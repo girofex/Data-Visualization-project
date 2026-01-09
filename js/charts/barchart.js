@@ -133,7 +133,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 },
     {
-        threshold: (isLandscape ? 0.5 : 1),
+        threshold: (isLandscape ? 0.3 : 1),
         rootMargin: '0px 0px -200px 0px'
     });
 
