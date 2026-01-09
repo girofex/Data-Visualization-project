@@ -4,7 +4,7 @@ import { renderPictorial } from "./pictorial.js";
 
 //Render
 renderAreaChart();
-const pictorialPromise = renderPictorial();
+let pictorialPromise = renderPictorial();
 
 d3.select("#areachart_container").style("display", "block");
 d3.select("#pictorial_container").style("display", "none");
