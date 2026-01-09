@@ -48,7 +48,7 @@ function render() {
                 observer.unobserve(container);
             }
         });
-    }, { threshold: 1 });
+    }, { threshold: 0.3 });
 
     d3.select("#polar svg").remove();
 
