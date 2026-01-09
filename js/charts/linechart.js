@@ -12,10 +12,8 @@ const parseDate = d3.timeParse("%Y-%m-%d");
 export function renderLineChart() {
     d3.select("#linechart svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 
     const margin = { top: 85, right: 130, bottom: 60, left: 130 };

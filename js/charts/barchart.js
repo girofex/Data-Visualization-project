@@ -28,10 +28,8 @@ function createBarChart() {
 
     d3.select("#bar svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 
     const margin = { top: 50, right: 10, bottom: 50, left: 10 };

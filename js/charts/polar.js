@@ -52,10 +52,8 @@ function render() {
 
     d3.select("#polar svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };

@@ -24,10 +24,8 @@ const tooltip = d3.select("body")
 export function renderAreaChart() {
     d3.select("#area svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };

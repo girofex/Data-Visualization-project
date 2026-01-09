@@ -26,10 +26,8 @@ const tooltip = d3.select("body")
 export function renderPictorial() {
     d3.select("#pictorial svg").remove();
 
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "844px" && screenHeight <= "390px")
+    if(screen.width <= 844 && screen.height <= 390)
         isLandscape = true;
 
     const margin = { top: 70, right: 100, bottom: 0, left: (isLandscape ? 85 : 100) };
