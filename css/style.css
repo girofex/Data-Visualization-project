@@ -48,7 +48,7 @@ h1 {
   letter-spacing: 0.05em;
 }
 
-h2{
+h2 {
   font-size: 1.5rem !important;
   line-height: 1.4;
 }
@@ -63,7 +63,7 @@ h2{
   width: auto;
 }
 
-.title > h1{
+.title>h1 {
   visibility: hidden;
 }
 
@@ -80,7 +80,7 @@ h2,
   font-weight: 600 !important;
 }
 
-h3{
+h3 {
   font-family: var(--prata);
   font-size: 1.3rem;
   font-weight: normal;
@@ -189,7 +189,7 @@ a {
   padding: 2rem;
 }
 
-.middle_column > p {
+.middle_column>p {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -279,13 +279,29 @@ img {
 }
 
 /* -------- Responsive -------- */
-@media (max-width: 2400px) and (min-width: 2400px) and (max-height: 978px) and (orientation: landscape){
+@media (max-width: 844px) and (max-height: 390px) {
+
   #pieta,
-  #general{
+  #general {
     width: 10rem !important;
   }
 
   .title {
     height: auto !important;
+  }
+
+  h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.4;
+  }
+
+  h2 {
+    font-size: 1.3rem !important;
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: 1rem !important;
+    line-height: 1.6;
   }
 }

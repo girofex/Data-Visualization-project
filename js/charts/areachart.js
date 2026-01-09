@@ -27,12 +27,12 @@ export function renderAreaChart() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+    if(screenWidth <= "844px" && screenHeight <= "390px")
         isLandscape = true;
 
     const margin = { top: 70, right: 10, bottom: 70, left: 30 };
-    const width = (isLandscape ? 300 : 500) - margin.left - margin.right;
-    const height = (isLandscape ? 200 : 300) - margin.top - margin.bottom;
+    const width = (isLandscape ? 500 : 300) - margin.left - margin.right;
+    const height = (isLandscape ? 300 : 200) - margin.top - margin.bottom;
 
     d3.csv("data/csv/cleaned/areachart.csv").then(data => {
         data.forEach(d => {
@@ -57,7 +57,7 @@ export function renderAreaChart() {
             .style("font-weight", "bold")
             .style("line-height", "1.4");
 
-        if (isLandscape) {
+        if (!isLandscape) {
             title.append("tspan")
                 .attr("x", width / 2)
                 .attr("dy", 0)

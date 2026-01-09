@@ -15,12 +15,12 @@ export function renderLineChart() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+    if(screenWidth <= "844px" && screenHeight <= "390px")
         isLandscape = true;
 
     const margin = { top: 80, right: 130, bottom: 60, left: 130 };
-    const width = (isLandscape ? 700 : 1200) - margin.left - margin.right;
-    const height = (isLandscape ? 400 : 550) - margin.top - margin.bottom;
+    const width = (isLandscape ? 1200 : 700) - margin.left - margin.right;
+    const height = (isLandscape ? 550 : 400) - margin.top - margin.bottom;
 
     const svgRoot = d3.select("#linechart")
         .append("svg")

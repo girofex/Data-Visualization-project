@@ -106,7 +106,7 @@ body.dark-theme #logo {
 }
 
 /* ---------------- RESPONSIVE ---------------- */
-@media (max-width: 2400px) and (max-height: 978px) and (orientation: landscape){
+@media (max-width: 844px) and (max-height: 390px){
     .team-grid {
         justify-content: center;
     }

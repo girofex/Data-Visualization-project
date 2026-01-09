@@ -74,12 +74,12 @@ function render() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+    if(screenWidth <= "844px" && screenHeight <= "390px")
         isLandscape = true;
 
     const margin = { top: 30, right: 150, bottom: 30, left: 150 };
-    const width = (isLandscape ? 550 : 1400) - margin.left - margin.right;
-    const height = (isLandscape ? 1400 : 300) - margin.top - margin.bottom;
+    const width = (isLandscape ? 1400 : 550) - margin.left - margin.right;
+    const height = (isLandscape ? 300 : 1400) - margin.top - margin.bottom;
 
     const svg = d3.select('#timeline')
         .append('svg')
@@ -91,9 +91,9 @@ function render() {
 
     const xScale = d3.scaleLinear()
         .domain([1947, 2023])
-        .range([0, (isLandscape ? height : width)]);
+        .range([0, (isLandscape ? width : height)]);
 
-    if (isLandscape) {
+    if (!isLandscape) {
         //Line
         svg.append('line')
             .attr('x1', width / 2)
@@ -136,17 +136,17 @@ function render() {
         const isLeft = i % 2 === 0;
 
         //Vertical positions
-        const cx = isLandscape ? width / 2 : pos;
-        const cy = isLandscape ? pos : height / 2;
+        const cx = isLandscape ? pos : width / 2;
+        const cy = isLandscape ? height / 2 : pos;
 
         const boxOffset = 120;
         const boxX = isLandscape
-            ? (isLeft ? width / 2 - boxOffset : width / 2 + boxOffset)
-            : pos;
+            ? pos
+            : (isLeft ? width / 2 - boxOffset : width / 2 + boxOffset);
 
         const boxY = isLandscape
-            ? pos
-            : (isLeft ? 0 : height);
+            ? (isLeft ? 0 : height)
+            : pos;
 
         //Circle
         svg.append('circle')
@@ -171,18 +171,18 @@ function render() {
 
         //Dotted connector
         const startX = isLandscape
-            ? cx + (isLeft ? -25 : 25)
-            : cx;
+            ? cx
+            : cx + (isLeft ? -25 : 25);
 
         const startY = isLandscape
-            ? cy
-            : cy + (isLeft ? -25 : 25);
+            ? cy + (isLeft ? -25 : 25)
+            : cy;
 
         svg.append('line')
             .attr('x1', startX)
             .attr('y1', startY)
-            .attr('x2', isLandscape ? boxX : cx)
-            .attr('y2', isLandscape ? cy : boxY - 10)
+            .attr('x2', isLandscape ? cx : boxX)
+            .attr('y2', isLandscape ? boxY - 10 : cy )
             .attr('stroke', black)
             .attr('stroke-width', 1)
             .attr('stroke-dasharray', '4,4');
@@ -192,14 +192,14 @@ function render() {
             .attr('transform', `translate(${boxX}, ${boxY})`);
 
         boxGroup.append('rect')
-            .attr('x', isLandscape ? (isLeft ? -140 : 0) : -70)
+            .attr('x', isLandscape ? -70 : (isLeft ? -140 : 0))
             .attr('y', -20)
             .attr('width', 140)
             .attr('height', 40)
             .attr('fill', orange);
 
         boxGroup.append('text')
-            .attr('x', isLandscape ? (isLeft ? -70 : 70) : 0)
+            .attr('x', isLandscape ? 0 : (isLeft ? -70 : 70))
             .attr('y', 5)
             .attr('text-anchor', 'middle')
             .attr('font-weight', 'bold')

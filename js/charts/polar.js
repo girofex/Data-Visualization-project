@@ -55,14 +55,14 @@ function render() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+    if(screenWidth <= "844px" && screenHeight <= "390px")
         isLandscape = true;
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
-    const width = (isLandscape ? 300 : 500) - margin.left - margin.right;
-    const height = (isLandscape ? 300 : 500) - margin.top - margin.bottom;
+    const width = (isLandscape ? 500 : 300) - margin.left - margin.right;
+    const height = (isLandscape ? 500 : 300) - margin.top - margin.bottom;
 
-    const innerRadius = isLandscape ? 40 : 90;
+    const innerRadius = isLandscape ? 90 : 40;
     const outerRadius = Math.min(width, height) / 2 - 40;
 
     const container = document.querySelector("#polar");

@@ -84,12 +84,12 @@ function render() {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     let isLandscape = false;
-    if(screenWidth <= "2400px" && screenHeight <= "978px" && window.matchMedia('(orientation: landscape)').matches)
+    if(screenWidth <= "844px" && screenHeight <= "390px")
         isLandscape = true;
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
-    const width = (isLandscape ? 450 : 550) - margin.left - margin.right;
-    const height = (isLandscape ? 450 : 550) - margin.top - margin.bottom;
+    const width = (isLandscape ? 550 : 450) - margin.left - margin.right;
+    const height = (isLandscape ? 550 : 450) - margin.top - margin.bottom;
 
     const svg = d3.select("#network")
         .append("svg")
@@ -99,7 +99,7 @@ function render() {
         .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
     svg.append('text')
-        .attr('y', (isLandscape ? -200 : -240))
+        .attr('y', (isLandscape ? -240 : -200))
         .attr("text-anchor", "middle")
         .text("Hierarchy in the Medellín Cartel")
         .style("font-family", antic)
@@ -111,7 +111,7 @@ function render() {
 
     //Force simulation
     const simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(links).id(d => d.id).distance((isLandscape ? 150 : 170)))
+        .force("link", d3.forceLink(links).id(d => d.id).distance((isLandscape ? 170 : 150)))
         .force("charge", d3.forceManyBody().strength(100))
         .force("center", d3.forceCenter(0, 0))
         .force("collision", d3.forceCollide().radius(d => radius(d) + 5))
@@ -136,7 +136,7 @@ function render() {
         .call(drag(simulation));
 
     node.append("circle")
-        .attr("r", d => (isLandscape ? radius(d)-10 : radius(d)))
+        .attr("r", d => (isLandscape ? radius(d) : radius(d)-10))
         .attr("fill", d => color(d.organization))
         .attr("opacity", 1)
         .attr("stroke", d => d.id === "Pablo Escobar" ? black : "none")
@@ -162,7 +162,7 @@ function render() {
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "middle")
         .attr("dy", "0.25em")
-        .style("font-size", d => (isLandscape ? radius(d) * 0.8 : radius(d) * 1.4))
+        .style("font-size", d => (isLandscape ? radius(d) * 1.4 : radius(d) * 0.8))
         .style("fill", beige)
         .style("pointer-events", "none");
 
