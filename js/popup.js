@@ -1,5 +1,5 @@
 function responsiveRedirect() {
-    const isMobile = window.innerWidth <= 766;
+    const isMobile = window.innerWidth <= 739;
     const path = window.location.pathname;
     const isOnMobilePage = path.includes('popup.html');
     
