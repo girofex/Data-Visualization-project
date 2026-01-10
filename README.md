@@ -43,24 +43,24 @@ we focus on three of wars
 ```
 
 ## Data Pipeline
-1. Search of the data in <tt>CSV</tt> or <tt>JSON</tt> format or in raw information.
-2. Pre-processing of the <tt>CSV</tt> files with the use of Python notebooks and Numpy, Pandas and Matplotlib libraries.<br>The output is a cleaned <tt>CSV</tt> for each.
+1. Search of the data in <tt>CSV</tt> or <tt>JSON</tt> format or as raw information.
+2. Pre-processing of the <tt>CSV</tt> files with the use of Python notebooks and Numpy, Pandas and Matplotlib libraries.<br>The output is a cleaned <tt>CSV</tt>.
 
 ## Development
 For the creation of the website we used various tools:
 * HTML, CSS, JavaScript, Material UI baseline for the front-end
 * D3.js for the creation of ten plots
 
-| Topic                                                  | Chart type           | Data source        |
-|--------------------------------------------------------|----------------------|--------------------|
-| Amount of armed conflicts in the world                 | Connection map       | Wikipedia          |
-| Statistics of Google Trends in time perspective        | Line chart           | Google Trends      |
-| Statistics of Google Trends in space perspective       | Choropleth           | Google Trends      |
-| Possession of Ukraine's territories during the war     | Stacked bar chart    | Brookings          |
-| Progression of EU's dependency on Russian natural gas  | Polar chart          | Eurostat           |
-| Main events in modern Middle East history              | Timeline             | Wikipedia          |
-| Casualties during Gaza Wars                            | Bar chart            | UCDP               |
-| Hierarchy of the Medellín Cartel                       | Network              | Wikipedia          |
-| Mean number of people every 100k that die for drug use | Area chart           | United Nations     |
-| Countries with highest death rate in 2021              | Pictorial unit chart | Our World in Data  |
+| Topic                                                     | Chart type           | Data source        |
+|-----------------------------------------------------------|----------------------|--------------------|
+| Amount of armed conflicts in the world                    | Connection map       | Wikipedia          |
+| Statistics of Google Trends in time perspective           | Line chart           | Google Trends      |
+| Statistics of Google Trends in space perspective          | Choropleth           | Google Trends      |
+| Possession of Ukraine's territories during the war        | Stacked bar chart    | Brookings          |
+| Progression of EU's dependency on Russian natural gas     | Polar chart          | Eurostat           |
+| Main events in modern Middle East history                 | Timeline             | Wikipedia          |
+| Casualties during Gaza War                                | Bar chart            | UCDP               |
+| Hierarchy of the Medellín Cartel                          | Network              | Wikipedia          |
+| Mean number of people every 100k that die due to drug use | Area chart           | United Nations     |
+| Countries with highest death rate due to drug use in 2021 | Pictorial unit chart | Our World in Data  |
 
