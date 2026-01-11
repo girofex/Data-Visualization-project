@@ -109,6 +109,7 @@ function render() {
         .style("font-weight", "bold")
         .style("fill", black);
 
+    //Node radius based on level
     const radius = d => ({ Direct: 40, High: 30, Medium: 20 }[d.level]);
 
     //Force simulation
@@ -158,6 +159,7 @@ function render() {
             d3.select(this).attr("fill-opacity", 1);
         });
 
+    //Icons
     node.append("text")
         .text(d => roleIcons[d.role])
         .attr("class", "material-icons")
@@ -168,6 +170,7 @@ function render() {
         .style("fill", beige)
         .style("pointer-events", "none");
 
+    //Simulation positions
     simulation.on("tick", () => {
         link.attr("x1", d => d.source.x)
             .attr("y1", d => d.source.y)
@@ -182,6 +185,7 @@ function render() {
         simulation.alpha(0.9).restart();
     }
 
+    //Force of radial layout
     function radialForce(alpha) {
         const maxDistance = Math.min(width, height) / 2 - 50;
         nodes.forEach(d => {
@@ -204,6 +208,7 @@ function render() {
         });
     }
 
+    //Force to cluster by organization
     function clusterForce(alpha) {
         const clusters = d3.groups(nodes, d => d.organization);
         clusters.forEach(([org, group]) => {

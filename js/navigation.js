@@ -1,21 +1,9 @@
-// -------- Navbar --------
+//Navbar
 export function setupNavbar() {
-  setupThemeToggle();
   setupMenu();
 }
 
-// -------- Theme Toggle --------
-function setupThemeToggle() {
-  const toggleBtn = document.querySelector('.theme-toggle-btn');
-  if (!toggleBtn)
-    return;
-
-  toggleBtn.addEventListener('click', () => {
-    switchMode();
-  });
-}
-
-// -------- Menu --------
+//Titles menu
 function setupMenu() {
   const anchorEl = document.querySelector('#usage-anchor');
   const menuEl = document.querySelector('#usage-menu');
@@ -35,7 +23,6 @@ function setupMenu() {
   });
 }
 
-// -------- Top Menu --------
 export function topMenu() {
   const headers = document.querySelectorAll(
     'h2[id], h3[id], h4[id]'
@@ -79,7 +66,7 @@ export function topMenu() {
     menu.appendChild(item);
   });
 
-  /* -------- Intersection Observer -------- */
+  //Observer
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {

@@ -1,13 +1,7 @@
 import '@material/web/all.js';
 import { setupNavbar, topMenu } from './navigation.js';
 
-//Responsive
-window.addEventListener("load", () => {
-  if (window.innerWidth <= 938)
-    document.body.classList.add("desktop-scale");
-});
-
-// -------- Components --------
+//Components
 function includeComponent(id, file, callback) {
   fetch(file)
     .then(response => {

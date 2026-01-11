@@ -52,6 +52,7 @@ export function renderPictorial() {
             .domain(data.map(d => d.Entity))
             .range([orange, green, blue]);
 
+        //Convert death rate to number of icons
         const scaleValueToUnits = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.DeathRate)])
             .range([0, 31]);

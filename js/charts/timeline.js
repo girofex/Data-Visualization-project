@@ -91,8 +91,8 @@ function render() {
         .domain([1947, 2023])
         .range([0, (isLandscape ? height : width)]);
 
+    //Arrow line
     if (isLandscape) {
-        //Line
         svg.append('line')
             .attr('x1', width / 2)
             .attr('y1', -40)
@@ -101,12 +101,11 @@ function render() {
             .attr('stroke', black)
             .attr('stroke-width', 2);
 
-        //Arrow
         svg.append('path')
-            .attr('d', `M ${width / 2 - 6} ${height + 40} l 12 0 l -6 -10 Z`) // arrow
+            .attr('d', `M ${width / 2 - 6} ${height + 40} l 12 0 l -6 -10 Z`)
             .attr('fill', black);
     } else {
-        //Line
+        //Animation
         svg.append('line')
             .attr("class", "arrow")
             .attr('x1', -40)
@@ -123,9 +122,8 @@ function render() {
                     .attr("stroke-dashoffset", totalLength);
             });
 
-        //Arrow
         svg.append('path')
-            .attr('d', `M ${width + 40} ${height / 2} l -10 -6 l 0 12 Z`)
+            .attr('d', `M ${width + 40} ${height / 2} l -10 -6 l 0 12 Z`)   //Arrowhead
             .attr('fill', black);
     }
 

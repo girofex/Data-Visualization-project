@@ -10,7 +10,7 @@ People from the past believed that in the 21st century we would have solved worl
 Instead, we find ourselves reading again and again about the multiple conflicts that affect the world.<br>
 The irony is that we choose what to talk about and what not: we unfortunately differentiate between first-page conflicts,
 those happening near and that in some way affects us, and less important ones.<br>
-The truth is that the entire world is suffering, and we are here to narrate without bias.
+The truth is that the entire world is suffering, and we are here to narrate with transparency.
 <br><br>
 The website explores how the media and the popular opinion of the audience
 changes with respect to how a conflict affects them in first person.<br>

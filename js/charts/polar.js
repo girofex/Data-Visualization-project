@@ -74,6 +74,7 @@ function render() {
             .domain([0, d3.max(data, d => d.value)])
             .range([innerRadius, outerRadius]);
 
+        //Grid circles
         chart.append("g")
             .selectAll("circle")
             .data(radiusScale.ticks(4).slice(1))
@@ -83,6 +84,7 @@ function render() {
             .attr("stroke", black)
             .attr("stroke-opacity", 0.15);
 
+        //Grid lines
         const arc = d3.arc()
             .innerRadius(innerRadius)
             .outerRadius(innerRadius)
@@ -91,6 +93,7 @@ function render() {
             .padAngle(0.03)
             .padRadius(innerRadius);
 
+        //Bars
         chart.append("g")
             .selectAll("path")
             .data(data)
@@ -117,6 +120,7 @@ function render() {
                 d3.select(this).attr("fill-opacity", 1);
             });
 
+        //Year labels
         chart.append("g")
             .selectAll("text")
             .data(data)

@@ -89,10 +89,8 @@ export function renderAreaChart() {
                 .attr("x", width / 2)
                 .attr("dy", "1.2em")
                 .text("that die for drug use");
-        } else {
+        } else
             title.text("Mean number of people every 100k that die for drug use");
-        }
-
 
         //X axis
         var x = d3.scaleLinear()
@@ -196,14 +194,14 @@ export function renderAreaChart() {
             })
             .on("mousemove", function (event) {
                 const [mouseX] = d3.pointer(event);
-                const x0 = x.invert(mouseX);
+                const x0 = x.invert(mouseX);    //Get the corresponding year
 
-                const bisect = d3.bisector(d => d.Year).left;
-                const index = bisect(data, x0);
-                const d0 = data[index - 1];
-                const d1 = data[index];
+                const bisect = d3.bisector(d => d.Year).left;   //Find the closest data point
+                const index = bisect(data, x0); //Index of the current year
+                const d0 = data[index - 1]; //Get the previous data point
+                const d1 = data[index]; //Get the next data point
 
-                const d = d1 && d0 ? (x0 - d0.Year > d1.Year - x0 ? d1 : d0) : (d0 || d1);
+                const d = d1 && d0 ? (x0 - d0.Year > d1.Year - x0 ? d1 : d0) : (d0 || d1);  //Choose the closest one
 
                 if (d) {
                     focus.select("line")

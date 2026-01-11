@@ -72,10 +72,11 @@ function createBarChart() {
                 const text = d3.select(this);
                 const lines = categoryLabels[d].split("\n");
 
+                //Adjust dy for multiple lines
                 if (lines.length > 1)
                     text.attr("dy", "-0.6em");
 
-                text.text(null);
+                text.text(null);    //Clear existing text to add tspans
                 lines.forEach((line, i) => {
                     text.append("tspan")
                         .attr("x", 0)
@@ -108,7 +109,7 @@ function createBarChart() {
             .delay((d, i) => i * 200)
             .ease(d3.easeCubicOut)
             .attr("y", d => y(d.value))
-            .attr("height", d => height - y(d.value));
+            .attr("height", d => height - y(d.value));  //Height becomes height - y(value) as y=0 is at the top
 
         svg.selectAll(".bar-label")
             .data(plotData)

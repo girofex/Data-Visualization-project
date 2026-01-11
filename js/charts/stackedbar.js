@@ -56,11 +56,16 @@ function render(animate) {
         container.dataset.animated = "false";
         delete container.dataset.resized;
     }
+    
+    const parseMonth = d3.timeParse("%b-%y");
+    const formatLabel = d3.timeFormat("%b %Y");
 
     d3.csv("data/csv/cleaned/stacked.csv").then(data => {
         data.forEach(d => {
-            const parsed = d3.timeParse("%Y-%m-%d")(d.Date);
-            d.DateStr = parsed ? d3.timeFormat("%d/%m/%y")(parsed) : d.Date;
+            const parsed = parseMonth(d.Date);
+            d.DateParsed = parsed;
+            d.DateStr = formatLabel(parsed);
+
             d.Russian_Possession = +d.Russian_Possession;
             d.Ukrainian_Possession = +d.Ukrainian_Possession;
         });
@@ -72,6 +77,7 @@ function render(animate) {
 
         const stackedData = d3.stack().keys(categories)(data);
 
+        //X axis
         const x = d3.scaleBand()
             .domain(data.map(d => d.DateStr))
             .range([0, width])
@@ -91,6 +97,7 @@ function render(animate) {
             .style("font-family", prata)
             .style("text-anchor", "end");
 
+        //Y axis
         const y = d3.scaleLinear()
             .domain([0, 100])
             .range([height, 0]);
@@ -102,6 +109,7 @@ function render(animate) {
             .attr("class", "layer")
             .attr("fill", d => colors(d.key));
 
+        //Bars
         const rects = layers.selectAll("rect")
             .data(d => d)
             .enter()
@@ -155,6 +163,7 @@ function render(animate) {
         title.append("tspan").text("Ukraine").style("fill", green);
         title.append("tspan").text(" of Ukrainian territories over time (%)");
 
+        //Peak circle
         const peak = data.reduce((max, d) => d.Russian_Possession > max.Russian_Possession ? d : max, data[0]);
         const peakX = x(peak.DateStr) + x.bandwidth() - 1;
         const peakY = y(peak.Russian_Possession);
@@ -172,8 +181,7 @@ function render(animate) {
             svgRoot.transition()
                 .duration(300)
                 .style("opacity", 1)
-                .on("end", function() {
-                    //Bars
+                .on("end", function () {
                     rects
                         .transition()
                         .duration(1000)
@@ -182,7 +190,6 @@ function render(animate) {
                         .attr("y", d => y(d[1]))
                         .attr("height", d => y(d[0]) - y(d[1]));
 
-                    //Peak circle
                     peakCircle
                         .transition()
                         .delay(1000)
@@ -210,7 +217,7 @@ function render(animate) {
                 });
         } else {
             svgRoot.style("opacity", 1);
-            
+
             rects
                 .attr("y", d => y(d[1]))
                 .attr("height", d => y(d[0]) - y(d[1]));

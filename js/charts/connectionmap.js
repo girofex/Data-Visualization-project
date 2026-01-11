@@ -71,6 +71,8 @@ function render() {
 
     d3.select('.connection-zoom-out').on('click', () => {
         const t = d3.zoomTransform(rootSvg.node());
+        
+        //Prevent zooming out too much by freezing at original view, which is d3.zoomIdentity
         if (t.k <= 1.001)
             rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
         else
@@ -103,12 +105,13 @@ function render() {
             countryCentroids.set(d.properties.name, d3.geoCentroid(d));
         });
 
-        //Coordinates
+        //Connections
         const links = conflicts
-            .filter(d => d.side_b)
+            .filter(d => d.side_b)  //takes only international conflicts
             .flatMap(d => {
-                const targets = d.side_b.split(",").map(s => s.trim());
+                const targets = d.side_b.split(",").map(s => s.trim()); //Support multiple target countries
 
+                //Compute coordinates of the countries involved
                 return targets.map(target => {
                     const sourceCoord = countryCentroids.get(d.side_a);
                     const targetCoord = countryCentroids.get(target);
@@ -125,9 +128,10 @@ function render() {
         const countryEventMap = new Map();
 
         conflicts.forEach(d => {
+            //If country not yet in map, add it
             if (!countryEventMap.has(d.side_a)) {
                 countryEventMap.set(d.side_a, {
-                    type: d.side_b ? "dual" : "single",
+                    type: d.side_b ? "dual" : "single", //dual if international conflict, single if internal
                     events: []
                 });
             }
@@ -141,9 +145,10 @@ function render() {
                 d.side_b.split(",").forEach(target => {
                     const t = target.trim();
 
+                    //If country not yet in map, add it
                     if (!countryEventMap.has(t)) {
                         countryEventMap.set(t, {
-                            type: "dual",
+                            type: "dual",   //international conflict
                             events: []
                         });
                     }
@@ -162,10 +167,12 @@ function render() {
             .data(world.features)
             .enter().append("path")
             .attr("fill", d => {
+                //If a state has no conflicts, color it black
                 const countryData = countryEventMap.get(d.properties.name);
                 if (!countryData)
                     return black;
 
+                //Check if there is at least one internal conflict
                 const hasInternal = countryData.events.some(e =>
                     conflicts.some(c => c.side_a === d.properties.name && !c.side_b)
                 );
@@ -182,6 +189,7 @@ function render() {
                 const countryData = countryEventMap.get(d.properties.name);
                 let tooltipHtml = `<strong>${d.properties.name}</strong>`;
 
+                //If there are conflicts, list their description
                 if (countryData && countryData.events.length > 0) {
                     countryData.events.forEach(e => {
                         tooltipHtml += `<br/>Since ${e.date}: ${e.description}.`;
@@ -202,7 +210,7 @@ function render() {
                 d3.select(this).attr("fill-opacity", 1);
             });
 
-        //Lines
+        //Connecting lines
         svg.selectAll("myPath")
             .data(links)
             .enter()

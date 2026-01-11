@@ -76,6 +76,8 @@ export function renderChoropleth() {
 
     d3.select('.choropleth-zoom-out').on('click', () => {
         const t = d3.zoomTransform(rootSvg.node());
+
+        //Prevent zooming out too much by freezing at original view, which is d3.zoomIdentity
         if (t.k <= 1.001)
             rootSvg.transition().duration(750).call(myZoom.transform, d3.zoomIdentity);
         else
@@ -92,8 +94,8 @@ export function renderChoropleth() {
         d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
         d3.csv("data/csv/cleaned/choropleth.csv")
     ]).then(function (loadData) {
-        let topo = loadData[0];
-        let eventData = loadData[1];
+        let topo = loadData[0]; //geojson
+        let eventData = loadData[1];    //csv
 
         projection.fitSize([width, height - (isLandscape ? 100 : 0)], topo);
 
@@ -186,7 +188,7 @@ export function renderChoropleth() {
                 .style("font-size", "12px")
                 .style("font-family", prata)
                 .attr("fill", black)
-                .text((eventType).replace(/([a-z])([A-Z])/g, "$1 $2"));
+                .text((eventType).replace(/([a-z])([A-Z])/g, "$1 $2")); //Add space between camelcase words
         });
 
         legend.append("rect")

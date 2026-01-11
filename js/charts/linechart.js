@@ -78,7 +78,7 @@ export function renderLineChart() {
                 0,
                 d3.max(datasets, d => d3.max(d.data, p => p.value))
             ])
-            .nice()
+            .nice() //round numbers
             .range([height, 0]);
 
         svg.append("g")
@@ -112,7 +112,7 @@ export function renderLineChart() {
             .attr("fill", "none")
             .attr("stroke", d => colorScale(d.name))
             .attr("stroke-width", 2.5)
-            .style("opacity", 0)
+            .style("opacity", 0)    //start hidden for animation
             .style("cursor", "pointer")
             .attr("d", d => lineGen(d.data))
             .each(function () {
@@ -125,7 +125,7 @@ export function renderLineChart() {
 
         //Labels
         let labels = datasets.map(d => {
-            const lastPoint = [...d.data].reverse().find(p => p.value != null);
+            const lastPoint = [...d.data].reverse().find(p => p.value != null); //find last non-null point to put the label
 
             return {
                 name: d.name,
@@ -139,8 +139,9 @@ export function renderLineChart() {
         const minSpacing = 20;
         const maxIter = 10;
 
-        labels.sort((a, b) => a.y - b.y);
+        labels.sort((a, b) => a.y - b.y);   //sort by y position
 
+        //Add spacing between labels
         for (let k = 0; k < maxIter; k++) {
             for (let i = 1; i < labels.length; i++) {
                 const diff = labels[i].y - labels[i - 1].y;
@@ -167,7 +168,7 @@ export function renderLineChart() {
                 .attr("data-region", l.name)
                 .attr("x", l.x)
                 .attr("y", l.y)
-                .text((l.name).replace(/([a-z])([A-Z])/g, "$1 $2"))
+                .text((l.name).replace(/([a-z])([A-Z])/g, "$1 $2")) //add spaces between camelcase
                 .style("font-family", antic)
                 .style("font-size", "12px")
                 .style("font-weight", "bold")
@@ -177,7 +178,7 @@ export function renderLineChart() {
                 .on("click", handleToggle);
         });
 
-        //Opacity
+        //Interactivity
         let activeRegion = null;
 
         function handleToggle() {
@@ -310,7 +311,7 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.dataset.animated = true;
             observer.unobserve(entry.target);
 
-            //Wait a bit for the chart to render
+            //Wait for the chart to render
             setTimeout(() => {
                 d3.select("#linechart").selectAll(".line")
                     .transition()
